@@ -91,7 +91,6 @@
   }
   .header-icon-btn:hover { background: rgba(255,255,255,0.35); }
 
-  /* Step indicator */
   .steps {
     display: flex;
     align-items: center;
@@ -132,7 +131,7 @@
   .step-labels {
     display: flex;
     justify-content: center;
-    gap: 48px;
+    gap: 44px;
     margin-top: 6px;
     font-size: 11px;
     font-weight: 700;
@@ -150,6 +149,43 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* ── DEMO SAMPLE BAR ── */
+  .demo-bar {
+    background: var(--orange-light);
+    border: 1.5px solid var(--orange);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .demo-bar span {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .demo-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .demo-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--orange);
+    background: var(--card);
+    color: var(--orange);
+    font-family: 'Nunito', sans-serif;
+    font-size: 11.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .demo-btn:hover { background: var(--orange); color: #fff; }
 
   /* ── SECTION CARD ── */
   .sec-card {
@@ -176,8 +212,58 @@
   }
   .sec-title i { font-size: 16px; }
 
+  /* 3-Pillar Sub-banners */
+  .pillar-box {
+    background: var(--gray-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .pillar-header {
+    font-size: 12.5px;
+    font-weight: 900;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .skill-pill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .skill-pill-btn {
+    padding: 9px 10px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .skill-pill-btn i { color: var(--text-light); font-size: 13px; }
+  .skill-pill-btn.active {
+    border-color: var(--orange);
+    background: var(--orange-light);
+    color: var(--orange);
+  }
+  .skill-pill-btn.active i { color: var(--orange); }
+
   /* ── FORM INPUTS ── */
-  .field { margin-bottom: 14px; }
+  .field { margin-bottom: 12px; }
   .field:last-child { margin-bottom: 0; }
   .field label {
     display: block;
@@ -205,7 +291,7 @@
     outline: none;
     border-color: var(--orange);
   }
-  .field textarea { resize: vertical; min-height: 95px; line-height: 1.5; }
+  .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
   .field select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -233,7 +319,7 @@
   }
   .field.error .err-text { display: block; }
 
-  /* Pronoun Pills (Boy / Girl) */
+  /* Pronoun & Stage Pills */
   .pronoun-group {
     display: flex;
     gap: 10px;
@@ -246,7 +332,7 @@
     background: var(--input-bg);
     color: var(--text-light);
     font-family: 'Nunito', sans-serif;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
     cursor: pointer;
     transition: all 0.15s;
@@ -329,17 +415,25 @@
   }
   .preset-btn:hover { border-color: var(--orange); color: var(--orange); }
 
+  .chip-cat-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    text-transform: uppercase;
+  }
   .chip-wrap {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 8px;
   }
   .obs-chip {
-    padding: 6px 11px;
+    padding: 5px 10px;
     border-radius: 16px;
     border: 1px solid var(--border);
-    background: var(--gray-bg);
+    background: var(--card);
     color: var(--text-light);
     font-size: 12px;
     font-weight: 700;
@@ -604,7 +698,7 @@
     align-items: center;
     padding-bottom: 12px;
     border-bottom: 2px solid #ff6b35;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     gap: 12px;
   }
   .rc-logos { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
@@ -626,6 +720,7 @@
   .rc-ranking-bar {
     display: flex; justify-content: space-between; align-items: center;
     background: #f8f9fa; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;
+    flex-wrap: wrap; gap: 10px;
   }
   .rc-rank-item { text-align: left; }
   .rc-rank-item .lbl { font-size: 11px; color: #666; font-weight: 600; margin-bottom: 2px; }
@@ -641,48 +736,60 @@
   .grade-aplus { color: #1a8a4a; }
   .grade-a { color: #27ae60; }
   .grade-b { color: #f39c12; }
-  .rc-feedback { margin-bottom: 12px; }
+  .rc-feedback { margin-bottom: 10px; }
   .rc-feedback-box {
-    background: #f8f9fa; padding: 12px; border-radius: 8px; border-left: 4px solid #ff6b35;
-    font-size: 12px; line-height: 1.5; color: #333;
+    background: #f8f9fa; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #ff6b35;
+    font-size: 11.5px; line-height: 1.45; color: #333;
   }
   .rc-profile {
-    background: #ff6b35; color: #fff; padding: 14px; border-radius: 8px; margin-top: 12px;
+    background: #ff6b35; color: #fff; padding: 14px; border-radius: 8px; margin-top: 10px;
   }
   .rc-profile-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     flex-wrap: wrap;
   }
-  .rc-profile h4 { color: #fff; font-size: 12px; font-weight: 700; margin: 0; }
+  .rc-profile h4 { color: #fff; font-size: 11.5px; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: 0.3px; }
   .rc-topic-pill {
     background: rgba(0,0,0,0.22);
     color: #ffd700;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 800;
     padding: 3px 9px;
     border-radius: 12px;
   }
-  .rc-profile .prof-title { font-size: 14pt; font-weight: 800; color: #ffd700; margin-bottom: 6px; }
-  .rc-profile .prof-desc { font-size: 12px; line-height: 1.5; margin-bottom: 8px; }
-  .rc-profile .prof-example {
-    background: rgba(255,255,255,0.2); padding: 8px 10px; border-radius: 5px;
-    font-style: italic; font-size: 12px; line-height: 1.45;
+  .rc-profile .prof-title { font-size: 13.5pt; font-weight: 800; color: #ffd700; margin-bottom: 4px; }
+  .rc-profile .prof-desc { font-size: 11.5px; line-height: 1.4; margin-bottom: 8px; }
+  .rc-skill-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
-  .rc-profile .prof-example strong { color: #ffd700; font-style: normal; }
+  .rc-skill-card {
+    background: rgba(255,255,255,0.18);
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-size: 11.2px;
+    line-height: 1.4;
+  }
+  .rc-skill-card strong {
+    color: #ffd700;
+    font-weight: 800;
+    font-style: normal;
+  }
   .rc-award-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 0 6px; border-top: 1px solid #eee; margin-top: 12px; gap: 16px;
+    padding: 12px 0 4px; border-top: 1px solid #eee; margin-top: 10px; gap: 16px;
   }
   .rc-award-left { display: flex; align-items: center; gap: 12px; }
-  .rc-award-trophy { font-size: 42px; line-height: 1; }
+  .rc-award-trophy { font-size: 40px; line-height: 1; }
   .rc-award-text h4 {
-    font-size: 13pt; font-weight: 800; font-style: italic; color: #ff6b35; margin: 0 0 2px; line-height: 1.2;
+    font-size: 12.5pt; font-weight: 800; font-style: italic; color: #ff6b35; margin: 0 0 2px; line-height: 1.2;
   }
-  .rc-award-text .award-val { font-size: 12px; font-weight: 700; color: #333; line-height: 1.3; }
+  .rc-award-text .award-val { font-size: 11.5px; font-weight: 700; color: #333; line-height: 1.3; }
   .rc-award-teacher { text-align: right; flex-shrink: 0; }
   .rc-award-teacher .teacher-name { font-size: 12px; font-weight: 800; color: #333; }
   .rc-attr-section { margin-bottom: 14px; }
@@ -788,13 +895,13 @@
   .modal-overlay.open { display: flex; }
   .modal-box {
     background: var(--card); border-radius: 12px; padding: 24px;
-    max-width: 420px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    max-width: 460px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   }
   .modal-box h3 {
     font-size: 16px; font-weight: 800; color: var(--orange); margin-bottom: 10px;
     display: flex; align-items: center; gap: 8px;
   }
-  .modal-box p { font-size: 14px; color: var(--text); margin-bottom: 16px; line-height: 1.5; }
+  .modal-box p { font-size: 14px; color: var(--text); margin-bottom: 14px; line-height: 1.5; }
   .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; }
   .modal-actions button {
     padding: 10px 20px; border: none; border-radius: 8px;
@@ -812,7 +919,7 @@
     position: relative;
     border: 2px dashed var(--border);
     border-radius: var(--radius);
-    padding: 22px 16px;
+    padding: 20px 16px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s;
@@ -822,7 +929,7 @@
     border-color: var(--orange);
     background: var(--orange-light);
   }
-  .upload-zone i.upload-icon { font-size: 28px; color: var(--orange); margin-bottom: 6px; display: block; }
+  .upload-zone i.upload-icon { font-size: 26px; color: var(--orange); margin-bottom: 6px; display: block; }
   .upload-zone .upload-text { font-size: 13px; color: var(--text-light); font-weight: 700; margin: 0; }
   .upload-zone input[type="file"] {
     position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
@@ -838,7 +945,7 @@
   }
   .upload-err.active { display: block; }
   .or-divider {
-    display: flex; align-items: center; gap: 14px; margin: 16px 0; color: var(--text-light);
+    display: flex; align-items: center; gap: 14px; margin: 14px 0; color: var(--text-light);
     font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
   }
   .or-divider::before, .or-divider::after {
@@ -859,7 +966,7 @@
   @media (max-width: 480px) {
     .wizard-body { padding: 12px; }
     .sec-card { padding: 14px; }
-    .field-row { grid-template-columns: 1fr; }
+    .field-row, .skill-pill-grid { grid-template-columns: 1fr; }
     .grade-row { flex-direction: column; align-items: flex-start; }
     .grade-btns { width: 100%; justify-content: space-between; }
     .grade-btn { flex: 1; }
@@ -879,10 +986,15 @@
     <button class="header-icon-btn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
       <i class="fas fa-moon"></i>
     </button>
-    <h1><i class="fas fa-graduation-cap"></i> Report Card Generator</h1>
-    <button class="header-icon-btn" onclick="openSettingsModal()" title="AI & Settings">
-      <i class="fas fa-sliders"></i>
-    </button>
+    <h1><i class="fas fa-graduation-cap"></i> Project Alpha — Report Card Generator</h1>
+    <div style="display:flex;gap:6px">
+      <button class="header-icon-btn" onclick="openSopModal()" title="Teacher & PIC SOP Flow">
+        <i class="fas fa-clipboard-check"></i>
+      </button>
+      <button class="header-icon-btn" onclick="openSettingsModal()" title="AI & Settings">
+        <i class="fas fa-sliders"></i>
+      </button>
+    </div>
   </div>
   <div class="steps">
     <div class="step-dot active" id="dot1" onclick="goStep(1, true)">1</div>
@@ -892,9 +1004,9 @@
     <div class="step-dot" id="dot3" onclick="goStep(3)">3</div>
   </div>
   <div class="step-labels">
-    <span class="active" id="lbl1">Info</span>
-    <span id="lbl2">Grades</span>
-    <span id="lbl3">Review</span>
+    <span class="active" id="lbl1">1. Info</span>
+    <span id="lbl2">2. Grades &amp; 3 Skills</span>
+    <span id="lbl3">3. Review &amp; PDF</span>
   </div>
 </div>
 
@@ -915,24 +1027,18 @@
   <!-- ═══════════════════ STEP 1: STUDENT INFO ═══════════════════ -->
   <div class="wiz-page active" id="page1">
 
-    <div class="sec-card upload-fix-card" id="uploadCard">
-      <div class="sec-title">
-        <div class="sec-title-left"><i class="fas fa-wrench"></i> Upload &amp; Fix Existing Report Card</div>
+    <!-- 1-Click Perfect Demo Loader for Boss Review & Teacher Reference -->
+    <div class="demo-bar">
+      <span><i class="fas fa-wand-magic-sparkles"></i> Reference Samples:</span>
+      <div class="demo-btns">
+        <button type="button" class="demo-btn" onclick="loadPerfectSample('L2')">
+          ✨ Load L2 Science Sample
+        </button>
+        <button type="button" class="demo-btn" onclick="loadPerfectSample('L4')">
+          ✨ Load L4 Tech/Coding Sample
+        </button>
       </div>
-      <p class="upload-desc">Drop an existing Project Alpha Report Card PDF here to extract grades and comments directly in your browser.</p>
-      <div class="upload-zone" id="uploadZone">
-        <i class="fas fa-file-pdf upload-icon"></i>
-        <p class="upload-text">Tap to select PDF or drag &amp; drop</p>
-        <input type="file" id="pdfUpload" accept=".pdf">
-      </div>
-      <div class="upload-progress" id="uploadProgress">
-        <div class="ai-spinner"></div>
-        <p id="uploadStatus">Extracting PDF text &amp; grades...</p>
-      </div>
-      <div class="upload-err" id="uploadErr"></div>
     </div>
-
-    <div class="or-divider"><span>or create from scratch</span></div>
 
     <div class="sec-card">
       <div class="sec-title">
@@ -940,8 +1046,20 @@
       </div>
 
       <div class="field">
+        <label>Report Stage (Solves Week 8–9 Pre-Showcase vs. Post-Showcase Wording)</label>
+        <div class="pronoun-group">
+          <button type="button" class="pronoun-btn active" data-stage="progress" onclick="setReportStage('progress')">
+            <i class="fas fa-clock"></i> Week 8–9 Progress (Pre-Showcase)
+          </button>
+          <button type="button" class="pronoun-btn" data-stage="final" onclick="setReportStage('final')">
+            <i class="fas fa-flag-checkered"></i> Final Report (Post-Showcase)
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
         <label>Student Name</label>
-        <input type="text" id="fName" placeholder="e.g. Gurung Grace">
+        <input type="text" id="fName" placeholder="e.g. Gurung Grace / Marco Leung">
         <div class="err-text">Please enter the student's name</div>
       </div>
 
@@ -965,8 +1083,8 @@
             <option value="Level 1">Level 1 (Science)</option>
             <option value="Level 2">Level 2 (Science)</option>
             <option value="Level 3">Level 3 (Science)</option>
-            <option value="Level 4">Level 4 (Tech &amp; Engineering)</option>
-            <option value="Level 5">Level 5 (Tech &amp; Engineering)</option>
+            <option value="Level 4">Level 4 (Tech, Coding &amp; Robotics)</option>
+            <option value="Level 5">Level 5 (Tech, Coding &amp; Robotics)</option>
           </select>
           <div class="err-text">Required</div>
         </div>
@@ -1015,13 +1133,32 @@
       </div>
     </div>
 
+    <div class="or-divider"><span>or fix an existing report card pdf</span></div>
+
+    <div class="sec-card upload-fix-card" id="uploadCard">
+      <div class="sec-title">
+        <div class="sec-title-left"><i class="fas fa-wrench"></i> Upload &amp; Fix Existing PDF</div>
+      </div>
+      <p class="upload-desc">Drop an existing Project Alpha Report Card PDF here to extract grades and comments directly in your browser.</p>
+      <div class="upload-zone" id="uploadZone">
+        <i class="fas fa-file-pdf upload-icon"></i>
+        <p class="upload-text">Tap to select PDF or drag &amp; drop</p>
+        <input type="file" id="pdfUpload" accept=".pdf">
+      </div>
+      <div class="upload-progress" id="uploadProgress">
+        <div class="ai-spinner"></div>
+        <p id="uploadStatus">Extracting PDF text &amp; grades...</p>
+      </div>
+      <div class="upload-err" id="uploadErr"></div>
+    </div>
+
     <div class="nav-bar">
       <div style="flex:1"></div>
-      <button class="nav-btn primary" onclick="goStep(2)">Next: Grades &amp; Highlight <i class="fas fa-arrow-right"></i></button>
+      <button class="nav-btn primary" onclick="goStep(2)">Next: Grades &amp; 3 Core Skills <i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 
-  <!-- ═══════════════════ STEP 2: GRADES & HIGHLIGHT ═══════════════════ -->
+  <!-- ═══════════════════ STEP 2: GRADES & 3 CORE SKILL HIGHLIGHTS ═══════════════════ -->
   <div class="wiz-page" id="page2">
 
     <div class="quick-preset-bar">
@@ -1096,9 +1233,9 @@
     </div>
 
     <div class="sec-card">
-      <div class="sec-title"><div class="sec-title-left"><i class="fas fa-microphone-alt"></i> Presentation Attributes</div></div>
+      <div class="sec-title"><div class="sec-title-left"><i class="fas fa-microphone-alt"></i> <span id="presAttrSectionTitle">In-Class Communication &amp; Presentation Attributes</span></div></div>
       <div class="grade-row" data-field="articulation">
-        <div class="grade-info"><div class="grade-name">Articulation</div><div class="grade-desc">Speaks clearly and organized</div></div>
+        <div class="grade-info"><div class="grade-name">Articulation</div><div class="grade-desc">Speaks clearly and organizes ideas well</div></div>
         <div class="grade-btns">
           <button class="grade-btn" data-val="A+">A+</button>
           <button class="grade-btn" data-val="A">A</button>
@@ -1116,7 +1253,7 @@
         </div>
       </div>
       <div class="grade-row" data-field="confidence">
-        <div class="grade-info"><div class="grade-name">Confidence</div><div class="grade-desc">Willing to speak up and present</div></div>
+        <div class="grade-info"><div class="grade-name">Confidence</div><div class="grade-desc">Willing to speak up and share in class</div></div>
         <div class="grade-btns">
           <button class="grade-btn" data-val="A+">A+</button>
           <button class="grade-btn" data-val="A">A</button>
@@ -1126,47 +1263,118 @@
       </div>
     </div>
 
-    <!-- ═══════════════════ DYNAMIC PROJECT / EXPERIMENT HIGHLIGHT CARD ═══════════════════ -->
+    <!-- ═══════════════════ 3 SKILLS PARENTS CARE ABOUT MOST (1-CLICK FOR PT TEACHERS) ═══════════════════ -->
     <div class="sec-card" id="projectHighlightCard">
       <div class="sec-title">
         <div class="sec-title-left">
-          <i class="fas fa-microchip" id="projectCardIcon"></i>
-          <span id="projectCardTitle">Standout Highlight</span>
+          <i class="fas fa-star"></i>
+          <span>3 Core Skills Breakdown (Just Tap 1 Per Box!)</span>
         </div>
       </div>
 
-      <!-- LEVEL 1-3 ONLY: Science Experiment Dropdown -->
-      <div class="field" id="topicDropdownWrap">
-        <label id="topicDropdownLabel">Select 1 Experiment Where This Student Really Shined</label>
-        <select id="fHighlightTopic">
-          <option value="">Select the standout experiment...</option>
-        </select>
-        <div class="err-text">Please select the experiment where this student excelled</div>
+      <!-- PILLAR 1: SCIENCE / TECH SKILLS -->
+      <div class="pillar-box">
+        <div class="pillar-header">
+          <span><i class="fas fa-microchip"></i> 1. Science / Tech Skill Standout</span>
+        </div>
+
+        <!-- LEVEL 1-3: Science Experiment Dropdown -->
+        <div class="field" id="topicDropdownWrap">
+          <label id="topicDropdownLabel">Standout Science Experiment</label>
+          <select id="fHighlightTopic">
+            <option value="">Select the experiment where this student shined...</option>
+          </select>
+          <div class="err-text">Please select the standout experiment</div>
+        </div>
+
+        <!-- LEVEL 4-5: Tech Project Name Input -->
+        <div class="field" id="techProjectInputWrap" style="display:none">
+          <label>Tech / Coding / Robotics Project Name</label>
+          <input type="text" id="fTechProjectName" placeholder="e.g. Vertical Farm / AI Eco Bot / Smart Sensor">
+        </div>
+
+        <label style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase;display:block;margin-bottom:6px">
+          Tap the student's strongest Science / Tech skill:
+        </label>
+        <div class="skill-pill-grid" id="techSkillPills">
+          <button type="button" class="skill-pill-btn active" data-val="Observation Skill" onclick="selectSkillPill('tech', 'Observation Skill')">
+            <i class="fas fa-eye"></i> 1. Observation Skill
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Hands-on Skill" onclick="selectSkillPill('tech', 'Hands-on Skill')">
+            <i class="fas fa-Wrench"></i> 2. Hands-on Skill
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Coding Skill" onclick="selectSkillPill('tech', 'Coding Skill')">
+            <i class="fas fa-code"></i> 3. Coding Skill
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Robotics Skill" onclick="selectSkillPill('tech', 'Robotics Skill')">
+            <i class="fas fa-robot"></i> 4. Robotics Skill
+          </button>
+        </div>
       </div>
 
-      <!-- LEVEL 4-5 ONLY: Tech Project Name Input (Optional — auto-detected from description if left blank) -->
-      <div class="field" id="techProjectInputWrap" style="display:none">
-        <label>Tech Project / Prototype Name <span style="font-weight:600;text-transform:none;opacity:0.75">(e.g. Vertical Farm, Smart Home System, AI Eco Bot)</span></label>
-        <input type="text" id="fTechProjectName" placeholder="e.g. Vertical Farm / Automated Prototype / Smart Sensor Build">
+      <!-- PILLAR 2: PRESENTATION & COMMUNICATION SKILL -->
+      <div class="pillar-box">
+        <div class="pillar-header">
+          <span id="pillar2HeaderTitle"><i class="fas fa-chalkboard-user"></i> 2. In-Class Communication &amp; Showcase Prep</span>
+        </div>
+        <label style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase;display:block;margin-bottom:6px">
+          Tap the student's strongest Communication / Presentation skill:
+        </label>
+        <div class="skill-pill-grid" id="presSkillPills">
+          <button type="button" class="skill-pill-btn active" data-val="Articulation" onclick="selectSkillPill('pres', 'Articulation')">
+            <i class="fas fa-comment-dots"></i> 1. Articulation
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Body Language" onclick="selectSkillPill('pres', 'Body Language')">
+            <i class="fas fa-hands"></i> 2. Body Language
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Confidence" onclick="selectSkillPill('pres', 'Confidence')">
+            <i class="fas fa-bolt"></i> 3. Confidence
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Script Writing" onclick="selectSkillPill('pres', 'Script Writing')">
+            <i class="fas fa-pen-nib"></i> 4. Script Writing
+          </button>
+        </div>
       </div>
 
-      <!-- Teacher explanation box (Enforces 15-word minimum) -->
-      <div class="field" id="teacherCommentsWrap">
-        <label id="teacherCommentsLabel">Why was this a highlight for the student? (Min. 15 words)</label>
-        <textarea id="fTeacherComments" rows="4" oninput="checkTeacherMinWords()" placeholder="Describe what the student built or did and why they stood out (at least 15 words)."></textarea>
+      <!-- PILLAR 3: CLASS BEHAVIOUR -->
+      <div class="pillar-box">
+        <div class="pillar-header">
+          <span><i class="fas fa-users"></i> 3. Class Behaviour &amp; Soft Skill</span>
+        </div>
+        <label style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase;display:block;margin-bottom:6px">
+          Tap the student's standout Class Behaviour:
+        </label>
+        <div class="skill-pill-grid" id="softSkillPills">
+          <button type="button" class="skill-pill-btn active" data-val="Teamwork" onclick="selectSkillPill('soft', 'Teamwork')">
+            <i class="fas fa-people-group"></i> 1. Teamwork
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Always Asks Questions" onclick="selectSkillPill('soft', 'Always Asks Questions')">
+            <i class="fas fa-circle-question"></i> 2. Always Asks Questions
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Completes Tasks Independently" onclick="selectSkillPill('soft', 'Completes Tasks Independently')">
+            <i class="fas fa-user-check"></i> 3. Completes Tasks Independently
+          </button>
+          <button type="button" class="skill-pill-btn" data-val="Laser Focus & Resilience" onclick="selectSkillPill('soft', 'Laser Focus & Resilience')">
+            <i class="fas fa-bullseye"></i> 4. Focus &amp; Resilience
+          </button>
+        </div>
+      </div>
+
+      <!-- Single Short Observation Box for Teachers (Enforces 15-word minimum, AI expands into 3 examples!) -->
+      <div class="field" id="teacherCommentsWrap" style="margin-top:14px">
+        <label id="teacherCommentsLabel">Write 1–2 Quick Sentences on What the Student Did (Min. 15 words — AI writes the 3 Examples!)</label>
+        <textarea id="fTeacherComments" rows="3" oninput="checkTeacherMinWords()" placeholder="Write 1–2 sentences (at least 15 words) or tap the quick chips below! We will automatically generate the 3 skill examples for you."></textarea>
         <div class="min-word-bar" id="minWordBar">
-          <span id="minWordStatus"><i class="fas fa-circle-exclamation"></i> Too short — please write at least 15 words</span>
+          <span id="minWordStatus"><i class="fas fa-circle-exclamation"></i> Too short — please write at least 15 words (or tap 2 chips below)</span>
           <span id="minWordCount">0 / 15+ words</span>
         </div>
-        <div class="err-text">Sentence is too short! Please write at least 15 words so parents get meaningful, personalized feedback.</div>
+        <div class="err-text">Please write at least 15 words (or tap the quick chips below) so the report card has rich detail!</div>
       </div>
 
-      <!-- Dynamic Quick Chips (Switches between Science Chips for L1-3 and Tech Chips for L4-5) -->
-      <div>
-        <span style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase" id="chipHeaderLabel">
-          <i class="fas fa-magic"></i> Tap to add observation details:
-        </span>
-        <div class="chip-wrap" id="dynamicChipContainer"></div>
+      <!-- Quick-Tap Chips for Lazy / Busy PT Teachers -->
+      <div style="margin-top:10px">
+        <span class="chip-cat-label"><i class="fas fa-magic"></i> Lazy-Teacher Helper — Tap 2 chips to instantly hit 15+ words:</span>
+        <div class="chip-wrap" id="quickChipContainer"></div>
       </div>
     </div>
 
@@ -1184,7 +1392,7 @@
 
     <div class="nav-bar">
       <button class="nav-btn secondary" onclick="goStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
-      <button class="nav-btn primary" onclick="goStep(3)">Next: Generate &amp; Review <i class="fas fa-arrow-right"></i></button>
+      <button class="nav-btn primary" onclick="goStep(3)">Next: Generate 3-Skill Report <i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 
@@ -1193,7 +1401,7 @@
 
     <div class="sec-card ai-gen-area" id="aiGenArea">
       <i class="fas fa-wand-magic-sparkles" style="font-size:36px;color:var(--orange);margin-bottom:8px"></i>
-      <p>We'll turn your observation and grades into a personalized <b>Teacher's Feedback</b>, <b>Student Profile</b>, <b>Example</b>, and <b>Award</b>.</p>
+      <p>We'll automatically generate the <b>Overall Feedback</b> plus specific examples for <b>Science/Tech Skill</b>, <b>Presentation/Communication</b>, and <b>Class Behaviour</b>.</p>
       <button class="nav-btn primary" onclick="generateAI()" id="btnGenerate" style="max-width:340px;margin:0 auto">
         <i class="fas fa-pen-fancy"></i> Generate Report Card &amp; PDF
       </button>
@@ -1201,14 +1409,14 @@
 
     <div class="ai-loading" id="aiLoading">
       <div class="ai-spinner"></div>
-      <p id="aiLoadingText">Crafting personalized feedback &amp; building PDF...</p>
+      <p id="aiLoadingText">Generating 3-skill examples &amp; building PDF...</p>
     </div>
 
     <div class="ai-err" id="aiErr"></div>
 
     <div class="ai-results" id="aiResults">
       <div class="upload-notice" id="uploadNotice">
-        <i class="fas fa-file-import"></i> Extracted from uploaded PDF — edit below then click <strong>Rebuild PDF</strong>, or click <strong>Rewrite with AI</strong> to polish.
+        <i class="fas fa-file-import"></i> Loaded — review or edit any field below, then click <strong>Rebuild PDF</strong>.
       </div>
 
       <div class="sec-card">
@@ -1216,28 +1424,33 @@
           <div class="sec-title-left"><i class="fas fa-pen-fancy"></i> Overall Teacher's Feedback <span style="font-size:11px;color:var(--text-light);font-weight:600">(Direct to student)</span></div>
         </div>
         <div class="field">
-          <textarea id="aiFeedback" rows="4" oninput="updateWordCount(this,'wcFeedback',80)"></textarea>
-          <div class="word-counter" id="wcFeedback">0 / 80 words</div>
+          <textarea id="aiFeedback" rows="3" oninput="updateWordCount(this,'wcFeedback',65)"></textarea>
+          <div class="word-counter" id="wcFeedback">0 / 65 words</div>
         </div>
       </div>
 
       <div class="sec-card">
         <div class="sec-title">
-          <div class="sec-title-left"><i class="fas fa-id-badge"></i> Student Profile <span style="font-size:11px;color:var(--text-light);font-weight:600">(3rd-person narrative)</span></div>
+          <div class="sec-title-left"><i class="fas fa-id-badge"></i> Student Profile &amp; 3 Core Skill Examples</div>
         </div>
         <div class="field">
           <label>Profile Title (2–4 Words)</label>
           <input type="text" id="aiProfileTitle">
         </div>
         <div class="field">
-          <label>Description</label>
-          <textarea id="aiProfileDesc" rows="3" oninput="updateWordCount(this,'wcDesc',80)"></textarea>
-          <div class="word-counter" id="wcDesc">0 / 80 words</div>
+          <label>1. Science / Tech Skill Example (<span id="lblReviewTech">Observation Skill</span>)</label>
+          <textarea id="aiExTech" rows="2" oninput="updateWordCount(this,'wcExTech',35)"></textarea>
+          <div class="word-counter" id="wcExTech">0 / 35 words</div>
         </div>
         <div class="field">
-          <label>Example (Highlight Moment)</label>
-          <textarea id="aiProfileExample" rows="3" oninput="updateWordCount(this,'wcExample',80)"></textarea>
-          <div class="word-counter" id="wcExample">0 / 80 words</div>
+          <label>2. Communication / Presentation Example (<span id="lblReviewPres">Articulation</span>)</label>
+          <textarea id="aiExPres" rows="2" oninput="updateWordCount(this,'wcExPres',35)"></textarea>
+          <div class="word-counter" id="wcExPres">0 / 35 words</div>
+        </div>
+        <div class="field">
+          <label>3. Class Behaviour Example (<span id="lblReviewSoft">Teamwork</span>)</label>
+          <textarea id="aiExSoft" rows="2" oninput="updateWordCount(this,'wcExSoft',35)"></textarea>
+          <div class="word-counter" id="wcExSoft">0 / 35 words</div>
         </div>
       </div>
 
@@ -1246,13 +1459,13 @@
           <div class="sec-title-left"><i class="fas fa-trophy"></i> Award of the Year</div>
         </div>
         <div class="field">
-          <input type="text" id="aiAward" placeholder="Auto-generated based on standout highlight">
+          <input type="text" id="aiAward" placeholder="Auto-generated based on standout highlights">
         </div>
       </div>
 
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
         <button class="nav-btn secondary" onclick="generateAI()" style="flex:1;min-width:140px">
-          <i class="fas fa-rotate"></i> <span id="tryAgainLabel">Rewrite with AI</span>
+          <i class="fas fa-rotate"></i> <span id="tryAgainLabel">Regenerate</span>
         </button>
         <button class="nav-btn primary" onclick="validateAndBuild()" style="flex:1;min-width:140px" id="btnBuild">
           <i class="fas fa-file-pdf"></i> Rebuild PDF
@@ -1264,7 +1477,7 @@
         <a class="dl-link show" id="dlLink" href="#" download="Report Card.pdf">
           <i class="fas fa-download"></i> Download Report Card PDF
         </a>
-        <div class="status-msg show" id="statusMsg">PDF ready! Tap the green button above to save it.</div>
+        <div class="status-msg show" id="statusMsg">PDF ready! Tap the green button above to save it, then upload to Google Drive for Centre PIC check.</div>
         <div class="err-msg-dl" id="errMsgDl"></div>
         <button type="button" class="next-student-btn" onclick="startNextStudent()">
           <i class="fas fa-user-plus"></i> Start Next Student (Keep Class &amp; Teacher Info)
@@ -1276,7 +1489,7 @@
         <i class="fas fa-eye"></i> <span id="previewToggleText">Hide Preview</span>
       </button>
       <div class="preview-wrap open" id="previewWrap">
-        <div class="page-label">Page 1 — Term Report</div>
+        <div class="page-label">Page 1 — Term Report (With 3-Skill Breakdown + Examples)</div>
         <div class="rc-page" id="rcPage1"></div>
         <div class="page-label">Page 2 — Key Attributes Assessment</div>
         <div class="rc-page" id="rcPage2"></div>
@@ -1301,12 +1514,29 @@
   </div>
 </div>
 
+<!-- SOP Flow Modal (For FT & PT Teachers) -->
+<div class="modal-overlay" id="sopModal">
+  <div class="modal-box">
+    <h3><i class="fas fa-clipboard-check"></i> Project Alpha Report Card SOP</h3>
+    <p style="font-size:13px;line-height:1.6">
+      <b>1. Timeline (Week 8–11):</b><br>
+      • <b>Consultation Students:</b> Generate in Week 8–9 using <i>"Week 8–9 Progress (Pre-Showcase)"</i> mode. Ops sends consultation calendar 1 week prior.<br>
+      • <b>Non-Consultation Students:</b> Submit within 1 week after the Showcase.<br><br>
+      <b>2. Standard Approval Flow:</b><br>
+      <span style="color:var(--orange);font-weight:800">Teacher Generates PDF ➔ Centre PIC Double Checks ➔ Send to Ops &amp; Share with Parents</span>
+    </p>
+    <div class="modal-actions">
+      <button class="modal-confirm" onclick="closeSopModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- AI Settings Modal -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal-box">
     <h3><i class="fas fa-robot"></i> AI Engine Settings</h3>
     <p style="font-size:13px;color:var(--text-light)">
-      By default, this app uses a <b>Zero-Login Cloud AI</b> plus a <b>Smart Built-in Expander</b> so teachers never need an account. Optionally, you can paste a <b>Google Gemini API Key</b> below for Gemini 2.5 Flash generation (saved locally in this browser).
+      By default, this app uses a <b>Zero-Login Cloud AI</b> plus a <b>3-Skill Built-in Synthesizer</b> so FT &amp; PT teachers never need an account. Optionally, paste a <b>Google Gemini API Key</b> below.
     </p>
     <div class="field">
       <label>Optional Gemini API Key (Leave blank for Free Zero-Key AI)</label>
@@ -1321,7 +1551,7 @@
 
 <script>
 // ══════════════════════════════════════════
-//  CURRICULUM TOPICS (LEVELS 1-3 SCIENCE)
+//  CURRICULUM TOPICS & QUICK CHIPS
 // ══════════════════════════════════════════
 var LEVEL_TOPICS = {
   'Level 1': [
@@ -1368,56 +1598,37 @@ var LEVEL_TOPICS = {
   ]
 };
 
-// Science-focused chips for Level 1 - 3
 var SCIENCE_CHIPS = [
-  { label: '+ Laser focus in experiment', text: 'showed incredible focus during every step of the experiment' },
-  { label: '+ Curious about reaction', text: 'asked thoughtful questions about why the scientific reaction happened' },
-  { label: '+ Careful observation', text: 'observed the changes closely and recorded accurate results' },
-  { label: '+ Added creative ideas', text: 'brought creative ideas to the hands-on model' },
-  { label: '+ Explained science clearly', text: 'explained the scientific concepts behind the results clearly to the class' },
-  { label: '+ Helped classmates', text: 'eagerly helped classmates complete their experiment steps' }
+  { label: '+ Careful observation & lab steps', text: 'carefully observed every reaction change and completed the experiment steps with great precision' },
+  { label: '+ Curious & asked great questions', text: 'asked thoughtful questions about why the scientific reaction happened and tested ideas eagerly' },
+  { label: '+ Explained science clearly in class', text: 'explained the scientific findings clearly to peers and worked wonderfully with classmates' },
+  { label: '+ Completed build independently', text: 'completed the hands-on experiment setup independently with impressive focus' }
 ];
 
-// Tech & Engineering-focused chips for Level 4 - 5
 var TECH_CHIPS = [
-  { label: '+ Engineered custom features', text: 'engineered creative custom features and original ideas into the prototype' },
-  { label: '+ Debugged hardware & logic', text: 'troubleshot and debugged technical build challenges independently' },
-  { label: '+ Strong systems thinking', text: 'demonstrated strong systems thinking while managing multiple project components' },
-  { label: '+ Iterated & refined prototype', text: 'tested, iterated, and refined the engineering design to improve performance' },
-  { label: '+ Pitched tech concept clearly', text: 'articulated the technical architecture and project vision confidently to the class' },
-  { label: '+ Collaborated & helped peers', text: 'collaborated effectively and helped peers troubleshoot their builds' }
+  { label: '+ Strong coding & robotics build', text: 'engineered custom features and connected the coding and hardware components with strong focus' },
+  { label: '+ Debugged independently', text: 'troubleshot and debugged technical challenges independently while adding creative ideas to the prototype' },
+  { label: '+ Structured showcase script well', text: 'organized the project explanation and showcase script clearly while collaborating well with peers' },
+  { label: '+ Great teamwork & curious mindset', text: 'asked insightful technical questions and eagerly helped classmates test their prototypes' }
 ];
 
 var MIN_TEACHER_WORDS = 15;
 var chipClickCounter = 0;
 
 // ══════════════════════════════════════════
-//  DARK MODE & SETTINGS
+//  DARK MODE & MODALS
 // ══════════════════════════════════════════
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   document.documentElement.classList.add('dark');
 }
-function toggleDarkMode() {
-  document.documentElement.classList.toggle('dark');
-}
-
-(function checkUrlKey() {
-  try {
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('key')) {
-      localStorage.setItem('bba_gemini_key', params.get('key'));
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  } catch (e) {}
-})();
-
+function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+function openSopModal() { document.getElementById('sopModal').classList.add('open'); }
+function closeSopModal() { document.getElementById('sopModal').classList.remove('open'); }
 function openSettingsModal() {
   document.getElementById('cfgGeminiKey').value = localStorage.getItem('bba_gemini_key') || '';
   document.getElementById('settingsModal').classList.add('open');
 }
-function closeSettingsModal() {
-  document.getElementById('settingsModal').classList.remove('open');
-}
+function closeSettingsModal() { document.getElementById('settingsModal').classList.remove('open'); }
 function saveSettingsModal() {
   var k = document.getElementById('cfgGeminiKey').value.trim();
   if (k) localStorage.setItem('bba_gemini_key', k);
@@ -1447,9 +1658,7 @@ function numToGrade(n) {
   if (n >= 1.5) return 'B';
   return 'C';
 }
-function displayGrade(g) {
-  return g === 'C' ? 'B' : g;
-}
+function displayGrade(g) { return g === 'C' ? 'B' : g; }
 function numToRank(n) {
   if (n >= 3.5) return 'Distinction';
   if (n >= 2.5) return 'Merit';
@@ -1478,18 +1687,48 @@ function buildTermStr(term, year) {
 }
 
 // ══════════════════════════════════════════
-//  STATE & LEVEL-BASED UI LOGIC
+//  STATE & 3-PILLAR PILL SELECTORS
 // ══════════════════════════════════════════
 var currentStep = 1;
-var selectedPronoun = 'he'; // 'he' or 'she'
+var selectedPronoun = 'he';
+var reportStage = 'progress'; // 'progress' (Week 8-9 Pre-Showcase) or 'final' (Post-Showcase)
+var selectedSkills = {
+  tech: 'Observation Skill',
+  pres: 'Articulation',
+  soft: 'Teamwork'
+};
 var grades = {};
 var S = {};
 var sessionHistory = [];
 
 function setPronoun(pro) {
   selectedPronoun = (pro === 'she') ? 'she' : 'he';
-  document.querySelectorAll('.pronoun-btn').forEach(function(btn) {
+  document.querySelectorAll('[data-pro]').forEach(function(btn) {
     btn.classList.toggle('active', btn.dataset.pro === selectedPronoun);
+  });
+}
+
+function setReportStage(stage) {
+  reportStage = (stage === 'final') ? 'final' : 'progress';
+  document.querySelectorAll('[data-stage]').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.stage === reportStage);
+  });
+  var p2Title = document.getElementById('pillar2HeaderTitle');
+  var presSecTitle = document.getElementById('presAttrSectionTitle');
+  if (reportStage === 'progress') {
+    p2Title.innerHTML = '<i class="fas fa-chalkboard-user"></i> 2. In-Class Communication &amp; Showcase Prep (Week 8–9)';
+    presSecTitle.textContent = 'In-Class Communication & Showcase Prep Attributes';
+  } else {
+    p2Title.innerHTML = '<i class="fas fa-chalkboard-user"></i> 2. Presentation &amp; Showcase Delivery Skills';
+    presSecTitle.textContent = 'Presentation & Showcase Attributes';
+  }
+}
+
+function selectSkillPill(category, val) {
+  selectedSkills[category] = val;
+  var containerId = category === 'tech' ? 'techSkillPills' : category === 'pres' ? 'presSkillPills' : 'softSkillPills';
+  document.querySelectorAll('#' + containerId + ' .skill-pill-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.val === val);
   });
 }
 
@@ -1505,44 +1744,28 @@ function onLevelOrTermChange() {
   updateProjectHighlightUI();
 }
 
-function renderDynamicChips(lvl) {
-  var container = document.getElementById('dynamicChipContainer');
-  var chipHeader = document.getElementById('chipHeaderLabel');
-  container.innerHTML = '';
-  var list = isTechLevel(lvl) ? TECH_CHIPS : SCIENCE_CHIPS;
-  chipHeader.innerHTML = isTechLevel(lvl)
-    ? '<i class="fas fa-microchip"></i> Tap to add tech &amp; engineering observations:'
-    : '<i class="fas fa-flask"></i> Tap to add science experiment observations:';
-
-  list.forEach(function(item) {
-    var span = document.createElement('span');
-    span.className = 'obs-chip';
-    span.textContent = item.label;
-    span.onclick = function() { appendChip(item.text); };
-    container.appendChild(span);
-  });
-}
-
 function updateProjectHighlightUI() {
   var lvl = document.getElementById('fLevel').value;
   var dropdownWrap = document.getElementById('topicDropdownWrap');
   var techInputWrap = document.getElementById('techProjectInputWrap');
   var selectEl = document.getElementById('fHighlightTopic');
-  var cardTitle = document.getElementById('projectCardTitle');
-  var cardIcon = document.getElementById('projectCardIcon');
-  var commentsLabel = document.getElementById('teacherCommentsLabel');
-  var commentsTa = document.getElementById('fTeacherComments');
 
-  renderDynamicChips(lvl);
+  // Populate lazy-teacher quick chips
+  var chipBox = document.getElementById('quickChipContainer');
+  chipBox.innerHTML = '';
+  var chips = isTechLevel(lvl) ? TECH_CHIPS : SCIENCE_CHIPS;
+  chips.forEach(function(item) {
+    var span = document.createElement('span');
+    span.className = 'obs-chip';
+    span.textContent = item.label;
+    span.onclick = function() { appendChip(item.text); };
+    chipBox.appendChild(span);
+  });
 
   if (isScienceDropdownLevel(lvl)) {
     dropdownWrap.style.display = 'block';
     techInputWrap.style.display = 'none';
-    cardIcon.className = 'fas fa-flask';
-    cardTitle.textContent = lvl + ' Standout Experiment Highlight';
-    document.getElementById('topicDropdownLabel').textContent = 'Pick 1 Experiment From ' + lvl + ' That The Student Really Shined In';
-    commentsLabel.textContent = 'Why was this experiment a highlight for the student? (Min. 15 words)';
-    commentsTa.placeholder = 'Write at least 15 words explaining how the student shined in this experiment! What did they do, observe, or discover?';
+    document.getElementById('topicDropdownLabel').textContent = 'Pick 1 Experiment From ' + lvl + ' Where The Student Shined';
 
     var currentVal = selectEl.value;
     var topics = LEVEL_TOPICS[lvl] || [];
@@ -1553,19 +1776,52 @@ function updateProjectHighlightUI() {
       opt.textContent = t;
       selectEl.appendChild(opt);
     });
-    if (topics.indexOf(currentVal) !== -1) {
-      selectEl.value = currentVal;
-    }
+    if (topics.indexOf(currentVal) !== -1) selectEl.value = currentVal;
   } else {
-    // Level 4 & Level 5: Tech & Engineering Project Mode
     dropdownWrap.style.display = 'none';
     techInputWrap.style.display = 'block';
     selectEl.value = '';
-    cardIcon.className = 'fas fa-microchip';
-    cardTitle.textContent = (lvl || 'Tech') + ' Engineering & Project Highlight';
-    commentsLabel.textContent = 'Describe how the student excelled in their tech project / prototype (Min. 15 words)';
-    commentsTa.placeholder = 'e.g. His focus on the vertical farm project was incredible. He was able to manage multiple technical components and engineer his own creative ideas into the final prototype.';
   }
+}
+
+// 1-Click Perfect Sample Generator for Boss Review Tomorrow
+function loadPerfectSample(type) {
+  setReportStage('progress');
+  if (type === 'L2') {
+    document.getElementById('fName').value = 'Marco Leung';
+    setPronoun('he');
+    document.getElementById('fLevel').value = 'Level 2';
+    document.getElementById('fYear').value = '2026';
+    document.getElementById('fTerm').value = 'Fall';
+    document.getElementById('fCentre').value = 'WC';
+    document.getElementById('fTeacher').value = 'Grace';
+    updateProjectHighlightUI();
+    document.getElementById('fHighlightTopic').value = 'Topic 1 - Lava lamp';
+    selectSkillPill('tech', 'Observation Skill');
+    selectSkillPill('pres', 'Articulation');
+    selectSkillPill('soft', 'Always Asks Questions');
+    fillAllGrades('A+');
+    setGradeBtn('bodyLanguage', 'A');
+    document.getElementById('fTeacherComments').value = 'He was deeply fascinated during the Lava Lamp experiment, carefully observing how oil and water separated while asking great questions about density and explaining his findings clearly.';
+  } else {
+    document.getElementById('fName').value = 'Gurung Grace';
+    setPronoun('he');
+    document.getElementById('fLevel').value = 'Level 4';
+    document.getElementById('fYear').value = '2026';
+    document.getElementById('fTerm').value = 'Fall';
+    document.getElementById('fCentre').value = 'WC';
+    document.getElementById('fTeacher').value = 'Grace';
+    updateProjectHighlightUI();
+    document.getElementById('fTechProjectName').value = 'Vertical Farm Automation';
+    selectSkillPill('tech', 'Coding Skill');
+    selectSkillPill('pres', 'Script Writing');
+    selectSkillPill('soft', 'Completes Tasks Independently');
+    fillAllGrades('A+');
+    document.getElementById('fTeacherComments').value = 'His focus on the vertical farm prototype was incredible. He independently programmed and integrated his own creative features into the system and structured his showcase script clearly.';
+  }
+  checkTeacherMinWords();
+  goStep(3, true);
+  generateAI();
 }
 
 function checkTeacherMinWords() {
@@ -1578,12 +1834,12 @@ function checkTeacherMinWords() {
   countEl.textContent = count + ' / ' + MIN_TEACHER_WORDS + '+ words';
   if (count >= MIN_TEACHER_WORDS) {
     bar.classList.add('met');
-    statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Great detail! Ready to generate.';
+    statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Great! Ready to auto-generate the 3 skill examples.';
     ta.closest('.field').classList.remove('error');
   } else {
     var rem = MIN_TEACHER_WORDS - count;
     bar.classList.remove('met');
-    statusEl.innerHTML = '<i class="fas fa-circle-exclamation"></i> Please add ' + rem + ' more word' + (rem === 1 ? '' : 's') + ' (min. 15 words)';
+    statusEl.innerHTML = '<i class="fas fa-circle-exclamation"></i> Add ' + rem + ' more word' + (rem === 1 ? '' : 's') + ' (or tap a chip below)';
   }
 }
 
@@ -1616,7 +1872,6 @@ function loadClassPrefs() {
 }
 loadClassPrefs();
 
-// Natural varied connectors when clicking multiple chips (prevents "Also, he... Also, he...")
 function appendChip(text) {
   var ta = document.getElementById('fTeacherComments');
   var cur = ta.value.trim();
@@ -1627,12 +1882,7 @@ function appendChip(text) {
     ta.value = ProSub + ' ' + text + '.';
     chipClickCounter = 1;
   } else {
-    var connectors = [
-      ' Throughout the session, ' + proSub + ' ',
-      ' In addition, ' + proSub + ' ',
-      ' Impressively, ' + proSub + ' also ',
-      ' Furthermore, ' + proSub + ' '
-    ];
+    var connectors = [' During lessons, ' + proSub + ' ', ' In addition, ' + proSub + ' ', ' Impressively, ' + proSub + ' also '];
     var conn = connectors[chipClickCounter % connectors.length];
     chipClickCounter++;
     var base = cur.match(/[.!?]$/) ? cur : cur + '.';
@@ -1643,9 +1893,7 @@ function appendChip(text) {
 
 function fillAllGrades(val) {
   var allFields = ['curiosity','criticalThinking','reasoning','creativity','handsOn','resilience','articulation','bodyLanguage','confidence'];
-  allFields.forEach(function(f) {
-    setGradeBtn(f, val);
-  });
+  allFields.forEach(function(f) { setGradeBtn(f, val); });
   updateCalcSummary();
 }
 
@@ -1670,6 +1918,7 @@ function saveToSessionHistory() {
   var snap = JSON.parse(JSON.stringify(S));
   snap.rawGrades = JSON.parse(JSON.stringify(grades));
   snap.pronoun = selectedPronoun;
+  snap.reportStage = reportStage;
   var existingIdx = sessionHistory.findIndex(function(item) { return item.name.toLowerCase() === snap.name.toLowerCase(); });
   if (existingIdx >= 0) sessionHistory[existingIdx] = snap;
   else sessionHistory.push(snap);
@@ -1704,23 +1953,23 @@ function loadHistoryItem(idx) {
   document.getElementById('fCentre').value = item.centre;
   document.getElementById('fTeacher').value = item.teacher;
   setPronoun(item.pronoun || 'he');
+  setReportStage(item.reportStage || 'progress');
   updateProjectHighlightUI();
-  if (item.highlightTopic) {
-    document.getElementById('fHighlightTopic').value = item.highlightTopic;
-  }
-  if (item.techProjectName) {
-    document.getElementById('fTechProjectName').value = item.techProjectName;
-  }
-  Object.keys(item.rawGrades || {}).forEach(function(k) {
-    setGradeBtn(k, item.rawGrades[k]);
-  });
+  if (item.highlightTopic) document.getElementById('fHighlightTopic').value = item.highlightTopic;
+  if (item.techProjectName) document.getElementById('fTechProjectName').value = item.techProjectName;
+  selectSkillPill('tech', item.techSkill || 'Observation Skill');
+  selectSkillPill('pres', item.presSkill || 'Articulation');
+  selectSkillPill('soft', item.softSkill || 'Teamwork');
+
+  Object.keys(item.rawGrades || {}).forEach(function(k) { setGradeBtn(k, item.rawGrades[k]); });
   updateCalcSummary();
   document.getElementById('fTeacherComments').value = item.teacherComments || '';
   checkTeacherMinWords();
   document.getElementById('aiFeedback').value = item.feedback || '';
   document.getElementById('aiProfileTitle').value = item.profileTitle || '';
-  document.getElementById('aiProfileDesc').value = item.profileDesc || '';
-  document.getElementById('aiProfileExample').value = item.profileExample || '';
+  document.getElementById('aiExTech').value = item.exTech || '';
+  document.getElementById('aiExPres').value = item.exPres || '';
+  document.getElementById('aiExSoft').value = item.exSoft || '';
   document.getElementById('aiAward').value = item.award || '';
   trimAndRefreshAll();
   goStep(3, true);
@@ -1736,9 +1985,7 @@ function showModal(msg) {
   document.getElementById('modalMsg').textContent = msg;
   document.getElementById('modal').classList.add('open');
 }
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
 function goStep(n, skipValidation) {
   if (!skipValidation && n > currentStep) {
@@ -1807,7 +2054,7 @@ function validateStep2() {
   var wc = countWords(commentsEl.value);
   if (wc < MIN_TEACHER_WORDS) {
     commentsWrap.classList.add('error');
-    showModal('Your comment is too short (' + wc + ' words). Please write at least ' + MIN_TEACHER_WORDS + ' words explaining how the student shined so parents get a meaningful report card!');
+    showModal('Your comment is ' + wc + ' words. Please write at least ' + MIN_TEACHER_WORDS + ' words (or tap 2 quick chips below) so the AI can generate meaningful examples!');
     commentsEl.focus();
     return false;
   }
@@ -1844,7 +2091,12 @@ function updateWordCount(textarea, counterId, maxWords) {
   else { textarea.classList.remove('over-limit'); }
 }
 function trimAndRefreshAll() {
-  [['aiFeedback', 'wcFeedback', 80], ['aiProfileDesc', 'wcDesc', 80], ['aiProfileExample', 'wcExample', 80]].forEach(function(p) {
+  [
+    ['aiFeedback', 'wcFeedback', 65],
+    ['aiExTech', 'wcExTech', 35],
+    ['aiExPres', 'wcExPres', 35],
+    ['aiExSoft', 'wcExSoft', 35]
+  ].forEach(function(p) {
     var ta = document.getElementById(p[0]);
     if (!ta) return;
     if (countWords(ta.value) > p[2]) ta.value = trimToMaxWords(ta.value, p[2]);
@@ -1901,31 +2153,15 @@ function updateCalcSummary() {
 }
 
 // ══════════════════════════════════════════
-//  ASSEMBLE STUDENT DATA & SMART TOPIC DETECTION
+//  ASSEMBLE STUDENT DATA & 3-SKILL CONTEXT
 // ══════════════════════════════════════════
 function extractCleanTechTopic(rawComments, explicitProjectName) {
-  if (explicitProjectName && explicitProjectName.trim()) {
-    return explicitProjectName.trim();
-  }
-  // Remove chip boilerplate before searching for a project topic
-  var stripped = rawComments
-    .replace(/engineered creative custom features and original ideas into the prototype/gi, '')
-    .replace(/troubleshot and debugged technical build challenges independently/gi, '')
-    .replace(/demonstrated strong systems thinking while managing multiple project components/gi, '')
-    .replace(/tested, iterated, and refined the engineering design to improve performance/gi, '')
-    .replace(/articulated the technical architecture and project vision confidently to the class/gi, '')
-    .replace(/collaborated effectively and helped peers troubleshoot their builds/gi, '')
-    .replace(/showed incredible focus during every step of the experiment/gi, '')
-    .replace(/asked thoughtful questions about why the scientific reaction happened/gi, '');
-
-  // Look for patterns like "focus on vertical farm", "built a smart car", "his AI bot project"
-  var m = stripped.match(/(?:focus on|worked on|built|building|created|creating|designed|designing)\s+(?:the\s+|his\s+|her\s+|a\s+|an\s+)?([a-z0-9\s\-]{3,25}?)(?:\s+project|\s+prototype|\s+system|\s+model|\s+build|\s+was|\s+is|\s+and|[.,!]|$)/i);
+  if (explicitProjectName && explicitProjectName.trim()) return explicitProjectName.trim();
+  var m = rawComments.match(/(?:focus on|worked on|built|building|created|creating|designed|designing)\s+(?:the\s+|his\s+|her\s+|a\s+|an\s+)?([a-z0-9\s\-]{3,24}?)(?:\s+project|\s+prototype|\s+system|\s+model|\s+build|\s+was|\s+is|\s+and|[.,!]|$)/i);
   if (m && m[1]) {
     var candidate = m[1].trim();
     var badWords = /^(different|various|multiple|every|reaction|happened|step|steps|class|peers|ideas|own|model|build|project|prototype|science|experiment)$/i;
-    if (!badWords.test(candidate) && candidate.indexOf('reaction happened') === -1) {
-      return candidate;
-    }
+    if (!badWords.test(candidate)) return candidate;
   }
   return '';
 }
@@ -1954,9 +2190,14 @@ function assembleData() {
     cleanTopicName = extractCleanTechTopic(rawComments, techProjectName);
   }
 
+  document.getElementById('lblReviewTech').textContent = selectedSkills.tech;
+  document.getElementById('lblReviewPres').textContent = selectedSkills.pres + (reportStage === 'progress' ? ' — In-Class Progress' : '');
+  document.getElementById('lblReviewSoft').textContent = selectedSkills.soft;
+
   S = {
     name: document.getElementById('fName').value.trim(),
     pronoun: selectedPronoun,
+    reportStage: reportStage,
     level: lvl,
     isTech: isTech,
     year: year,
@@ -1968,6 +2209,9 @@ function assembleData() {
     highlightTopic: highlightTopic,
     techProjectName: techProjectName,
     cleanTopicName: cleanTopicName,
+    techSkill: selectedSkills.tech,
+    presSkill: selectedSkills.pres,
+    softSkill: selectedSkills.soft,
     curiosity: displayGrade(grades.curiosity || ''),
     criticalThinking: displayGrade(grades.criticalThinking || ''),
     reasoning: displayGrade(grades.reasoning || ''),
@@ -1986,150 +2230,107 @@ function assembleData() {
     gAll: displayGrade(numToGrade(avgGrades(['curiosity','criticalThinking','reasoning','creativity','handsOn','resilience','articulation','bodyLanguage','confidence']))),
     ranking: numToRank(avgGrades(['curiosity','criticalThinking','reasoning','creativity','handsOn','resilience','articulation','bodyLanguage','confidence'])),
     teacherComments: rawComments,
-    feedback: '', profileTitle: '', profileDesc: '', profileExample: '', award: ''
+    feedback: '', profileTitle: '', exTech: '', exPres: '', exSoft: '', award: ''
   };
 }
 
 // ══════════════════════════════════════════
-//  PROMPT & SMART LOCAL NARRATIVE ENGINE
+//  PROMPT & 3-SKILL EXAMPLE SYNTHESIZER
 // ══════════════════════════════════════════
 function buildPrompt() {
   var proStr = S.pronoun === 'she' ? 'she/her/hers' : 'he/him/his';
-  var domainInstruction = S.isTech
-    ? 'IMPORTANT: This student is in ' + S.level + ' (Tech, Engineering & Prototyping focus). Always refer to their work as a "project", "prototype", or "engineering build" — NEVER call it an "experiment". Use tech-savvy, engineering-oriented language.'
-    : 'IMPORTANT: This student is in ' + S.level + ' (Hands-on Science focus). Refer to their standout activity as an "experiment" (' + (S.cleanTopicName || 'science experiment') + ').';
+  var stageNote = S.reportStage === 'progress'
+    ? 'TIMING NOTE (CRITICAL): This report is sent in Week 8-9 BEFORE the final showcase. Frame the Presentation skill (' + S.presSkill + ') as IN-CLASS communication, show-and-tell practice, or showcase script preparation so far — do NOT write as if the final showcase has already happened.'
+    : 'TIMING NOTE: This is the Final Term Report after the showcase.';
 
-  var topicLine = S.highlightTopic
-    ? 'STANDOUT SCIENCE EXPERIMENT: ' + S.highlightTopic + ' ("' + S.cleanTopicName + '")\n'
-    : (S.cleanTopicName ? 'TECH PROJECT / PROTOTYPE NAME: ' + S.cleanTopicName + '\n' : '');
-
-  return 'You are a caring STEM & Tech educator at Big Bang Academy\'s Project Alpha program writing a personalised report card.\n\n' +
-    domainInstruction + '\n\n' +
-    'Student Name: ' + S.name + '\n' +
-    'Student Pronouns (for 3rd-person sections): ' + proStr + '\n' +
-    'Level: ' + S.level + ' | Term: ' + S.termShort + '\n' +
-    'Grades: Curiosity=' + S.curiosity + ', Critical Thinking=' + S.criticalThinking + ', Reasoning=' + S.reasoning + ' (Sci=' + S.gSci + '); ' +
-    'Creativity=' + S.creativity + ', Hands-on=' + S.handsOn + ', Resilience=' + S.resilience + ' (Eng=' + S.gHand + '); ' +
-    'Articulation=' + S.articulation + ', Body Language=' + S.bodyLanguage + ', Confidence=' + S.confidence + ' (Pres=' + S.gPres + ')\n' +
-    'Overall Grade: ' + S.gAll + ' (' + S.ranking + ')\n\n' +
-    topicLine +
-    'TEACHER\'S OBSERVATION NOTES:\n"' + S.teacherComments + '"\n\n' +
-    'PERSPECTIVE & STYLE RULES (CRITICAL):\n' +
-    '1. "feedback": Written in 2ND PERSON directly addressing the student ("' + S.name + ', your..."). 2-3 warm, polished sentences (30-45 words). Never repeat "Also, he/she" — synthesize the teacher\'s notes into natural educator prose.\n' +
-    '2. "profileTitle": 2-4 words ONLY. A strong title capturing this student (e.g. "Innovative Tech Visionary", "Creative Systems Architect", "Curious Science Explorer").\n' +
-    '3. "profileDesc": Written in 3RD PERSON starting with "' + S.name + '" and using ' + proStr + ' pronouns (20-30 words). Summarizes their approach and standout engineering/scientific qualities.\n' +
-    '4. "profileExample": Written in 3RD PERSON using ' + proStr + ' pronouns (28-42 words). Do NOT include "Example:" at the start. Weave the teacher\'s observation into a cohesive, natural 2-sentence highlight story.\n' +
-    '5. "award": 4-8 words. A specific award celebrating what this student excelled at.\n\n' +
-    'Return ONLY a valid JSON object with keys: "feedback", "profileTitle", "profileDesc", "profileExample", "award". No markdown fences.';
+  return 'You are a caring STEM educator at Big Bang Academy\'s Project Alpha program writing a personalised report card.\n\n' +
+    stageNote + '\n' +
+    'Student: ' + S.name + ' (' + proStr + ') | Level: ' + S.level + ' | Overall Grade: ' + S.gAll + ' (' + S.ranking + ')\n' +
+    'Standout Activity: ' + (S.highlightTopic || S.cleanTopicName || (S.isTech ? 'Tech Prototype Build' : 'Science Experiment')) + '\n' +
+    'Selected 3 Core Skills:\n' +
+    '1. Science/Tech Skill: ' + S.techSkill + '\n' +
+    '2. Communication/Presentation Skill: ' + S.presSkill + '\n' +
+    '3. Class Behaviour: ' + S.softSkill + '\n\n' +
+    'Teacher\'s Raw Observation:\n"' + S.teacherComments + '"\n\n' +
+    'Generate a JSON object with these EXACT 6 keys (concise, warm educator tone):\n' +
+    '- "feedback": (30-45 words, 2ND PERSON addressing "' + S.name + ', ...") Warm overall summary celebrating their progress this term.\n' +
+    '- "profileTitle": (2-4 words) Creative title for this student.\n' +
+    '- "exTech": (18-26 words, 3RD PERSON using ' + proStr + ') Concrete example of how ' + S.name + ' demonstrated "' + S.techSkill + '" during ' + (S.cleanTopicName || 'their project') + '.\n' +
+    '- "exPres": (18-26 words, 3RD PERSON using ' + proStr + ') Concrete example of "' + S.presSkill + '" (' + (S.reportStage === 'progress' ? 'during in-class discussions and showcase preparation so far' : 'when presenting their work') + ').\n' +
+    '- "exSoft": (18-26 words, 3RD PERSON using ' + proStr + ') Concrete example of "' + S.softSkill + '" in the classroom.\n' +
+    '- "award": (4-8 words) Specific Award of the Year.\n' +
+    'Return ONLY valid JSON, no markdown fences.';
 }
 
 function generateSmartLocalNarrative() {
-  var raw = S.teacherComments.trim();
   var pro = S.pronoun === 'she'
-    ? { sub: 'she', Sub: 'She', obj: 'her', pos: 'her' }
-    : { sub: 'he', Sub: 'He', obj: 'him', pos: 'his' };
+    ? { sub: 'she', Sub: 'She', obj: 'her', pos: 'her', refl: 'herself' }
+    : { sub: 'he', Sub: 'He', obj: 'him', pos: 'his', refl: 'himself' };
 
-  var hasIdeas = /idea|creativ|innovat|design|own|original|custom|featur/i.test(raw);
-  var hasFocus = /focus|concentrat|dedicat|detail|attent|careful|system|komponent|component/i.test(raw);
-  var hasResilience = /try|tried|mistake|fix|improv|resilien|persist|overcam|debug|troubleshoot|iterat|refin/i.test(raw);
-  var hasSpeak = /present|speak|explain|share|articulat|confiden|pitch/i.test(raw);
-  var hasTeam = /help|classmate|peer|team|collaborat/i.test(raw);
+  var actName = S.cleanTopicName || (S.isTech ? 'engineering prototype' : 'science');
+  var actLabel = S.isTech ? (S.cleanTopicName ? S.cleanTopicName + ' project' : 'technical project') : (actName + ' experiment');
+  var actCap = actName.split(/\s+/).map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
 
-  // ── BRANCH A: LEVEL 4 & LEVEL 5 (TECH & ENGINEERING PROJECTS) ──
-  if (S.isTech) {
-    var projName = S.cleanTopicName; // e.g., "vertical farm" or "" if generic
-    var projDisplay = projName ? projName.toLowerCase() + ' project' : 'technical engineering project';
-    var projCap = projName
-      ? projName.split(/\s+/).map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ')
-      : 'Tech Engineering';
-
-    var feedback = S.name + ', your ' + projDisplay + ' showcased exceptional ' +
-      (hasFocus ? 'technical focus and systems thinking' : 'engineering curiosity and drive') + '. ' +
-      (hasIdeas
-        ? 'The way you managed multiple components of the build while engineering your own creative features into the prototype was truly remarkable. '
-        : hasResilience
-        ? 'Your ability to troubleshoot challenges, debug issues, and iterate on your prototype design set a fantastic standard. '
-        : 'The methodical way you architected and refined each stage of your build stood out in class. ') +
-      'Your dedication and innovative mindset made this project shine!';
-
-    var techTitleAdj = hasIdeas ? 'Innovative' : hasResilience ? 'Resilient' : hasFocus ? 'Focused' : 'Creative';
-    var techTitleNoun = hasSpeak ? 'Tech Communicator' : hasIdeas ? 'Tech Visionary' : 'Systems Architect';
-    var profileTitle = (projName && countWords(projCap) <= 2)
-      ? techTitleAdj + ' ' + projCap + ' ' + (hasIdeas ? 'Visionary' : 'Innovator')
-      : techTitleAdj + ' ' + techTitleNoun;
-
-    var profileDesc = S.name + ' demonstrated remarkable ' +
-      (hasFocus ? 'focus and technical agility' : 'engineering creativity') +
-      ' on ' + pro.pos + ' ' + projDisplay + ', seamlessly coordinating complex build components while ' +
-      (hasIdeas ? 'contributing original ideas that elevated the final prototype.' : 'applying sharp problem-solving skills to every technical challenge.');
-
-    // Build a cohesive, non-repetitive 2-sentence Example narrative (never dumps raw "Also, he...")
-    var s1 = S.name + ' dove deep into ' + (projName ? pro.pos + ' ' + projName.toLowerCase() + ' build' : 'the prototyping process') +
-      ', maintaining sharp focus across multiple technical components' +
-      (hasResilience ? ' and independently debugging hardware and logic challenges along the way.' : ' and executing each engineering step with precision.');
-    var s2 = pro.Sub + ' didn\'t just follow the base blueprint—' + pro.sub +
-      (hasIdeas ? ' enriched the prototype with ' + pro.pos + ' own custom features' : ' refined the design through thoughtful iteration') +
-      (hasSpeak && hasTeam ? ', clearly pitched the technical architecture, and supported peers with their builds.' :
-       hasSpeak ? ' and confidently presented the technical architecture to the class.' :
-       hasTeam ? ' while actively helping classmates troubleshoot their own builds.' :
-       ', bringing fresh engineering perspectives to the classroom.');
-
-    var profileExample = s1 + ' ' + s2;
-
-    var award = projName
-      ? 'Outstanding Technical Innovation in ' + projCap
-      : (hasIdeas ? 'Creative Engineering & Prototype Innovation Award' : 'Excellence in Technical Systems & Prototyping');
-
-    return {
-      feedback: feedback,
-      profileTitle: profileTitle,
-      profileDesc: profileDesc,
-      profileExample: profileExample,
-      award: award
-    };
+  // 1. Science / Tech Skill Example
+  var exTech = '';
+  if (S.techSkill === 'Observation Skill') {
+    exTech = 'During the ' + actLabel + ', ' + S.name + ' closely observed subtle changes at every stage and connected ' + pro.pos + ' findings to the core scientific concepts.';
+  } else if (S.techSkill === 'Hands-on Skill') {
+    exTech = 'In the ' + actLabel + ', ' + S.name + ' demonstrated confident hands-on precision, assembling and testing each component with remarkable care.';
+  } else if (S.techSkill === 'Coding Skill') {
+    exTech = 'While developing the ' + actLabel + ', ' + S.name + ' structured clean coding logic and actively customized features to enhance how the prototype operated.';
+  } else {
+    exTech = 'Throughout the ' + actLabel + ', ' + S.name + ' integrated hardware and robotics mechanisms smoothly, troubleshooting connections until the build worked reliably.';
   }
 
-  // ── BRANCH B: LEVEL 1 - 3 (SCIENCE EXPERIMENTS) ──
-  var expName = S.cleanTopicName || 'science';
-  var expCap = expName.split(/\s+/).map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+  // 2. Presentation / Communication Skill Example (Adapts to Week 8-9 Pre-Showcase vs Final!)
+  var exPres = '';
+  var isPre = S.reportStage === 'progress';
+  if (S.presSkill === 'Articulation') {
+    exPres = isPre
+      ? 'During in-class check-ins, ' + S.name + ' articulated how ' + pro.pos + ' ' + actLabel + ' works using clear, well-organized scientific vocabulary.'
+      : S.name + ' articulated the key concepts behind ' + pro.pos + ' ' + actLabel + ' with impressive clarity and logical flow.';
+  } else if (S.presSkill === 'Body Language') {
+    exPres = isPre
+      ? 'When sharing progress with peers in class, ' + S.name + ' maintained natural eye contact, upright posture, and expressive gestures when demonstrating the build.'
+      : S.name + ' engaged the audience with confident posture, steady eye contact, and expressive gestures throughout the showcase.';
+  } else if (S.presSkill === 'Confidence') {
+    exPres = isPre
+      ? S.name + ' eagerly volunteered to share ideas during lesson discussions and is building strong, steady confidence ahead of our upcoming showcase.'
+      : S.name + ' spoke up with wonderful poise and enthusiasm when presenting ' + pro.pos + ' findings and answering questions.';
+  } else {
+    // Script Writing
+    exPres = isPre
+      ? 'While preparing for our upcoming showcase, ' + S.name + ' organized ' + pro.pos + ' script thoughtfully, structuring the introduction and scientific explanation clearly.'
+      : S.name + ' crafted a well-structured presentation script that highlighted the most important engineering and scientific takeaways.';
+  }
 
-  var sciFeedback = S.name + ', your work on the ' + expName + ' experiment showcased wonderful ' +
-    (hasFocus ? 'focus and scientific curiosity' : 'enthusiasm and hands-on energy') + '. ' +
-    (hasIdeas
-      ? 'The way you explored every step of the activity while weaving in your own creative ideas was truly impressive. '
-      : hasResilience
-      ? 'Your determination to test, adjust, and perfect your experiment results was fantastic to see. '
-      : 'Your careful observations and eagerness to understand how the science works stood out in class. ') +
-    'Keep up this brilliant scientific spirit!';
+  // 3. Class Behaviour Example
+  var exSoft = '';
+  if (S.softSkill === 'Teamwork') {
+    exSoft = S.name + ' was a supportive and generous teammate in class, always ready to share materials and help peers troubleshoot their steps.';
+  } else if (S.softSkill === 'Always Asks Questions') {
+    exSoft = S.name + ' showed infectious curiosity every week, proactively asking thoughtful "why" and "how" questions that deepened class discussions.';
+  } else if (S.softSkill === 'Completes Tasks Independently') {
+    exSoft = S.name + ' demonstrated wonderful self-motivation, following multi-step instructions attentively and completing complex tasks by ' + pro.refl + '.';
+  } else {
+    exSoft = S.name + ' maintained laser-sharp focus throughout each session and stayed positive and resilient whenever a build needed refining.';
+  }
 
-  var sciAdj = hasIdeas ? 'Creative' : hasFocus ? 'Focused' : 'Curious';
-  var sciNoun = hasSpeak ? 'Communicator' : 'Explorer';
-  var sciTitle = (countWords(expCap) <= 2)
-    ? sciAdj + ' ' + expCap + ' ' + sciNoun
-    : sciAdj + ' Science ' + sciNoun;
+  var feedback = S.name + ', your progress on the ' + actLabel + ' this term has been fantastic! ' +
+    'Your strong ' + S.techSkill.toLowerCase() + ' and positive classroom attitude (' + S.softSkill.toLowerCase() + ') really stood out, and we love seeing your growth in ' + S.presSkill.toLowerCase() + ' during class.';
 
-  var sciDesc = S.name + ' showed fantastic ' + (hasFocus ? 'focus and curiosity' : 'engagement') +
-    ' during the ' + expName + ' experiment, carefully handling each step while ' +
-    (hasIdeas ? 'contributing imaginative ideas that made the activity shine.' : 'making thoughtful scientific observations throughout the lesson.');
-
-  var sciEx1 = 'During the ' + expName + ' experiment, ' + S.name + ' maintained keen focus across every stage of the investigation' +
-    (hasResilience ? ' and persisted patiently whenever the setup needed adjusting.' : ' and asked insightful questions about the scientific reaction.');
-  var sciEx2 = pro.Sub +
-    (hasIdeas ? ' brought creative original ideas to the hands-on model' : ' observed the experimental results with great care') +
-    (hasSpeak && hasTeam ? ', explained the science clearly to the class, and kindly helped classmates with their steps.' :
-     hasSpeak ? ' and proudly explained the science behind the results to the class.' :
-     hasTeam ? ' and enthusiastically helped classmates complete their experiment steps.' :
-     ', making ' + pro.pos + ' work a true classroom highlight.');
-
-  var sciAward = 'Outstanding Curiosity and Excellence in ' + expCap;
-  if (countWords(sciAward) > 9) sciAward = 'Excellence in ' + expCap + ' Award';
+  var profileTitle = (countWords(actCap) <= 2 ? 'Innovative ' + actCap : 'Creative STEM') + ' ' + (S.isTech ? 'Visionary' : 'Explorer');
+  var award = 'Excellence in ' + actCap + ' & ' + S.techSkill;
+  if (countWords(award) > 8) award = 'Outstanding ' + S.techSkill + ' & Classroom Excellence';
 
   return {
-    feedback: sciFeedback,
-    profileTitle: sciTitle,
-    profileDesc: sciDesc,
-    profileExample: sciEx1 + ' ' + sciEx2,
-    award: sciAward
+    feedback: feedback,
+    profileTitle: profileTitle,
+    exTech: exTech,
+    exPres: exPres,
+    exSoft: exSoft,
+    award: award
   };
 }
 
@@ -2169,15 +2370,13 @@ async function generateAI() {
         rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
         aiData = JSON.parse(rawText);
       }
-    } catch (e) {
-      console.warn('Gemini API fallback:', e);
-    }
+    } catch (e) { console.warn('Gemini fallback:', e); }
   }
 
   if (!aiData) {
     try {
       var controller = new AbortController();
-      var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+      var timeoutId = setTimeout(function() { controller.abort(); }, 9500);
       var polyResp = await fetch('https://text.pollinations.ai/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2185,7 +2384,7 @@ async function generateAI() {
         body: JSON.stringify({
           model: 'openai',
           messages: [
-            { role: 'system', content: 'You are a warm STEM & Tech educator at Big Bang Academy. Respond ONLY with valid JSON.' },
+            { role: 'system', content: 'You are a warm STEM educator at Big Bang Academy. Respond ONLY with valid JSON.' },
             { role: 'user', content: prompt }
           ],
           temperature: 0.7,
@@ -2199,13 +2398,18 @@ async function generateAI() {
         content = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
         aiData = JSON.parse(content);
       }
-    } catch (e) {
-      console.warn('Cloud AI fallback to local narrative synthesizer:', e);
-    }
+    } catch (e) { console.warn('Cloud AI fallback to local 3-skill synthesizer:', e); }
   }
 
+  var fallback = generateSmartLocalNarrative();
   if (!aiData || !aiData.feedback) {
-    aiData = generateSmartLocalNarrative();
+    aiData = fallback;
+  } else {
+    aiData.exTech = aiData.exTech || fallback.exTech;
+    aiData.exPres = aiData.exPres || fallback.exPres;
+    aiData.exSoft = aiData.exSoft || fallback.exSoft;
+    aiData.profileTitle = aiData.profileTitle || fallback.profileTitle;
+    aiData.award = aiData.award || fallback.award;
   }
 
   loading.classList.remove('active');
@@ -2217,9 +2421,9 @@ async function generateAI() {
 function fillAIFields(data) {
   document.getElementById('aiFeedback').value = data.feedback || '';
   document.getElementById('aiProfileTitle').value = data.profileTitle || '';
-  document.getElementById('aiProfileDesc').value = data.profileDesc || '';
-  var ex = (data.profileExample || '').replace(/^Example:\s*/i, '');
-  document.getElementById('aiProfileExample').value = ex;
+  document.getElementById('aiExTech').value = data.exTech || '';
+  document.getElementById('aiExPres').value = data.exPres || '';
+  document.getElementById('aiExSoft').value = data.exSoft || '';
   document.getElementById('aiAward').value = (data.award || '').trim() || 'Outstanding STEM Innovation Award';
   trimAndRefreshAll();
 }
@@ -2263,11 +2467,18 @@ function buildPreview() {
   assembleData();
   S.feedback = document.getElementById('aiFeedback').value.trim();
   S.profileTitle = document.getElementById('aiProfileTitle').value.trim();
-  S.profileDesc = document.getElementById('aiProfileDesc').value.trim();
-  S.profileExample = document.getElementById('aiProfileExample').value.trim().replace(/^Example:\s*/i, '');
+  S.exTech = document.getElementById('aiExTech').value.trim();
+  S.exPres = document.getElementById('aiExPres').value.trim();
+  S.exSoft = document.getElementById('aiExSoft').value.trim();
   S.award = document.getElementById('aiAward').value.trim();
 
-  var examplePrefix = S.highlightTopic ? 'Example (' + esc(S.highlightTopic) + '):' : 'Example:';
+  var badgeText = S.highlightTopic
+    ? '\u2B50 ' + esc(S.highlightTopic)
+    : (S.cleanTopicName ? '\u2B50 Project: ' + esc(S.cleanTopicName) : '');
+
+  var presHeadingLabel = S.reportStage === 'progress'
+    ? 'In-Class Communication (' + esc(S.presSkill) + ')'
+    : 'Presentation Skill (' + esc(S.presSkill) + ')';
 
   // ── PAGE 1 ──
   var p1 = '';
@@ -2292,9 +2503,10 @@ function buildPreview() {
   p1 += '</div>';
   p1 += '<div class="rc-ranking-bar">';
   p1 += '  <div class="rc-rank-item"><div class="lbl">Overall Ranking</div><div class="val">' + esc(S.ranking) + '</div></div>';
+  p1 += '  <div style="text-align:right;font-size:11px;color:#666;font-weight:700">' + (S.reportStage === 'progress' ? 'Progress &amp; Consultation Report' : 'Term Assessment Report') + '</div>';
   p1 += '</div>';
   p1 += '<div class="rc-section-title">Term Grades</div>';
-  p1 += '<table class="rc-grades-tbl"><thead><tr><th>Scientific Thinking</th><th>Hands-on</th><th>Presentation</th><th>Overall</th></tr></thead>';
+  p1 += '<table class="rc-grades-tbl"><thead><tr><th>Scientific Thinking</th><th>Hands-on</th><th>' + (S.reportStage === 'progress' ? 'Communication' : 'Presentation') + '</th><th>Overall</th></tr></thead>';
   p1 += '<tbody><tr>';
   p1 += '<td class="' + gradeClass(S.gSci) + '">' + esc(S.gSci) + '</td>';
   p1 += '<td class="' + gradeClass(S.gHand) + '">' + esc(S.gHand) + '</td>';
@@ -2303,12 +2515,17 @@ function buildPreview() {
   p1 += '</tr></tbody></table>';
   p1 += '<div class="rc-feedback"><div class="rc-section-title">Overall Teacher\'s Feedback</div>';
   p1 += '<div class="rc-feedback-box"><p>' + esc(S.feedback) + '</p></div></div>';
+
   p1 += '<div class="rc-profile">';
-  p1 += '  <div class="rc-profile-top"><h4>Student Profile</h4>' + (S.highlightTopic ? '<span class="rc-topic-pill">\u2B50 Highlight: ' + esc(S.highlightTopic) + '</span>' : '') + '</div>';
+  p1 += '  <div class="rc-profile-top"><h4>Student Profile &amp; Core Skill Highlights</h4>' + (badgeText ? '<span class="rc-topic-pill">' + badgeText + '</span>' : '') + '</div>';
   p1 += '  <div class="prof-title">' + esc(S.profileTitle) + '</div>';
-  p1 += '  <div class="prof-desc">' + esc(S.profileDesc) + '</div>';
-  p1 += '  <div class="prof-example"><strong>' + examplePrefix + '</strong> ' + esc(S.profileExample) + '</div>';
+  p1 += '  <div class="rc-skill-cards">';
+  p1 += '    <div class="rc-skill-card"><strong>1. ' + (S.isTech ? 'Tech Skill' : 'Science Skill') + ' (' + esc(S.techSkill) + '):</strong> ' + esc(S.exTech) + '</div>';
+  p1 += '    <div class="rc-skill-card"><strong>2. ' + presHeadingLabel + ':</strong> ' + esc(S.exPres) + '</div>';
+  p1 += '    <div class="rc-skill-card"><strong>3. Class Behaviour (' + esc(S.softSkill) + '):</strong> ' + esc(S.exSoft) + '</div>';
+  p1 += '  </div>';
   p1 += '</div>';
+
   p1 += '<div class="rc-award-row"><div class="rc-award-left">';
   p1 += '<div class="rc-award-trophy">\uD83C\uDFC6</div>';
   p1 += '<div class="rc-award-text"><h4>Award of the Year</h4>';
@@ -2344,16 +2561,16 @@ function buildPreview() {
     { name: 'Hands-on', desc: 'Stays focused & builds confidently', grade: S.handsOn },
     { name: 'Resilience', desc: 'Keeps trying and improves after mistakes', grade: S.resilience }
   ], S.ovHand);
-  p2 += attrTbl('Presentation', [
-    { name: 'Articulation', desc: 'Speaks clearly and organized', grade: S.articulation },
+  p2 += attrTbl(S.reportStage === 'progress' ? 'In-Class Communication & Showcase Prep' : 'Presentation', [
+    { name: 'Articulation', desc: 'Speaks clearly and organizes ideas well', grade: S.articulation },
     { name: 'Body Language', desc: 'Good eye contact, posture & gesture', grade: S.bodyLanguage },
-    { name: 'Confidence', desc: 'Willing to speak up and present', grade: S.confidence }
+    { name: 'Confidence', desc: 'Willing to speak up and share in class', grade: S.confidence }
   ], S.ovPres);
   p2 += '<div class="rc-year-section"><div class="rc-section-title">Full Year Assessment</div>';
   p2 += '<div class="rc-year-summary">';
   p2 += '<div class="rc-year-item"><div class="lbl">Scientific Thinking</div><div class="val ' + gradeClass(S.ovSci) + '">' + esc(S.ovSci) + '</div></div>';
   p2 += '<div class="rc-year-item"><div class="lbl">Hands-on Engineering</div><div class="val ' + gradeClass(S.ovHand) + '">' + esc(S.ovHand) + '</div></div>';
-  p2 += '<div class="rc-year-item"><div class="lbl">Presentation</div><div class="val ' + gradeClass(S.ovPres) + '">' + esc(S.ovPres) + '</div></div>';
+  p2 += '<div class="rc-year-item"><div class="lbl">' + (S.reportStage === 'progress' ? 'Communication' : 'Presentation') + '</div><div class="val ' + gradeClass(S.ovPres) + '">' + esc(S.ovPres) + '</div></div>';
   p2 += '</div></div>';
   document.getElementById('rcPage2').innerHTML = p2;
 
@@ -2361,7 +2578,7 @@ function buildPreview() {
 }
 
 // ══════════════════════════════════════════
-//  PDF GENERATION (jsPDF — Fixed Alignment)
+//  PDF GENERATION (jsPDF — Exact 2-Page A4 Layout)
 // ══════════════════════════════════════════
 var jsPDFReady = false, jsPDFClass = null, imgCache = {};
 
@@ -2432,8 +2649,9 @@ function buildPdf() {
   assembleData();
   S.feedback = document.getElementById('aiFeedback').value.trim();
   S.profileTitle = document.getElementById('aiProfileTitle').value.trim();
-  S.profileDesc = document.getElementById('aiProfileDesc').value.trim();
-  S.profileExample = document.getElementById('aiProfileExample').value.trim().replace(/^Example:\s*/i, '');
+  S.exTech = document.getElementById('aiExTech').value.trim();
+  S.exPres = document.getElementById('aiExPres').value.trim();
+  S.exSoft = document.getElementById('aiExSoft').value.trim();
   S.award = document.getElementById('aiAward').value.trim();
 
   var btnBuild = document.getElementById('btnBuild');
@@ -2507,108 +2725,130 @@ function buildPdf() {
         }
 
         // ═══════════ PAGE 1 ═══════════
-        y = 12;
+        y = 11;
         drawHeader(S.termShort + ' Report Card', S.term);
-        y = 29;
+        y = 27;
 
-        setF(orange); doc.roundedRect(LM, y, cw, 28, 2, 2, 'F');
-        doc.setFontSize(16); doc.setFont('helvetica','bold'); setC(white);
-        doc.text(S.name, LM + 5, y + 9, {maxWidth: cw - 10});
+        // Student Info Box
+        setF(orange); doc.roundedRect(LM, y, cw, 26, 2, 2, 'F');
+        doc.setFontSize(15.5); doc.setFont('helvetica','bold'); setC(white);
+        doc.text(S.name, LM + 5, y + 8.5, {maxWidth: cw - 10});
         var col = cw / 4;
-        doc.setFontSize(10); doc.setFont('helvetica','normal');
-        setC([255,220,200]);
-        doc.text('Level', LM+5, y+16); doc.setFont('helvetica','bold'); setC(white); doc.text(S.level, LM+5, y+22, {maxWidth: col - 6});
+        doc.setFontSize(9.5); doc.setFont('helvetica','normal'); setC([255,220,200]);
+        doc.text('Level', LM+5, y+15); doc.setFont('helvetica','bold'); setC(white); doc.text(S.level, LM+5, y+20.5, {maxWidth: col - 6});
         doc.setFont('helvetica','normal'); setC([255,220,200]);
-        doc.text('Centre', LM+5+col, y+16); doc.setFont('helvetica','bold'); setC(white); doc.text(S.centreName, LM+5+col, y+22, {maxWidth: col - 6});
+        doc.text('Centre', LM+5+col, y+15); doc.setFont('helvetica','bold'); setC(white); doc.text(S.centreName, LM+5+col, y+20.5, {maxWidth: col - 6});
         doc.setFont('helvetica','normal'); setC([255,220,200]);
-        doc.text('School Year', LM+5+col*2, y+16); doc.setFont('helvetica','bold'); setC(white); doc.text(S.year, LM+5+col*2, y+22, {maxWidth: col - 6});
+        doc.text('School Year', LM+5+col*2, y+15); doc.setFont('helvetica','bold'); setC(white); doc.text(S.year, LM+5+col*2, y+20.5, {maxWidth: col - 6});
         doc.setFont('helvetica','normal'); setC([255,220,200]);
-        doc.text('Teacher', LM+5+col*3, y+16); doc.setFont('helvetica','bold'); setC(white); doc.text(S.teacher, LM+5+col*3, y+22, {maxWidth: col - 6});
-        y += 34;
+        doc.text('Teacher', LM+5+col*3, y+15); doc.setFont('helvetica','bold'); setC(white); doc.text(S.teacher, LM+5+col*3, y+20.5, {maxWidth: col - 6});
+        y += 31;
 
-        setF(grayBg); doc.roundedRect(LM, y, cw, 18, 2, 2, 'F');
-        doc.setFontSize(11.5); doc.setFont('helvetica','normal'); setC(greyTxt);
-        doc.text('Overall Ranking', LM+8, y+7);
-        doc.setFontSize(14); doc.setFont('helvetica','bold'); setC(orange);
-        doc.text(S.ranking, LM+8, y+14);
-        y += 25;
+        // Ranking Bar
+        setF(grayBg); doc.roundedRect(LM, y, cw, 16, 2, 2, 'F');
+        doc.setFontSize(10.5); doc.setFont('helvetica','normal'); setC(greyTxt);
+        doc.text('Overall Ranking', LM+6, y+6);
+        doc.setFontSize(13.5); doc.setFont('helvetica','bold'); setC(orange);
+        doc.text(S.ranking, LM+6, y+12.5);
+        doc.setFontSize(9.5); doc.setFont('helvetica','bold'); setC(greyTxt);
+        doc.text(S.reportStage === 'progress' ? 'Progress & Consultation Report' : 'Term Assessment Report', W - RM - 6, y + 9.5, { align: 'right' });
+        y += 21;
 
-        doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
-        doc.text('Term Grades', LM, y); y += 5;
-        var tcols = ['Scientific Thinking','Hands-on','Presentation','Overall'];
+        // Term Grades
+        doc.setFontSize(12); doc.setFont('helvetica','bold'); setC(black);
+        doc.text('Term Grades', LM, y); y += 4.5;
+        var tcols = ['Scientific Thinking','Hands-on', S.reportStage === 'progress' ? 'Communication' : 'Presentation','Overall'];
         var vals = [S.gSci, S.gHand, S.gPres, S.gAll];
         var colW = cw / 4;
-        setF(orange); doc.rect(LM, y, cw, 9, 'F');
-        doc.setFontSize(10); doc.setFont('helvetica','bold'); setC(white);
-        tcols.forEach(function(c,i) { doc.text(c, LM+colW*i+colW/2, y+6, {align:'center',maxWidth:colW-4}); });
-        y += 9;
-        setD(grayBorder); doc.setLineWidth(0.3); doc.rect(LM, y, cw, 12);
-        doc.setFontSize(13); doc.setFont('helvetica','bold');
+        setF(orange); doc.rect(LM, y, cw, 8.5, 'F');
+        doc.setFontSize(9.5); doc.setFont('helvetica','bold'); setC(white);
+        tcols.forEach(function(c,i) { doc.text(c, LM+colW*i+colW/2, y+5.8, {align:'center',maxWidth:colW-4}); });
+        y += 8.5;
+        setD(grayBorder); doc.setLineWidth(0.3); doc.rect(LM, y, cw, 11);
+        doc.setFontSize(12.5); doc.setFont('helvetica','bold');
         vals.forEach(function(v,i) {
           setC(gc(v));
-          doc.text(v, LM+colW*i+colW/2, y+8, {align:'center'});
-          if (i > 0) { setD(grayBorder); doc.line(LM+colW*i, y, LM+colW*i, y+12); }
+          doc.text(v, LM+colW*i+colW/2, y+7.5, {align:'center'});
+          if (i > 0) { setD(grayBorder); doc.line(LM+colW*i, y, LM+colW*i, y+11); }
         });
-        y += 18;
+        y += 16.5;
 
-        doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
-        doc.text("Overall Teacher's Feedback", LM, y); y += 5;
-        doc.setFontSize(10.5); doc.setFont('helvetica','normal'); setC(black);
+        // Overall Teacher's Feedback
+        doc.setFontSize(12); doc.setFont('helvetica','bold'); setC(black);
+        doc.text("Overall Teacher's Feedback", LM, y); y += 4.5;
+        doc.setFontSize(10); doc.setFont('helvetica','normal'); setC(black);
         var fbLines = wrapText(S.feedback, cw - 14);
-        var fbLH = 5;
-        var fbH = fbLines.length * fbLH + 8;
+        var fbLH = 4.6;
+        var fbH = fbLines.length * fbLH + 7;
         setF(grayBg); doc.roundedRect(LM, y, cw, fbH, 1.5, 1.5, 'F');
         setF(orange); doc.rect(LM, y, 1.5, fbH, 'F');
-        var fbY = y + 6;
+        var fbY = y + 5.2;
         setC(black);
         fbLines.forEach(function(line) { doc.text(line, LM+6, fbY); fbY += fbLH; });
-        y += fbH + 7;
+        y += fbH + 5.5;
 
-        var pLH = 5, eLH = 4.8;
-        doc.setFontSize(10.5); doc.setFont('helvetica','normal');
-        var profLines = wrapText(S.profileDesc, cw - 14);
-        doc.setFont('helvetica','italic');
-        var exPrefixStr = S.highlightTopic ? 'Example (' + S.highlightTopic + '): ' : 'Example: ';
-        var exLines = wrapText(exPrefixStr + S.profileExample, cw - 16);
-        doc.setFontSize(13); doc.setFont('helvetica','bold');
-        var titleLines = wrapText(S.profileTitle, cw - 14);
-        var titleLH = 6;
-        var titleH = titleLines.length * titleLH;
-        var profBoxH = 10 + titleH + 4 + profLines.length * pLH + 5 + exLines.length * eLH + 8;
+        // Student Profile + 3 Skill Examples Box
+        var cardLH = 4.4;
+        doc.setFontSize(9.6); doc.setFont('helvetica','normal');
+        var presLabel = S.reportStage === 'progress'
+          ? '2. In-Class Communication (' + S.presSkill + '): '
+          : '2. Presentation Skill (' + S.presSkill + '): ';
+        var s1Lines = wrapText('1. ' + (S.isTech ? 'Tech Skill' : 'Science Skill') + ' (' + S.techSkill + '): ' + S.exTech, cw - 16);
+        var s2Lines = wrapText(presLabel + S.exPres, cw - 16);
+        var s3Lines = wrapText('3. Class Behaviour (' + S.softSkill + '): ' + S.exSoft, cw - 16);
+
+        var box1H = s1Lines.length * cardLH + 4.5;
+        var box2H = s2Lines.length * cardLH + 4.5;
+        var box3H = s3Lines.length * cardLH + 4.5;
+        var profBoxH = 16 + box1H + box2H + box3H + 9;
+
         setF(orange); doc.roundedRect(LM, y, cw, profBoxH, 2, 2, 'F');
-        doc.setFontSize(11); doc.setFont('helvetica','bold'); setC(white);
-        doc.text('Student Profile', LM+5, y+6);
-        if (S.highlightTopic) {
-          doc.setFontSize(9.5); doc.setFont('helvetica','bold'); doc.setTextColor(255,235,120);
-          doc.text('Highlight: ' + S.highlightTopic, W - RM - 5, y + 6, { align: 'right' });
-        }
-        doc.setFontSize(13); doc.setFont('helvetica','bold');
-        doc.setTextColor(255,215,0);
-        var tpy = y + 12.5;
-        titleLines.forEach(function(l) { doc.text(l, LM+5, tpy); tpy += titleLH; });
-        doc.setFontSize(10.5); doc.setFont('helvetica','normal'); setC(white);
-        var py = tpy + 1.5;
-        profLines.forEach(function(l) { doc.text(l, LM+5, py); py += pLH; });
-        py += 2;
-        doc.setFillColor(255,150,90);
-        doc.roundedRect(LM+3, py-2, cw-6, exLines.length*eLH+6, 1.5, 1.5, 'F');
-        doc.setFontSize(10.5); doc.setFont('helvetica','italic'); setC([255,245,230]);
-        exLines.forEach(function(l) { doc.text(l, LM+6, py+3); py += eLH; });
-        y += profBoxH + 7;
+        doc.setFontSize(10); doc.setFont('helvetica','bold'); setC(white);
+        doc.text('STUDENT PROFILE & CORE SKILL HIGHLIGHTS', LM+5, y+6);
 
+        var topRightBadge = S.highlightTopic ? 'Highlight: ' + S.highlightTopic : (S.cleanTopicName ? 'Project: ' + S.cleanTopicName : '');
+        if (topRightBadge) {
+          doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(255,235,120);
+          doc.text(topRightBadge, W - RM - 5, y + 6, { align: 'right' });
+        }
+
+        doc.setFontSize(12.5); doc.setFont('helvetica','bold'); doc.setTextColor(255,215,0);
+        doc.text(S.profileTitle, LM+5, y+12.5);
+
+        var curY = y + 16;
+        function drawSkillSubCard(lines, boxH) {
+          doc.setFillColor(255,145,85);
+          doc.roundedRect(LM+3.5, curY, cw-7, boxH, 1.5, 1.5, 'F');
+          doc.setFontSize(9.6); doc.setFont('helvetica','normal'); setC([255,250,240]);
+          var ty = curY + 4;
+          lines.forEach(function(l, idx) {
+            if (idx === 0) doc.setFont('helvetica','bold');
+            else doc.setFont('helvetica','normal');
+            doc.text(l, LM+6.5, ty);
+            ty += cardLH;
+          });
+          curY += boxH + 2.2;
+        }
+        drawSkillSubCard(s1Lines, box1H);
+        drawSkillSubCard(s2Lines, box2H);
+        drawSkillSubCard(s3Lines, box3H);
+
+        y += profBoxH + 5;
+
+        // Award + Teacher
         setD([238,238,238]); doc.setLineWidth(0.3); doc.line(LM, y, W-RM, y);
-        y += 5;
-        if (imgs.trophy) doc.addImage(imgs.trophy, 'PNG', LM+2, y-1, 12, 12);
-        var awardX = LM + 16;
-        doc.setFontSize(12); doc.setFont('helvetica','bolditalic'); setC(orange);
+        y += 4;
+        if (imgs.trophy) doc.addImage(imgs.trophy, 'PNG', LM+2, y-1, 11, 11);
+        var awardX = LM + 15;
+        doc.setFontSize(11.5); doc.setFont('helvetica','bolditalic'); setC(orange);
         doc.text('Award of the Year', awardX, y+3);
-        doc.setFontSize(10.5); doc.setFont('helvetica','bold'); setC(black);
+        doc.setFontSize(10); doc.setFont('helvetica','bold'); setC(black);
         var awardLines = wrapText(S.award, cw * 0.58);
-        var awardLH = 4.8;
-        awardLines.forEach(function(line,i) { doc.text(line, awardX, y+8.5+i*awardLH); });
-        var awardBottom = y + 8.5 + (awardLines.length - 1) * awardLH;
+        var awardLH = 4.5;
+        awardLines.forEach(function(line,i) { doc.text(line, awardX, y+8+i*awardLH); });
+        var awardBottom = y + 8 + (awardLines.length - 1) * awardLH;
         var teacherY = Math.max(y + 6, awardBottom);
-        doc.setFontSize(11); doc.setFont('helvetica','bold'); setC(black);
+        doc.setFontSize(10.5); doc.setFont('helvetica','bold'); setC(black);
         doc.text('Teacher ' + S.teacher, W-RM, teacherY, {align:'right'});
 
         // ═══════════ PAGE 2 ═══════════
@@ -2663,17 +2903,17 @@ function buildPdf() {
           {name:'Hands-on',desc:'Stays focused & builds confidently',grade:S.handsOn},
           {name:'Resilience',desc:'Keeps trying and improves after mistakes',grade:S.resilience}
         ], S.ovHand);
-        drawAttrTable('Presentation', [
-          {name:'Articulation',desc:'Speaks clearly and organized',grade:S.articulation},
+        drawAttrTable(S.reportStage === 'progress' ? 'In-Class Communication & Showcase Prep' : 'Presentation', [
+          {name:'Articulation',desc:'Speaks clearly and organizes ideas well',grade:S.articulation},
           {name:'Body Language',desc:'Good eye contact, posture & gesture',grade:S.bodyLanguage},
-          {name:'Confidence',desc:'Willing to speak up and present',grade:S.confidence}
+          {name:'Confidence',desc:'Willing to speak up and share in class',grade:S.confidence}
         ], S.ovPres);
 
         doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
         doc.text('Full Year Assessment', LM, y); y += 5;
         setF(grayBg); doc.roundedRect(LM, y, cw, 20, 2, 2, 'F');
         var yw = cw / 3;
-        var cats = ['Scientific Thinking','Hands-on Engineering','Presentation'];
+        var cats = ['Scientific Thinking','Hands-on Engineering', S.reportStage === 'progress' ? 'Communication' : 'Presentation'];
         var catVals = [S.ovSci, S.ovHand, S.ovPres];
         cats.forEach(function(cat,i) {
           doc.setFontSize(10); doc.setFont('helvetica','normal'); setC(greyTxt);
@@ -2777,22 +3017,9 @@ function parseExtractedPdfText(p1, p2, filename) {
   var tMatch = p1.match(/Teacher\s+([A-Za-z\s]+?)$/);
   if (tMatch) d.teacher = tMatch[1].trim();
 
-  var fbMatch = p1.match(/Overall Teacher's Feedback\s+(.+?)\s+Student Profile/i);
+  var fbMatch = p1.match(/Overall Teacher's Feedback\s+(.+?)\s+STUDENT PROFILE/i);
   if (fbMatch) d.feedback = fbMatch[1].trim();
 
-  var profMatch = p1.match(/Student Profile\s+(.+?)\s+Example(?:\s*\([^)]+\))?:\s*(.+?)\s+Award of the Year/i);
-  if (profMatch) {
-    var mid = profMatch[1].replace(/Highlight:\s*Topic\s*\d+\s*-\s*[^\s]+/i, '').trim();
-    d.profileExample = profMatch[2].trim();
-    if (d.name && mid.indexOf(d.name) > 0) {
-      d.profileTitle = mid.substring(0, mid.indexOf(d.name)).trim();
-      d.profileDesc = mid.substring(mid.indexOf(d.name)).trim();
-    } else {
-      var words = mid.split(/\s+/);
-      d.profileTitle = words.slice(0, 3).join(' ');
-      d.profileDesc = words.slice(3).join(' ');
-    }
-  }
   var awMatch = p1.match(/Award of the Year\s+(.+?)\s+Teacher\s+/i);
   if (awMatch) d.award = awMatch[1].trim();
 
@@ -2807,9 +3034,9 @@ function parseExtractedPdfText(p1, p2, filename) {
   d.creativity = findAttrGrade('designs and ideas');
   d.handsOn = findAttrGrade('builds confidently');
   d.resilience = findAttrGrade('after mistakes');
-  d.articulation = findAttrGrade('clearly and organized');
+  d.articulation = findAttrGrade('organizes ideas');
   d.bodyLanguage = findAttrGrade('posture & gesture');
-  d.confidence = findAttrGrade('speak up and present');
+  d.confidence = findAttrGrade('share in class');
 
   return d;
 }
@@ -2828,20 +3055,9 @@ function populateFromPdf(data) {
   });
   updateCalcSummary();
 
-  document.getElementById('fTeacherComments').value = (data.feedback || '') + (data.profileExample ? ' ' + data.profileExample : '');
+  document.getElementById('fTeacherComments').value = data.feedback || 'He showed great focus and curiosity throughout the lessons and explained his ideas clearly to the class.';
   checkTeacherMinWords();
-  document.getElementById('aiFeedback').value = data.feedback || '';
-  document.getElementById('aiProfileTitle').value = data.profileTitle || '';
-  document.getElementById('aiProfileDesc').value = data.profileDesc || '';
-  document.getElementById('aiProfileExample').value = data.profileExample || '';
-  document.getElementById('aiAward').value = data.award || '';
-
-  trimAndRefreshAll();
-  goStep(3, true);
-  document.getElementById('aiGenArea').style.display = 'none';
-  document.getElementById('aiResults').classList.add('active');
-  document.getElementById('uploadNotice').classList.add('active');
-  validateAndBuild();
+  generateAI();
 }
 
 function showUploadErr(msg) {
