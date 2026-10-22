@@ -233,7 +233,7 @@
   }
   .field.error .err-text { display: block; }
 
-  /* Pronoun Pills (He/Him & She/Her only) */
+  /* Pronoun Pills (Boy / Girl) */
   .pronoun-group {
     display: flex;
     gap: 10px;
@@ -336,7 +336,7 @@
     margin-top: 8px;
   }
   .obs-chip {
-    padding: 5px 10px;
+    padding: 6px 11px;
     border-radius: 16px;
     border: 1px solid var(--border);
     background: var(--gray-bg);
@@ -962,11 +962,11 @@
           <label>Level</label>
           <select id="fLevel" onchange="onLevelOrTermChange()">
             <option value="">Select...</option>
-            <option value="Level 1">Level 1</option>
-            <option value="Level 2">Level 2</option>
-            <option value="Level 3">Level 3</option>
-            <option value="Level 4">Level 4</option>
-            <option value="Level 5">Level 5</option>
+            <option value="Level 1">Level 1 (Science)</option>
+            <option value="Level 2">Level 2 (Science)</option>
+            <option value="Level 3">Level 3 (Science)</option>
+            <option value="Level 4">Level 4 (Tech &amp; Engineering)</option>
+            <option value="Level 5">Level 5 (Tech &amp; Engineering)</option>
           </select>
           <div class="err-text">Required</div>
         </div>
@@ -1021,7 +1021,7 @@
     </div>
   </div>
 
-  <!-- ═══════════════════ STEP 2: GRADES & HIGHLIGHT PROJECT ═══════════════════ -->
+  <!-- ═══════════════════ STEP 2: GRADES & HIGHLIGHT ═══════════════════ -->
   <div class="wiz-page" id="page2">
 
     <div class="quick-preset-bar">
@@ -1126,16 +1126,16 @@
       </div>
     </div>
 
-    <!-- ═══════════════════ DYNAMIC PROJECT HIGHLIGHT CARD ═══════════════════ -->
+    <!-- ═══════════════════ DYNAMIC PROJECT / EXPERIMENT HIGHLIGHT CARD ═══════════════════ -->
     <div class="sec-card" id="projectHighlightCard">
       <div class="sec-title">
         <div class="sec-title-left">
-          <i class="fas fa-star"></i>
-          <span id="projectCardTitle">Standout Experiment Highlight</span>
+          <i class="fas fa-microchip" id="projectCardIcon"></i>
+          <span id="projectCardTitle">Standout Highlight</span>
         </div>
       </div>
 
-      <!-- Dropdown shown ONLY for Level 1, Level 2, Level 3 -->
+      <!-- LEVEL 1-3 ONLY: Science Experiment Dropdown -->
       <div class="field" id="topicDropdownWrap">
         <label id="topicDropdownLabel">Select 1 Experiment Where This Student Really Shined</label>
         <select id="fHighlightTopic">
@@ -1144,10 +1144,16 @@
         <div class="err-text">Please select the experiment where this student excelled</div>
       </div>
 
+      <!-- LEVEL 4-5 ONLY: Tech Project Name Input (Optional — auto-detected from description if left blank) -->
+      <div class="field" id="techProjectInputWrap" style="display:none">
+        <label>Tech Project / Prototype Name <span style="font-weight:600;text-transform:none;opacity:0.75">(e.g. Vertical Farm, Smart Home System, AI Eco Bot)</span></label>
+        <input type="text" id="fTechProjectName" placeholder="e.g. Vertical Farm / Automated Prototype / Smart Sensor Build">
+      </div>
+
       <!-- Teacher explanation box (Enforces 15-word minimum) -->
       <div class="field" id="teacherCommentsWrap">
-        <label id="teacherCommentsLabel">Why was this experiment a highlight for the student? (Min. 15 words)</label>
-        <textarea id="fTeacherComments" rows="4" oninput="checkTeacherMinWords()" placeholder="Describe what the student did during this experiment and why they stood out (at least 15 words). E.g., During this experiment, he was super focused when mixing the ingredients, asked great questions about why the reaction happened, and proudly explained his results to the class."></textarea>
+        <label id="teacherCommentsLabel">Why was this a highlight for the student? (Min. 15 words)</label>
+        <textarea id="fTeacherComments" rows="4" oninput="checkTeacherMinWords()" placeholder="Describe what the student built or did and why they stood out (at least 15 words)."></textarea>
         <div class="min-word-bar" id="minWordBar">
           <span id="minWordStatus"><i class="fas fa-circle-exclamation"></i> Too short — please write at least 15 words</span>
           <span id="minWordCount">0 / 15+ words</span>
@@ -1155,18 +1161,12 @@
         <div class="err-text">Sentence is too short! Please write at least 15 words so parents get meaningful, personalized feedback.</div>
       </div>
 
+      <!-- Dynamic Quick Chips (Switches between Science Chips for L1-3 and Tech Chips for L4-5) -->
       <div>
-        <span style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase">
+        <span style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase" id="chipHeaderLabel">
           <i class="fas fa-magic"></i> Tap to add observation details:
         </span>
-        <div class="chip-wrap">
-          <span class="obs-chip" onclick="appendChip('showed incredible focus during every step of the experiment')">+ Incredible focus</span>
-          <span class="obs-chip" onclick="appendChip('added creative original ideas onto the model')">+ Added own ideas</span>
-          <span class="obs-chip" onclick="appendChip('kept trying and fixed the build when it did not work the first time')">+ Fixed tough challenge</span>
-          <span class="obs-chip" onclick="appendChip('explained the science behind the experiment clearly to the class')">+ Explained science clearly</span>
-          <span class="obs-chip" onclick="appendChip('asked curious questions about why the reaction happened')">+ Asked curious questions</span>
-          <span class="obs-chip" onclick="appendChip('helped classmates complete their experiment steps')">+ Helped classmates</span>
-        </div>
+        <div class="chip-wrap" id="dynamicChipContainer"></div>
       </div>
     </div>
 
@@ -1193,7 +1193,7 @@
 
     <div class="sec-card ai-gen-area" id="aiGenArea">
       <i class="fas fa-wand-magic-sparkles" style="font-size:36px;color:var(--orange);margin-bottom:8px"></i>
-      <p>We'll turn your experiment highlight and grades into a personalized <b>Teacher's Feedback</b>, <b>Student Profile</b>, <b>Example</b>, and <b>Award</b>.</p>
+      <p>We'll turn your observation and grades into a personalized <b>Teacher's Feedback</b>, <b>Student Profile</b>, <b>Example</b>, and <b>Award</b>.</p>
       <button class="nav-btn primary" onclick="generateAI()" id="btnGenerate" style="max-width:340px;margin:0 auto">
         <i class="fas fa-pen-fancy"></i> Generate Report Card &amp; PDF
       </button>
@@ -1246,7 +1246,7 @@
           <div class="sec-title-left"><i class="fas fa-trophy"></i> Award of the Year</div>
         </div>
         <div class="field">
-          <input type="text" id="aiAward" placeholder="Auto-generated based on standout experiment">
+          <input type="text" id="aiAward" placeholder="Auto-generated based on standout highlight">
         </div>
       </div>
 
@@ -1321,7 +1321,7 @@
 
 <script>
 // ══════════════════════════════════════════
-//  CURRICULUM TOPICS FOR LEVELS 1 - 3
+//  CURRICULUM TOPICS (LEVELS 1-3 SCIENCE)
 // ══════════════════════════════════════════
 var LEVEL_TOPICS = {
   'Level 1': [
@@ -1368,7 +1368,28 @@ var LEVEL_TOPICS = {
   ]
 };
 
+// Science-focused chips for Level 1 - 3
+var SCIENCE_CHIPS = [
+  { label: '+ Laser focus in experiment', text: 'showed incredible focus during every step of the experiment' },
+  { label: '+ Curious about reaction', text: 'asked thoughtful questions about why the scientific reaction happened' },
+  { label: '+ Careful observation', text: 'observed the changes closely and recorded accurate results' },
+  { label: '+ Added creative ideas', text: 'brought creative ideas to the hands-on model' },
+  { label: '+ Explained science clearly', text: 'explained the scientific concepts behind the results clearly to the class' },
+  { label: '+ Helped classmates', text: 'eagerly helped classmates complete their experiment steps' }
+];
+
+// Tech & Engineering-focused chips for Level 4 - 5
+var TECH_CHIPS = [
+  { label: '+ Engineered custom features', text: 'engineered creative custom features and original ideas into the prototype' },
+  { label: '+ Debugged hardware & logic', text: 'troubleshot and debugged technical build challenges independently' },
+  { label: '+ Strong systems thinking', text: 'demonstrated strong systems thinking while managing multiple project components' },
+  { label: '+ Iterated & refined prototype', text: 'tested, iterated, and refined the engineering design to improve performance' },
+  { label: '+ Pitched tech concept clearly', text: 'articulated the technical architecture and project vision confidently to the class' },
+  { label: '+ Collaborated & helped peers', text: 'collaborated effectively and helped peers troubleshoot their builds' }
+];
+
 var MIN_TEACHER_WORDS = 15;
+var chipClickCounter = 0;
 
 // ══════════════════════════════════════════
 //  DARK MODE & SETTINGS
@@ -1472,8 +1493,11 @@ function setPronoun(pro) {
   });
 }
 
-function isHighlightDropdownLevel(lvl) {
+function isScienceDropdownLevel(lvl) {
   return lvl === 'Level 1' || lvl === 'Level 2' || lvl === 'Level 3';
+}
+function isTechLevel(lvl) {
+  return lvl === 'Level 4' || lvl === 'Level 5';
 }
 
 function onLevelOrTermChange() {
@@ -1481,20 +1505,44 @@ function onLevelOrTermChange() {
   updateProjectHighlightUI();
 }
 
+function renderDynamicChips(lvl) {
+  var container = document.getElementById('dynamicChipContainer');
+  var chipHeader = document.getElementById('chipHeaderLabel');
+  container.innerHTML = '';
+  var list = isTechLevel(lvl) ? TECH_CHIPS : SCIENCE_CHIPS;
+  chipHeader.innerHTML = isTechLevel(lvl)
+    ? '<i class="fas fa-microchip"></i> Tap to add tech &amp; engineering observations:'
+    : '<i class="fas fa-flask"></i> Tap to add science experiment observations:';
+
+  list.forEach(function(item) {
+    var span = document.createElement('span');
+    span.className = 'obs-chip';
+    span.textContent = item.label;
+    span.onclick = function() { appendChip(item.text); };
+    container.appendChild(span);
+  });
+}
+
 function updateProjectHighlightUI() {
   var lvl = document.getElementById('fLevel').value;
   var dropdownWrap = document.getElementById('topicDropdownWrap');
+  var techInputWrap = document.getElementById('techProjectInputWrap');
   var selectEl = document.getElementById('fHighlightTopic');
   var cardTitle = document.getElementById('projectCardTitle');
+  var cardIcon = document.getElementById('projectCardIcon');
   var commentsLabel = document.getElementById('teacherCommentsLabel');
   var commentsTa = document.getElementById('fTeacherComments');
 
-  if (isHighlightDropdownLevel(lvl)) {
+  renderDynamicChips(lvl);
+
+  if (isScienceDropdownLevel(lvl)) {
     dropdownWrap.style.display = 'block';
+    techInputWrap.style.display = 'none';
+    cardIcon.className = 'fas fa-flask';
     cardTitle.textContent = lvl + ' Standout Experiment Highlight';
     document.getElementById('topicDropdownLabel').textContent = 'Pick 1 Experiment From ' + lvl + ' That The Student Really Shined In';
     commentsLabel.textContent = 'Why was this experiment a highlight for the student? (Min. 15 words)';
-    commentsTa.placeholder = 'Write at least 15 words explaining how the student shined in this experiment! What did they do, build, or discover? How did they react?';
+    commentsTa.placeholder = 'Write at least 15 words explaining how the student shined in this experiment! What did they do, observe, or discover?';
 
     var currentVal = selectEl.value;
     var topics = LEVEL_TOPICS[lvl] || [];
@@ -1509,12 +1557,14 @@ function updateProjectHighlightUI() {
       selectEl.value = currentVal;
     }
   } else {
-    // Level 4 and Level 5 do not use the experiment dropdown
+    // Level 4 & Level 5: Tech & Engineering Project Mode
     dropdownWrap.style.display = 'none';
+    techInputWrap.style.display = 'block';
     selectEl.value = '';
-    cardTitle.textContent = 'Example Project';
-    commentsLabel.textContent = 'Describe one project this student worked on and what stood out (Min. 15 words)';
-    commentsTa.placeholder = 'Describe a real project or moment (at least 15 words) — what did the student build, discover, or do? What specific actions or ideas stood out?';
+    cardIcon.className = 'fas fa-microchip';
+    cardTitle.textContent = (lvl || 'Tech') + ' Engineering & Project Highlight';
+    commentsLabel.textContent = 'Describe how the student excelled in their tech project / prototype (Min. 15 words)';
+    commentsTa.placeholder = 'e.g. His focus on the vertical farm project was incredible. He was able to manage multiple technical components and engineer his own creative ideas into the final prototype.';
   }
 }
 
@@ -1566,15 +1616,27 @@ function loadClassPrefs() {
 }
 loadClassPrefs();
 
+// Natural varied connectors when clicking multiple chips (prevents "Also, he... Also, he...")
 function appendChip(text) {
   var ta = document.getElementById('fTeacherComments');
   var cur = ta.value.trim();
   var proSub = selectedPronoun === 'she' ? 'she' : 'he';
+  var ProSub = selectedPronoun === 'she' ? 'She' : 'He';
+
   if (!cur) {
-    ta.value = (proSub.charAt(0).toUpperCase() + proSub.slice(1)) + ' ' + text + '.';
+    ta.value = ProSub + ' ' + text + '.';
+    chipClickCounter = 1;
   } else {
-    var sep = cur.match(/[.!?]$/) ? ' Also, ' + proSub + ' ' : ', and ' + proSub + ' ';
-    ta.value = cur + sep + text + '.';
+    var connectors = [
+      ' Throughout the session, ' + proSub + ' ',
+      ' In addition, ' + proSub + ' ',
+      ' Impressively, ' + proSub + ' also ',
+      ' Furthermore, ' + proSub + ' '
+    ];
+    var conn = connectors[chipClickCounter % connectors.length];
+    chipClickCounter++;
+    var base = cur.match(/[.!?]$/) ? cur : cur + '.';
+    ta.value = base + conn + text + '.';
   }
   checkTeacherMinWords();
 }
@@ -1590,7 +1652,9 @@ function fillAllGrades(val) {
 function startNextStudent() {
   document.getElementById('fName').value = '';
   document.getElementById('fHighlightTopic').value = '';
+  document.getElementById('fTechProjectName').value = '';
   document.getElementById('fTeacherComments').value = '';
+  chipClickCounter = 0;
   checkTeacherMinWords();
   grades = {};
   document.querySelectorAll('.grade-btn').forEach(function(b) { b.className = 'grade-btn'; });
@@ -1643,6 +1707,9 @@ function loadHistoryItem(idx) {
   updateProjectHighlightUI();
   if (item.highlightTopic) {
     document.getElementById('fHighlightTopic').value = item.highlightTopic;
+  }
+  if (item.techProjectName) {
+    document.getElementById('fTechProjectName').value = item.techProjectName;
   }
   Object.keys(item.rawGrades || {}).forEach(function(k) {
     setGradeBtn(k, item.rawGrades[k]);
@@ -1722,11 +1789,10 @@ function validateStep2() {
     return false;
   }
 
-  // Validate Level 1-3 Standout Experiment Dropdown
   var lvl = document.getElementById('fLevel').value;
   var topicSelect = document.getElementById('fHighlightTopic');
   var topicWrap = document.getElementById('topicDropdownWrap');
-  if (isHighlightDropdownLevel(lvl)) {
+  if (isScienceDropdownLevel(lvl)) {
     if (!topicSelect.value.trim()) {
       topicWrap.classList.add('error');
       showModal('Please select the 1 standout experiment from the dropdown menu for ' + lvl + '.');
@@ -1736,13 +1802,12 @@ function validateStep2() {
     }
   }
 
-  // Enforce strict 15-word minimum on the teacher's highlight explanation
   var commentsEl = document.getElementById('fTeacherComments');
   var commentsWrap = document.getElementById('teacherCommentsWrap');
   var wc = countWords(commentsEl.value);
   if (wc < MIN_TEACHER_WORDS) {
     commentsWrap.classList.add('error');
-    showModal('Your comment is too short (' + wc + ' words). Please write at least ' + MIN_TEACHER_WORDS + ' words explaining how the student shined in this project so parents get a meaningful report card!');
+    showModal('Your comment is too short (' + wc + ' words). Please write at least ' + MIN_TEACHER_WORDS + ' words explaining how the student shined so parents get a meaningful report card!');
     commentsEl.focus();
     return false;
   }
@@ -1836,29 +1901,64 @@ function updateCalcSummary() {
 }
 
 // ══════════════════════════════════════════
-//  ASSEMBLE STUDENT DATA
+//  ASSEMBLE STUDENT DATA & SMART TOPIC DETECTION
 // ══════════════════════════════════════════
+function extractCleanTechTopic(rawComments, explicitProjectName) {
+  if (explicitProjectName && explicitProjectName.trim()) {
+    return explicitProjectName.trim();
+  }
+  // Remove chip boilerplate before searching for a project topic
+  var stripped = rawComments
+    .replace(/engineered creative custom features and original ideas into the prototype/gi, '')
+    .replace(/troubleshot and debugged technical build challenges independently/gi, '')
+    .replace(/demonstrated strong systems thinking while managing multiple project components/gi, '')
+    .replace(/tested, iterated, and refined the engineering design to improve performance/gi, '')
+    .replace(/articulated the technical architecture and project vision confidently to the class/gi, '')
+    .replace(/collaborated effectively and helped peers troubleshoot their builds/gi, '')
+    .replace(/showed incredible focus during every step of the experiment/gi, '')
+    .replace(/asked thoughtful questions about why the scientific reaction happened/gi, '');
+
+  // Look for patterns like "focus on vertical farm", "built a smart car", "his AI bot project"
+  var m = stripped.match(/(?:focus on|worked on|built|building|created|creating|designed|designing)\s+(?:the\s+|his\s+|her\s+|a\s+|an\s+)?([a-z0-9\s\-]{3,25}?)(?:\s+project|\s+prototype|\s+system|\s+model|\s+build|\s+was|\s+is|\s+and|[.,!]|$)/i);
+  if (m && m[1]) {
+    var candidate = m[1].trim();
+    var badWords = /^(different|various|multiple|every|reaction|happened|step|steps|class|peers|ideas|own|model|build|project|prototype|science|experiment)$/i;
+    if (!badWords.test(candidate) && candidate.indexOf('reaction happened') === -1) {
+      return candidate;
+    }
+  }
+  return '';
+}
+
 function assembleData() {
   var term = document.getElementById('fTerm').value;
   var year = document.getElementById('fYear').value;
   var centreCode = document.getElementById('fCentre').value;
   var lvl = document.getElementById('fLevel').value;
-  var highlightTopic = isHighlightDropdownLevel(lvl) ? document.getElementById('fHighlightTopic').value.trim() : '';
+  var isTech = isTechLevel(lvl);
 
+  var highlightTopic = isScienceDropdownLevel(lvl) ? document.getElementById('fHighlightTopic').value.trim() : '';
+  var techProjectName = isTech ? document.getElementById('fTechProjectName').value.trim() : '';
   var rawComments = document.getElementById('fTeacherComments').value.trim();
+
   if (/\b(she|her|hers)\b/i.test(rawComments) && !/\b(he|his|him)\b/i.test(rawComments)) {
     setPronoun('she');
   } else if (/\b(he|his|him)\b/i.test(rawComments) && !/\b(she|her|hers)\b/i.test(rawComments)) {
     setPronoun('he');
   }
 
-  // Strip "Topic X - " prefix to get clean experiment name for natural prose
-  var cleanTopicName = highlightTopic ? highlightTopic.replace(/^Topic\s*\d+\s*-\s*/i, '').trim() : '';
+  var cleanTopicName = '';
+  if (highlightTopic) {
+    cleanTopicName = highlightTopic.replace(/^Topic\s*\d+\s*-\s*/i, '').trim();
+  } else if (isTech) {
+    cleanTopicName = extractCleanTechTopic(rawComments, techProjectName);
+  }
 
   S = {
     name: document.getElementById('fName').value.trim(),
     pronoun: selectedPronoun,
     level: lvl,
+    isTech: isTech,
     year: year,
     centre: centreCode,
     centreName: CENTRE_NAMES[centreCode] || centreCode,
@@ -1866,6 +1966,7 @@ function assembleData() {
     term: buildTermStr(term, year),
     termShort: term ? term + ' Term' : '',
     highlightTopic: highlightTopic,
+    techProjectName: techProjectName,
     cleanTopicName: cleanTopicName,
     curiosity: displayGrade(grades.curiosity || ''),
     criticalThinking: displayGrade(grades.criticalThinking || ''),
@@ -1890,15 +1991,20 @@ function assembleData() {
 }
 
 // ══════════════════════════════════════════
-//  PROMPT & SMART LOCAL FALLBACK ENGINE
+//  PROMPT & SMART LOCAL NARRATIVE ENGINE
 // ══════════════════════════════════════════
 function buildPrompt() {
   var proStr = S.pronoun === 'she' ? 'she/her/hers' : 'he/him/his';
-  var topicLine = S.highlightTopic
-    ? 'STANDOUT EXPERIMENT SELECTED BY TEACHER: ' + S.highlightTopic + ' ("' + S.cleanTopicName + '")\n'
-    : '';
+  var domainInstruction = S.isTech
+    ? 'IMPORTANT: This student is in ' + S.level + ' (Tech, Engineering & Prototyping focus). Always refer to their work as a "project", "prototype", or "engineering build" — NEVER call it an "experiment". Use tech-savvy, engineering-oriented language.'
+    : 'IMPORTANT: This student is in ' + S.level + ' (Hands-on Science focus). Refer to their standout activity as an "experiment" (' + (S.cleanTopicName || 'science experiment') + ').';
 
-  return 'You are a caring STEM teacher at Big Bang Academy\'s Project Alpha program writing a personalised report card.\n\n' +
+  var topicLine = S.highlightTopic
+    ? 'STANDOUT SCIENCE EXPERIMENT: ' + S.highlightTopic + ' ("' + S.cleanTopicName + '")\n'
+    : (S.cleanTopicName ? 'TECH PROJECT / PROTOTYPE NAME: ' + S.cleanTopicName + '\n' : '');
+
+  return 'You are a caring STEM & Tech educator at Big Bang Academy\'s Project Alpha program writing a personalised report card.\n\n' +
+    domainInstruction + '\n\n' +
     'Student Name: ' + S.name + '\n' +
     'Student Pronouns (for 3rd-person sections): ' + proStr + '\n' +
     'Level: ' + S.level + ' | Term: ' + S.termShort + '\n' +
@@ -1907,13 +2013,13 @@ function buildPrompt() {
     'Articulation=' + S.articulation + ', Body Language=' + S.bodyLanguage + ', Confidence=' + S.confidence + ' (Pres=' + S.gPres + ')\n' +
     'Overall Grade: ' + S.gAll + ' (' + S.ranking + ')\n\n' +
     topicLine +
-    'TEACHER\'S OBSERVATION ON WHY THE STUDENT SHINED:\n"' + S.teacherComments + '"\n\n' +
-    'PERSPECTIVE & STYLE RULES (CRITICAL — MATCH EXACTLY):\n' +
-    '1. "feedback": Written in 2ND PERSON directly addressing the student ("' + S.name + ', your..."). 2-3 warm, encouraging sentences (30-45 words) celebrating how they excelled in ' + (S.cleanTopicName ? 'the ' + S.cleanTopicName + ' experiment' : 'their project') + ' and connecting to their strongest attributes.\n' +
-    '2. "profileTitle": 2-4 words ONLY. A creative title capturing this student based on their standout experiment/project.\n' +
-    '3. "profileDesc": Written in 3RD PERSON starting with "' + S.name + '" and using ' + proStr + ' pronouns (20-30 words). Summarizes how they approached ' + (S.cleanTopicName ? 'the ' + S.cleanTopicName + ' experiment' : 'their project') + ' and their standout qualities.\n' +
-    '4. "profileExample": Written in 3RD PERSON using ' + proStr + ' pronouns (28-40 words). Do NOT include the word "Example:" at the start. Explicitly name the experiment/project (' + (S.cleanTopicName || 'from the teacher note') + ') so parents know exactly which experiment their child excelled in, retelling the teacher\'s observation warmly.\n' +
-    '5. "award": 4-8 words. A specific award celebrating what this student excelled at in ' + (S.cleanTopicName || 'their project') + '.\n\n' +
+    'TEACHER\'S OBSERVATION NOTES:\n"' + S.teacherComments + '"\n\n' +
+    'PERSPECTIVE & STYLE RULES (CRITICAL):\n' +
+    '1. "feedback": Written in 2ND PERSON directly addressing the student ("' + S.name + ', your..."). 2-3 warm, polished sentences (30-45 words). Never repeat "Also, he/she" — synthesize the teacher\'s notes into natural educator prose.\n' +
+    '2. "profileTitle": 2-4 words ONLY. A strong title capturing this student (e.g. "Innovative Tech Visionary", "Creative Systems Architect", "Curious Science Explorer").\n' +
+    '3. "profileDesc": Written in 3RD PERSON starting with "' + S.name + '" and using ' + proStr + ' pronouns (20-30 words). Summarizes their approach and standout engineering/scientific qualities.\n' +
+    '4. "profileExample": Written in 3RD PERSON using ' + proStr + ' pronouns (28-42 words). Do NOT include "Example:" at the start. Weave the teacher\'s observation into a cohesive, natural 2-sentence highlight story.\n' +
+    '5. "award": 4-8 words. A specific award celebrating what this student excelled at.\n\n' +
     'Return ONLY a valid JSON object with keys: "feedback", "profileTitle", "profileDesc", "profileExample", "award". No markdown fences.';
 }
 
@@ -1923,53 +2029,107 @@ function generateSmartLocalNarrative() {
     ? { sub: 'she', Sub: 'She', obj: 'her', pos: 'her' }
     : { sub: 'he', Sub: 'He', obj: 'him', pos: 'his' };
 
-  var topic = S.cleanTopicName;
-  if (!topic) {
-    var topicMatch = raw.match(/(?:on|with|building|creating|designing|in|during|the)\s+(?:the\s+|his\s+|her\s+|a\s+|an\s+)?([a-z0-9\s\-]{3,28}?)(?:\s+project|\s+experiment|\s+model|\s+challenge|\s+was|\s+is|[.,!]|$)/i);
-    topic = topicMatch ? topicMatch[1].trim() : 'STEM';
-    topic = topic.replace(/\b(different|various|amazing|incredible|great|good|very|really)\b/gi, '').trim() || 'STEM';
+  var hasIdeas = /idea|creativ|innovat|design|own|original|custom|featur/i.test(raw);
+  var hasFocus = /focus|concentrat|dedicat|detail|attent|careful|system|komponent|component/i.test(raw);
+  var hasResilience = /try|tried|mistake|fix|improv|resilien|persist|overcam|debug|troubleshoot|iterat|refin/i.test(raw);
+  var hasSpeak = /present|speak|explain|share|articulat|confiden|pitch/i.test(raw);
+  var hasTeam = /help|classmate|peer|team|collaborat/i.test(raw);
+
+  // ── BRANCH A: LEVEL 4 & LEVEL 5 (TECH & ENGINEERING PROJECTS) ──
+  if (S.isTech) {
+    var projName = S.cleanTopicName; // e.g., "vertical farm" or "" if generic
+    var projDisplay = projName ? projName.toLowerCase() + ' project' : 'technical engineering project';
+    var projCap = projName
+      ? projName.split(/\s+/).map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ')
+      : 'Tech Engineering';
+
+    var feedback = S.name + ', your ' + projDisplay + ' showcased exceptional ' +
+      (hasFocus ? 'technical focus and systems thinking' : 'engineering curiosity and drive') + '. ' +
+      (hasIdeas
+        ? 'The way you managed multiple components of the build while engineering your own creative features into the prototype was truly remarkable. '
+        : hasResilience
+        ? 'Your ability to troubleshoot challenges, debug issues, and iterate on your prototype design set a fantastic standard. '
+        : 'The methodical way you architected and refined each stage of your build stood out in class. ') +
+      'Your dedication and innovative mindset made this project shine!';
+
+    var techTitleAdj = hasIdeas ? 'Innovative' : hasResilience ? 'Resilient' : hasFocus ? 'Focused' : 'Creative';
+    var techTitleNoun = hasSpeak ? 'Tech Communicator' : hasIdeas ? 'Tech Visionary' : 'Systems Architect';
+    var profileTitle = (projName && countWords(projCap) <= 2)
+      ? techTitleAdj + ' ' + projCap + ' ' + (hasIdeas ? 'Visionary' : 'Innovator')
+      : techTitleAdj + ' ' + techTitleNoun;
+
+    var profileDesc = S.name + ' demonstrated remarkable ' +
+      (hasFocus ? 'focus and technical agility' : 'engineering creativity') +
+      ' on ' + pro.pos + ' ' + projDisplay + ', seamlessly coordinating complex build components while ' +
+      (hasIdeas ? 'contributing original ideas that elevated the final prototype.' : 'applying sharp problem-solving skills to every technical challenge.');
+
+    // Build a cohesive, non-repetitive 2-sentence Example narrative (never dumps raw "Also, he...")
+    var s1 = S.name + ' dove deep into ' + (projName ? pro.pos + ' ' + projName.toLowerCase() + ' build' : 'the prototyping process') +
+      ', maintaining sharp focus across multiple technical components' +
+      (hasResilience ? ' and independently debugging hardware and logic challenges along the way.' : ' and executing each engineering step with precision.');
+    var s2 = pro.Sub + ' didn\'t just follow the base blueprint—' + pro.sub +
+      (hasIdeas ? ' enriched the prototype with ' + pro.pos + ' own custom features' : ' refined the design through thoughtful iteration') +
+      (hasSpeak && hasTeam ? ', clearly pitched the technical architecture, and supported peers with their builds.' :
+       hasSpeak ? ' and confidently presented the technical architecture to the class.' :
+       hasTeam ? ' while actively helping classmates troubleshoot their own builds.' :
+       ', bringing fresh engineering perspectives to the classroom.');
+
+    var profileExample = s1 + ' ' + s2;
+
+    var award = projName
+      ? 'Outstanding Technical Innovation in ' + projCap
+      : (hasIdeas ? 'Creative Engineering & Prototype Innovation Award' : 'Excellence in Technical Systems & Prototyping');
+
+    return {
+      feedback: feedback,
+      profileTitle: profileTitle,
+      profileDesc: profileDesc,
+      profileExample: profileExample,
+      award: award
+    };
   }
-  var topicCap = topic.split(/\s+/).map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
 
-  var hasIdeas = /idea|creativ|innovat|design|own|original/i.test(raw);
-  var hasFocus = /focus|concentrat|dedicat|detail|attent|careful/i.test(raw);
-  var hasResilience = /try|tried|mistake|fix|improv|resilien|persist|overcam/i.test(raw);
-  var hasSpeak = /present|speak|explain|share|articulat|confiden/i.test(raw);
+  // ── BRANCH B: LEVEL 1 - 3 (SCIENCE EXPERIMENTS) ──
+  var expName = S.cleanTopicName || 'science';
+  var expCap = expName.split(/\s+/).map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
 
-  var feedback = S.name + ', your work on the ' + topic + ' experiment showcased exceptional ' +
-    (hasFocus ? 'focus and dedication' : 'curiosity and enthusiasm') + '. ' +
-    (hasIdeas ? 'The way you wove in your own creative ideas while managing multiple steps of the activity was truly remarkable. ' :
-     hasResilience ? 'Your determination to test, refine, and improve your results made a huge difference. ' :
-     'The thoughtful way you approached every stage of the experiment stood out in class. ') +
-    'Your hard work and bright energy made this work shine!';
+  var sciFeedback = S.name + ', your work on the ' + expName + ' experiment showcased wonderful ' +
+    (hasFocus ? 'focus and scientific curiosity' : 'enthusiasm and hands-on energy') + '. ' +
+    (hasIdeas
+      ? 'The way you explored every step of the activity while weaving in your own creative ideas was truly impressive. '
+      : hasResilience
+      ? 'Your determination to test, adjust, and perfect your experiment results was fantastic to see. '
+      : 'Your careful observations and eagerness to understand how the science works stood out in class. ') +
+    'Keep up this brilliant scientific spirit!';
 
-  var titleAdj = hasIdeas ? 'Innovative' : hasFocus ? 'Focused' : hasResilience ? 'Resilient' : 'Curious';
-  var titleNoun = hasSpeak ? 'Communicator' : hasIdeas ? 'Visionary' : 'Explorer';
-  var profileTitle = titleAdj + ' ' + topicCap + ' ' + titleNoun;
-  if (countWords(profileTitle) > 4) profileTitle = titleAdj + ' Science ' + titleNoun;
+  var sciAdj = hasIdeas ? 'Creative' : hasFocus ? 'Focused' : 'Curious';
+  var sciNoun = hasSpeak ? 'Communicator' : 'Explorer';
+  var sciTitle = (countWords(expCap) <= 2)
+    ? sciAdj + ' ' + expCap + ' ' + sciNoun
+    : sciAdj + ' Science ' + sciNoun;
 
-  var profileDesc = S.name + ' demonstrated remarkable ' + (hasFocus ? 'focus' : 'enthusiasm') +
-    ' during the ' + topic + ' experiment, seamlessly handling each step while contributing ' +
-    (hasIdeas ? 'original ideas that elevated the work.' : 'thoughtful observations that enriched the activity.');
+  var sciDesc = S.name + ' showed fantastic ' + (hasFocus ? 'focus and curiosity' : 'engagement') +
+    ' during the ' + expName + ' experiment, carefully handling each step while ' +
+    (hasIdeas ? 'contributing imaginative ideas that made the activity shine.' : 'making thoughtful scientific observations throughout the lesson.');
 
-  var cleanedRaw = raw.replace(/^(he|she)\s+was\s+(amazing|great|incredible|awesome|fantastic)[.,!\s]*/i, '');
-  var profileExample = 'During the ' + topic + ' experiment, ' + S.name + ' maintained sharp focus and curiosity across every stage. ' +
-    pro.Sub + ' actively applied ' + pro.pos + ' own creative thinking and hands-on problem-solving skills, making ' + pro.pos + ' work a true classroom highlight.';
-  if (cleanedRaw.length > 20) {
-    profileExample = 'In the ' + topic + ' experiment, ' + S.name + ' truly shined: ' +
-      cleanedRaw.charAt(0).toLowerCase() + cleanedRaw.slice(1);
-    if (!profileExample.match(/[.!?]$/)) profileExample += '.';
-  }
+  var sciEx1 = 'During the ' + expName + ' experiment, ' + S.name + ' maintained keen focus across every stage of the investigation' +
+    (hasResilience ? ' and persisted patiently whenever the setup needed adjusting.' : ' and asked insightful questions about the scientific reaction.');
+  var sciEx2 = pro.Sub +
+    (hasIdeas ? ' brought creative original ideas to the hands-on model' : ' observed the experimental results with great care') +
+    (hasSpeak && hasTeam ? ', explained the science clearly to the class, and kindly helped classmates with their steps.' :
+     hasSpeak ? ' and proudly explained the science behind the results to the class.' :
+     hasTeam ? ' and enthusiastically helped classmates complete their experiment steps.' :
+     ', making ' + pro.pos + ' work a true classroom highlight.');
 
-  var award = 'Outstanding ' + (hasFocus ? 'Focus and ' : '') + (hasIdeas ? 'Creative Innovation' : 'Excellence') + ' in ' + topicCap;
-  if (countWords(award) > 9) award = 'Excellence in ' + topicCap + ' Award';
+  var sciAward = 'Outstanding Curiosity and Excellence in ' + expCap;
+  if (countWords(sciAward) > 9) sciAward = 'Excellence in ' + expCap + ' Award';
 
   return {
-    feedback: feedback,
-    profileTitle: profileTitle,
-    profileDesc: profileDesc,
-    profileExample: profileExample,
-    award: award
+    feedback: sciFeedback,
+    profileTitle: sciTitle,
+    profileDesc: sciDesc,
+    profileExample: sciEx1 + ' ' + sciEx2,
+    award: sciAward
   };
 }
 
@@ -2017,7 +2177,7 @@ async function generateAI() {
   if (!aiData) {
     try {
       var controller = new AbortController();
-      var timeoutId = setTimeout(function() { controller.abort(); }, 12000);
+      var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
       var polyResp = await fetch('https://text.pollinations.ai/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2025,7 +2185,7 @@ async function generateAI() {
         body: JSON.stringify({
           model: 'openai',
           messages: [
-            { role: 'system', content: 'You are a warm STEM teacher at Big Bang Academy. Respond ONLY with valid JSON.' },
+            { role: 'system', content: 'You are a warm STEM & Tech educator at Big Bang Academy. Respond ONLY with valid JSON.' },
             { role: 'user', content: prompt }
           ],
           temperature: 0.7,
@@ -2040,7 +2200,7 @@ async function generateAI() {
         aiData = JSON.parse(content);
       }
     } catch (e) {
-      console.warn('Cloud AI fallback to local engine:', e);
+      console.warn('Cloud AI fallback to local narrative synthesizer:', e);
     }
   }
 
@@ -2329,7 +2489,6 @@ function buildPdf() {
           return lines.length ? lines : [''];
         }
 
-        // Fixed Header Alignment (No right-edge clipping, proper vertical centering with logos)
         function drawHeader(titleText, subtitleText) {
           if (imgs.bba) doc.addImage(imgs.bba, 'PNG', LM, y, 32, 8);
           if (imgs.pa) doc.addImage(imgs.pa, 'PNG', LM + 34, y + 1, 22, 6);
@@ -2352,7 +2511,6 @@ function buildPdf() {
         drawHeader(S.termShort + ' Report Card', S.term);
         y = 29;
 
-        // Student Info box
         setF(orange); doc.roundedRect(LM, y, cw, 28, 2, 2, 'F');
         doc.setFontSize(16); doc.setFont('helvetica','bold'); setC(white);
         doc.text(S.name, LM + 5, y + 9, {maxWidth: cw - 10});
@@ -2368,7 +2526,6 @@ function buildPdf() {
         doc.text('Teacher', LM+5+col*3, y+16); doc.setFont('helvetica','bold'); setC(white); doc.text(S.teacher, LM+5+col*3, y+22, {maxWidth: col - 6});
         y += 34;
 
-        // Ranking bar
         setF(grayBg); doc.roundedRect(LM, y, cw, 18, 2, 2, 'F');
         doc.setFontSize(11.5); doc.setFont('helvetica','normal'); setC(greyTxt);
         doc.text('Overall Ranking', LM+8, y+7);
@@ -2376,7 +2533,6 @@ function buildPdf() {
         doc.text(S.ranking, LM+8, y+14);
         y += 25;
 
-        // Term Grades
         doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
         doc.text('Term Grades', LM, y); y += 5;
         var tcols = ['Scientific Thinking','Hands-on','Presentation','Overall'];
@@ -2395,7 +2551,6 @@ function buildPdf() {
         });
         y += 18;
 
-        // Feedback
         doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
         doc.text("Overall Teacher's Feedback", LM, y); y += 5;
         doc.setFontSize(10.5); doc.setFont('helvetica','normal'); setC(black);
@@ -2409,7 +2564,6 @@ function buildPdf() {
         fbLines.forEach(function(line) { doc.text(line, LM+6, fbY); fbY += fbLH; });
         y += fbH + 7;
 
-        // Student Profile
         var pLH = 5, eLH = 4.8;
         doc.setFontSize(10.5); doc.setFont('helvetica','normal');
         var profLines = wrapText(S.profileDesc, cw - 14);
@@ -2442,7 +2596,6 @@ function buildPdf() {
         exLines.forEach(function(l) { doc.text(l, LM+6, py+3); py += eLH; });
         y += profBoxH + 7;
 
-        // Award + Teacher
         setD([238,238,238]); doc.setLineWidth(0.3); doc.line(LM, y, W-RM, y);
         y += 5;
         if (imgs.trophy) doc.addImage(imgs.trophy, 'PNG', LM+2, y-1, 12, 12);
@@ -2458,11 +2611,10 @@ function buildPdf() {
         doc.setFontSize(11); doc.setFont('helvetica','bold'); setC(black);
         doc.text('Teacher ' + S.teacher, W-RM, teacherY, {align:'right'});
 
-        // ═══════════ PAGE 2 (FIXED HEADER SPACING & ALIGNMENT) ═══════════
+        // ═══════════ PAGE 2 ═══════════
         doc.addPage();
         y = 12;
         drawHeader('Key Attributes Assessment', null);
-        // Start y at 34mm so there is 10mm of clean white space below the y=24mm header bar!
         y = 34;
 
         var rH = 9, tableGap = 11;
@@ -2517,7 +2669,6 @@ function buildPdf() {
           {name:'Confidence',desc:'Willing to speak up and present',grade:S.confidence}
         ], S.ovPres);
 
-        // Full Year Assessment
         doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
         doc.text('Full Year Assessment', LM, y); y += 5;
         setF(grayBg); doc.roundedRect(LM, y, cw, 20, 2, 2, 'F');
