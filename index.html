@@ -1,0 +1,3134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Alpha — Report Card Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<style>
+  :root {
+    --orange: #ff6b35;
+    --orange-dark: #e55a2b;
+    --orange-light: #fff0eb;
+    --green: #27ae60;
+    --green-dark: #1a8a4a;
+    --amber: #f39c12;
+    --red: #e74c3c;
+    --gold: #ffd700;
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #333333;
+    --text-light: #666666;
+    --border: #e0e0e0;
+    --input-bg: #fafafa;
+    --gray-bg: #f8f9fa;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 10px;
+  }
+  .dark {
+    --bg: #121212;
+    --card: #1e1e1e;
+    --text: #e0e0e0;
+    --text-light: #aaaaaa;
+    --border: #333333;
+    --input-bg: #2a2a2a;
+    --gray-bg: #252525;
+    --orange-light: #2a1a10;
+    --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--text);
+    padding: 0;
+  }
+
+  /* ══════════════════════════════════
+     WIZARD CHROME
+     ══════════════════════════════════ */
+  .wizard-header {
+    background: var(--orange);
+    padding: 16px 20px 14px;
+    text-align: center;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(255,107,53,0.3);
+  }
+  .header-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 640px;
+    margin: 0 auto 10px;
+  }
+  .wizard-header h1 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+  }
+  .header-icon-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .header-icon-btn:hover { background: rgba(255,255,255,0.35); }
+
+  .steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .step-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .step-dot.active {
+    background: #fff;
+    color: var(--orange);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .step-dot.done {
+    background: rgba(255,255,255,0.85);
+    color: var(--green);
+  }
+  .step-line {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.25);
+    max-width: 80px;
+    transition: background 0.3s;
+  }
+  .step-line.done { background: rgba(255,255,255,0.85); }
+  .step-labels {
+    display: flex;
+    justify-content: center;
+    gap: 44px;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .step-labels span.active { color: #fff; }
+
+  /* ── PAGES ── */
+  .wizard-body { padding: 16px; max-width: 640px; margin: 0 auto; }
+  .wiz-page { display: none; }
+  .wiz-page.active { display: block; animation: fadeUp 0.25s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DEMO SAMPLE BAR ── */
+  .demo-bar {
+    background: var(--orange-light);
+    border: 1.5px solid var(--orange);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .demo-bar span {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .demo-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .demo-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--orange);
+    background: var(--card);
+    color: var(--orange);
+    font-family: 'Nunito', sans-serif;
+    font-size: 11.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .demo-btn:hover { background: var(--orange); color: #fff; }
+
+  /* ── SECTION CARD ── */
+  .sec-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+  .sec-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--orange);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .sec-title-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-title i { font-size: 16px; }
+
+  /* ── GRADE QUOTA TRACKER BAR ── */
+  .quota-bar {
+    background: var(--card);
+    border: 2px solid var(--orange);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    position: sticky;
+    top: 86px;
+    z-index: 90;
+    box-shadow: var(--shadow);
+  }
+  .quota-title {
+    font-size: 11.5px;
+    font-weight: 900;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .quota-pills {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .quota-pill {
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: var(--gray-bg);
+    border: 1.5px solid var(--border);
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+  }
+  .quota-pill.ok {
+    border-color: var(--green);
+    background: rgba(39, 174, 96, 0.1);
+  }
+  .quota-pill.warn {
+    border-color: var(--amber);
+    background: rgba(243, 156, 18, 0.12);
+  }
+  .quota-pill .qp-grade { font-size: 13px; font-weight: 900; display: block; }
+  .quota-pill .qp-limit { font-size: 10.5px; color: var(--text-light); }
+
+  /* ── 3-PART FEEDBACK BOXES ── */
+  .pillar-box {
+    background: var(--gray-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .pillar-box.excellence-box { border-left-color: var(--green-dark); }
+  .pillar-box.growth-box { border-left-color: var(--amber); }
+  .pillar-box.behaviour-box { border-left-color: var(--orange); }
+
+  .pillar-header {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pillar-box.excellence-box .pillar-header { color: var(--green-dark); }
+  .pillar-box.growth-box .pillar-header { color: #d68910; }
+
+  .auto-attr-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .attr-badge {
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 11.5px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .attr-badge.aplus {
+    background: #e8f5e9;
+    color: #1a8a4a;
+    border: 1px solid #a5d6a7;
+  }
+  .attr-badge.bgrade {
+    background: #fef9e7;
+    color: #b7791f;
+    border: 1px solid #f9e79f;
+  }
+  .attr-badge.empty {
+    background: var(--card);
+    color: var(--text-light);
+    border: 1px dashed var(--border);
+  }
+  .dark .attr-badge.aplus { background: #14301d; color: #68d391; border-color: #276749; }
+  .dark .attr-badge.bgrade { background: #33260d; color: #f6e05e; border-color: #744210; }
+
+  .skill-pill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .skill-pill-btn {
+    padding: 9px 10px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .skill-pill-btn i { color: var(--text-light); font-size: 13px; flex-shrink: 0; }
+  .skill-pill-btn.active {
+    border-color: var(--orange);
+    background: var(--orange-light);
+    color: var(--orange);
+  }
+  .skill-pill-btn.active i { color: var(--orange); }
+
+  /* ── FORM INPUTS ── */
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--input-bg);
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+  }
+  .field textarea { resize: vertical; min-height: 76px; line-height: 1.5; }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .field.error input, .field.error select, .field.error textarea {
+    border-color: var(--red);
+    background: #fef2f2;
+  }
+  .dark .field.error input, .dark .field.error select, .dark .field.error textarea {
+    background: #2a1515;
+  }
+  .field .err-text {
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 4px;
+    display: none;
+  }
+  .field.error .err-text { display: block; }
+
+  /* Pronoun & Report Type Pills */
+  .pronoun-group {
+    display: flex;
+    gap: 10px;
+  }
+  .pronoun-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-light);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .pronoun-btn.active {
+    border-color: var(--orange);
+    background: var(--orange-light);
+    color: var(--orange);
+  }
+
+  /* Minimum Word Gatekeeper Counter */
+  .min-word-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 800;
+    background: #fef2f2;
+    color: var(--red);
+    border: 1px solid #fecaca;
+    transition: all 0.2s;
+  }
+  .dark .min-word-bar {
+    background: #2a1515;
+    border-color: #5a2020;
+    color: #f87171;
+  }
+  .min-word-bar.met {
+    background: #e8f5e9;
+    color: var(--green-dark);
+    border-color: #a5d6a7;
+  }
+  .dark .min-word-bar.met {
+    background: #1a2e1a;
+    border-color: #2e5e2e;
+    color: #81c784;
+  }
+
+  .chip-cat-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    text-transform: uppercase;
+  }
+  .chip-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .obs-chip {
+    padding: 5px 10px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-light);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .obs-chip.aplus-chip { border-color: rgba(26, 138, 74, 0.35); }
+  .obs-chip.aplus-chip:hover {
+    border-color: var(--green-dark);
+    color: var(--green-dark);
+    background: #e8f5e9;
+  }
+  .obs-chip.b-chip { border-color: rgba(243, 156, 18, 0.4); }
+  .obs-chip.b-chip:hover {
+    border-color: #d68910;
+    color: #b7791f;
+    background: #fef9e7;
+  }
+
+  /* ══════════════════════════════════
+     GRADE SELECTOR
+     ══════════════════════════════════ */
+  .grade-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .grade-row:last-child { border-bottom: none; }
+  .grade-info { flex: 1; min-width: 120px; }
+  .grade-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .grade-desc {
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.3;
+  }
+  .grade-btns {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .grade-btn {
+    width: 42px; height: 36px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .grade-btn:active { transform: scale(0.92); }
+  .grade-btn.cap-locked {
+    opacity: 0.32;
+    cursor: not-allowed;
+  }
+  .grade-btn.sel-aplus {
+    background: #1a8a4a;
+    border-color: #1a8a4a;
+    color: #fff;
+    opacity: 1 !important;
+    box-shadow: 0 2px 6px rgba(26,138,74,0.3);
+  }
+  .grade-btn.sel-a {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+    opacity: 1 !important;
+    box-shadow: 0 2px 6px rgba(39,174,96,0.3);
+  }
+  .grade-btn.sel-b {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+    opacity: 1 !important;
+    box-shadow: 0 2px 6px rgba(243,156,18,0.3);
+  }
+  .grade-btn.sel-c {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+    opacity: 1 !important;
+    box-shadow: 0 2px 6px rgba(231,76,60,0.3);
+  }
+  .grade-row.missing .grade-name { color: var(--red); }
+  .grade-row.missing .grade-btns { animation: shake 0.4s; }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  /* Auto-calculated summary */
+  .calc-summary {
+    background: var(--orange-light);
+    border: 2px solid var(--orange);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 14px;
+  }
+  .calc-summary h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .calc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    padding: 4px 0;
+  }
+  .calc-item .calc-label { font-weight: 600; color: var(--text-light); }
+  .calc-item .calc-val { font-weight: 800; font-size: 15px; }
+
+  /* ══════════════════════════════════
+     STEP 3: AI + REVIEW
+     ══════════════════════════════════ */
+  .ai-gen-area {
+    text-align: center;
+    padding: 24px 16px;
+  }
+  .ai-gen-area p {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .ai-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 16px;
+  }
+  .ai-loading.active { display: flex; }
+  .ai-spinner {
+    width: 48px; height: 48px;
+    border: 4px solid var(--border);
+    border-top-color: var(--orange);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ai-loading p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+  }
+
+  .ai-results { display: none; }
+  .ai-results.active { display: block; }
+  .ai-err {
+    display: none;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .dark .ai-err { background: #2a2010; border-color: #5a4015; color: #fcd34d; }
+  .ai-err.active { display: block; }
+
+  /* ── PREVIEW SECTION ── */
+  .preview-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    margin: 14px 0;
+    background: var(--gray-bg);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--orange);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+  }
+  .preview-wrap { display: none; }
+  .preview-wrap.open { display: block; }
+
+  /* ══════════════════════════════════
+     NAV BUTTONS
+     ══════════════════════════════════ */
+  .nav-bar {
+    display: flex;
+    gap: 10px;
+    padding: 16px 0;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    flex: 1;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-btn:active { transform: scale(0.97); }
+  .nav-btn.secondary {
+    background: var(--gray-bg);
+    color: var(--text-light);
+    border: 2px solid var(--border);
+  }
+  .nav-btn.primary {
+    background: var(--orange);
+    color: #fff;
+  }
+  .nav-btn.primary:hover { background: var(--orange-dark); }
+  .nav-btn.green {
+    background: var(--green);
+    color: #fff;
+  }
+  .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ══════════════════════════════════
+     REPORT CARD PREVIEW (A4 style)
+     ══════════════════════════════════ */
+  .page-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    margin: 14px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .rc-page {
+    background: #FFFFFF;
+    color: #333;
+    max-width: 640px;
+    margin: 0 auto 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    font-size: 12px;
+    line-height: 1.35;
+    border-radius: 4px;
+  }
+  .rc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #ff6b35;
+    margin-bottom: 14px;
+    gap: 12px;
+  }
+  .rc-logos { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .rc-logos .logo-bba { height: 38px; width: auto; }
+  .rc-logos .logo-pa { height: 28px; width: auto; }
+  .rc-header-title { text-align: right; }
+  .rc-header-title h2 {
+    color: #ff6b35; font-size: 15pt; font-weight: 800; line-height: 1.2; margin: 0;
+  }
+  .rc-header-title p { color: #666; font-size: 11px; margin: 2px 0 0; }
+  .rc-student-box {
+    background: #ff6b35; color: #fff; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px;
+  }
+  .rc-student-box h3 { font-size: 15pt; font-weight: 800; margin: 0 0 8px; }
+  .rc-info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .rc-info-item { display: flex; flex-direction: column; }
+  .rc-info-item .lbl { font-size: 11px; opacity: 0.9; font-weight: 600; }
+  .rc-info-item .val { font-size: 13px; font-weight: 700; }
+  .rc-ranking-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #f8f9fa; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .rc-rank-item { text-align: left; }
+  .rc-rank-item .lbl { font-size: 11px; color: #666; font-weight: 600; margin-bottom: 2px; }
+  .rc-rank-item .val { font-size: 14pt; font-weight: 800; color: #ff6b35; }
+  .rc-section-title { font-size: 12px; font-weight: 700; color: #333; margin-bottom: 6px; }
+  .rc-grades-tbl { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  .rc-grades-tbl th {
+    background: #ff6b35; color: #fff; padding: 7px; font-size: 10.5px; font-weight: 700; text-align: center;
+  }
+  .rc-grades-tbl td {
+    padding: 8px; text-align: center; border: 1px solid #ddd; font-size: 12pt; font-weight: 800;
+  }
+  .grade-aplus { color: #1a8a4a; }
+  .grade-a { color: #27ae60; }
+  .grade-b { color: #f39c12; }
+  .rc-feedback { margin-bottom: 10px; }
+  .rc-feedback-box {
+    background: #f8f9fa; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #ff6b35;
+    font-size: 11.5px; line-height: 1.45; color: #333;
+  }
+  .rc-profile {
+    background: #ff6b35; color: #fff; padding: 14px; border-radius: 8px; margin-top: 10px;
+  }
+  .rc-profile-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .rc-profile h4 { color: #fff; font-size: 11.5px; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: 0.3px; }
+  .rc-topic-pill {
+    background: rgba(0,0,0,0.22);
+    color: #ffd700;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 12px;
+  }
+  .rc-profile .prof-title { font-size: 13.5pt; font-weight: 800; color: #ffd700; margin-bottom: 6px; }
+  .rc-skill-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .rc-skill-card {
+    background: rgba(255,255,255,0.18);
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 11.2px;
+    line-height: 1.42;
+  }
+  .rc-skill-card .sc-hdr {
+    color: #ffd700;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .rc-award-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0 4px; border-top: 1px solid #eee; margin-top: 10px; gap: 16px;
+  }
+  .rc-award-left { display: flex; align-items: center; gap: 12px; }
+  .rc-award-trophy { font-size: 40px; line-height: 1; }
+  .rc-award-text h4 {
+    font-size: 12.5pt; font-weight: 800; font-style: italic; color: #ff6b35; margin: 0 0 2px; line-height: 1.2;
+  }
+  .rc-award-text .award-val { font-size: 11.5px; font-weight: 700; color: #333; line-height: 1.3; }
+  .rc-award-teacher { text-align: right; flex-shrink: 0; }
+  .rc-award-teacher .teacher-name { font-size: 12px; font-weight: 800; color: #333; }
+  .rc-attr-section { margin-bottom: 14px; }
+  .rc-attr-section h4 {
+    font-size: 13px; font-weight: 800; color: #333; margin-bottom: 6px;
+    padding-bottom: 4px; border-bottom: 1.5px solid #ff6b35;
+  }
+  .rc-attr-tbl { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px; }
+  .rc-attr-tbl th {
+    background: #f8f9fa; padding: 6px 8px; text-align: left;
+    font-weight: 700; color: #555; border: 1px solid #ddd;
+  }
+  .rc-attr-tbl td { padding: 6px 8px; border: 1px solid #ddd; }
+  .rc-attr-tbl .gc { width: 55px; text-align: center; font-weight: 800; }
+  .rc-attr-tbl .overall-row { background: #fff3cd; font-weight: 700; }
+  .rc-year-section { margin-top: 14px; margin-bottom: 6px; }
+  .rc-year-summary {
+    display: flex; justify-content: space-around; background: #f8f9fa;
+    padding: 12px; border-radius: 8px;
+  }
+  .rc-year-item { text-align: center; }
+  .rc-year-item .lbl { font-size: 11px; color: #666; font-weight: 600; margin-bottom: 2px; }
+  .rc-year-item .val { font-size: 12pt; font-weight: 800; }
+
+  /* ── DOWNLOAD & NEXT STUDENT BUTTONS ── */
+  .dl-area { margin-top: 16px; }
+  .dl-link {
+    display: none; align-items: center; justify-content: center; gap: 8px;
+    padding: 15px 18px; border-radius: 10px; background: var(--green); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
+    text-decoration: none; text-align: center; margin-top: 10px; transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(39,174,96,0.25);
+  }
+  .dl-link:hover { background: #219a52; }
+  .dl-link.show { display: flex; }
+  .next-student-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: 10px;
+    border: 2px solid var(--orange);
+    background: var(--orange-light);
+    color: var(--orange);
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .next-student-btn:hover { background: var(--orange); color: #fff; }
+
+  .status-msg, .err-msg-dl {
+    display: none; padding: 10px 14px; border-radius: 8px; font-size: 13px;
+    font-weight: 700; text-align: center; margin-top: 10px;
+  }
+  .status-msg { background: #e8f5e9; border: 1px solid #a5d6a7; color: #2e7d32; }
+  .err-msg-dl { background: #fee; border: 1px solid #fcc; color: #c00; }
+  .status-msg.show, .err-msg-dl.show { display: block; }
+  .dark .status-msg { background: #1a2e1a; border-color: #2e5e2e; color: #81c784; }
+  .dark .err-msg-dl { background: #2e1a1a; border-color: #5e2e2e; color: #e57373; }
+
+  /* ── SESSION HISTORY PILLS ── */
+  .history-card {
+    display: none;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    border-left: 4px solid var(--green);
+  }
+  .history-card.active { display: block; }
+  .history-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .history-pill {
+    padding: 5px 11px;
+    border-radius: 16px;
+    background: var(--gray-bg);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .history-pill:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* ── CUSTOM MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    z-index: 200; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--card); border-radius: 12px; padding: 24px;
+    max-width: 460px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  }
+  .modal-box h3 {
+    font-size: 16px; font-weight: 800; color: var(--orange); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .modal-box p { font-size: 14px; color: var(--text); margin-bottom: 14px; line-height: 1.5; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; }
+  .modal-actions button {
+    padding: 10px 20px; border: none; border-radius: 8px;
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .modal-cancel { background: var(--gray-bg); color: var(--text-light); }
+  .modal-confirm { background: var(--orange); color: #fff; }
+
+  .word-counter { font-size: 12px; color: var(--text-light); text-align: right; margin-top: 4px; font-weight: 600; }
+  .word-counter.warn { color: var(--amber); }
+  .word-counter.over { color: var(--red); }
+  textarea.over-limit { border-color: var(--red) !important; background: #fef2f2; }
+  .dark textarea.over-limit { background: #2a1515; }
+
+  @media (max-width: 480px) {
+    .wizard-body { padding: 12px; }
+    .sec-card { padding: 14px; }
+    .field-row, .skill-pill-grid, .quota-pills { grid-template-columns: 1fr 1fr; }
+    .grade-row { flex-direction: column; align-items: flex-start; }
+    .grade-btns { width: 100%; justify-content: space-between; }
+    .grade-btn { flex: 1; }
+    .calc-grid { grid-template-columns: 1fr; }
+    .rc-page { padding: 14px; }
+    .rc-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .rc-header-title { text-align: left; }
+    .rc-info-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ WIZARD HEADER ═══════════════════ -->
+<div class="wizard-header">
+  <div class="header-top-bar">
+    <button class="header-icon-btn" onclick="toggleDarkMode()" title="Toggle Dark/Light Mode">
+      <i class="fas fa-moon"></i>
+    </button>
+    <h1><i class="fas fa-graduation-cap"></i> Project Alpha — Report Card Generator</h1>
+    <div style="display:flex;gap:6px">
+      <button class="header-icon-btn" onclick="openSopModal()" title="Teacher & PIC SOP Flow">
+        <i class="fas fa-clipboard-check"></i>
+      </button>
+      <button class="header-icon-btn" onclick="openSettingsModal()" title="AI & Settings">
+        <i class="fas fa-sliders"></i>
+      </button>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step-dot active" id="dot1" onclick="goStep(1, true)">1</div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-dot" id="dot2" onclick="goStep(2)">2</div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-dot" id="dot3" onclick="goStep(3)">3</div>
+  </div>
+  <div class="step-labels">
+    <span class="active" id="lbl1">1. Info</span>
+    <span id="lbl2">2. Grades &amp; Reasons</span>
+    <span id="lbl3">3. Review &amp; PDF</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ MAIN BODY ═══════════════════ -->
+<div class="wizard-body">
+
+  <!-- Completed Students in Current Session -->
+  <div class="history-card" id="historyCard">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:12px;font-weight:800;color:var(--green);text-transform:uppercase">
+        <i class="fas fa-check-circle"></i> Generated This Session (<span id="historyCount">0</span>)
+      </span>
+      <span style="font-size:11px;color:var(--text-light)">Tap a student to reload</span>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <!-- ═══════════════════ STEP 1: STUDENT INFO ═══════════════════ -->
+  <div class="wiz-page active" id="page1">
+
+    <!-- 1-Click Perfect Demo Loader for Boss Review & Teacher Reference -->
+    <div class="demo-bar">
+      <span><i class="fas fa-wand-magic-sparkles"></i> 1-Click Reference Samples:</span>
+      <div class="demo-btns">
+        <button type="button" class="demo-btn" onclick="loadPerfectSample('L2')">
+          ✨ L2 Science Sample
+        </button>
+        <button type="button" class="demo-btn" onclick="loadPerfectSample('L4')">
+          ✨ L4 micro:bit Sample
+        </button>
+        <button type="button" class="demo-btn" onclick="loadPerfectSample('L5')">
+          ✨ L5 Python &amp; Orange Pi Sample
+        </button>
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-title">
+        <div class="sec-title-left"><i class="fas fa-user-graduate"></i> Student &amp; Class Details</div>
+      </div>
+
+      <div class="field">
+        <label>Student Name</label>
+        <input type="text" id="fName" placeholder="e.g. Marco Leung / Gurung Grace">
+        <div class="err-text">Please enter the student's name</div>
+      </div>
+
+      <div class="field">
+        <label>Gender / Pronouns</label>
+        <div class="pronoun-group">
+          <button type="button" class="pronoun-btn active" data-pro="he" onclick="setPronoun('he')">
+            <i class="fas fa-child"></i> Boy (He / Him)
+          </button>
+          <button type="button" class="pronoun-btn" data-pro="she" onclick="setPronoun('she')">
+            <i class="fas fa-child-dress"></i> Girl (She / Her)
+          </button>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Level</label>
+          <select id="fLevel" onchange="onLevelChange()">
+            <option value="">Select...</option>
+            <option value="Level 1">Level 1 (Science Exploration)</option>
+            <option value="Level 2">Level 2 (Science Exploration)</option>
+            <option value="Level 3">Level 3 (Science Exploration)</option>
+            <option value="Level 4">Level 4 (micro:bit Block Coding)</option>
+            <option value="Level 5">Level 5 (Python &amp; Orange Pi)</option>
+          </select>
+          <div class="err-text">Required</div>
+        </div>
+        <div class="field">
+          <label>Centre (6 Locations)</label>
+          <select id="fCentre" onchange="saveClassPrefs()">
+            <option value="">Select...</option>
+            <option value="WC">Wan Chai</option>
+            <option value="TST">Tsim Sha Tsui</option>
+            <option value="ST">Sha Tin</option>
+            <option value="TKO">Tseung Kwan O</option>
+            <option value="TW">Tsuen Wan</option>
+            <option value="SZ">Shenzhen</option>
+          </select>
+          <div class="err-text">Required</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Term</label>
+          <select id="fTerm" onchange="saveClassPrefs()">
+            <option value="Fall" selected>Fall Term</option>
+            <option value="Winter">Winter Term</option>
+            <option value="Spring">Spring Term</option>
+          </select>
+          <div class="err-text">Required</div>
+        </div>
+        <div class="field">
+          <label>School Year</label>
+          <select id="fYear" onchange="saveClassPrefs()">
+            <option value="2025">2025</option>
+            <option value="2026" selected>2026</option>
+            <option value="2027">2027</option>
+          </select>
+          <div class="err-text">Required</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Teacher Name</label>
+        <input type="text" id="fTeacher" placeholder="e.g. Grace" oninput="saveClassPrefs()">
+        <div class="err-text">Required</div>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <div style="flex:1"></div>
+      <button class="nav-btn primary" onclick="goStep(2)">Next: Grades &amp; Tailored Feedback <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ STEP 2: BALANCED GRADES & TAILORED FEEDBACK ═══════════════════ -->
+  <div class="wiz-page" id="page2">
+
+    <!-- Sticky Grade Distribution Bar (Enforces Max 5 A+, Min 1 / Max 3 B, Max 3 C) -->
+    <div class="quota-bar">
+      <div class="quota-title">
+        <span><i class="fas fa-scale-balanced"></i> Balanced Grading Rules</span>
+        <span id="quotaStatusText" style="color:var(--text-light);font-weight:700">Select all 9 grades</span>
+      </div>
+      <div class="quota-pills">
+        <div class="quota-pill" id="qpAplus">
+          <span class="qp-grade" style="color:#1a8a4a">A+: <span id="cntAplus">0</span> / 5</span>
+          <span class="qp-limit">Min 1 • Max 5</span>
+        </div>
+        <div class="quota-pill ok" id="qpA">
+          <span class="qp-grade" style="color:#27ae60">A: <span id="cntA">0</span></span>
+          <span class="qp-limit">No Limit (Avg)</span>
+        </div>
+        <div class="quota-pill" id="qpB">
+          <span class="qp-grade" style="color:#f39c12">B: <span id="cntB">0</span> / 3</span>
+          <span class="qp-limit">Min 1 • Max 3</span>
+        </div>
+        <div class="quota-pill ok" id="qpC">
+          <span class="qp-grade" style="color:#e74c3c">C: <span id="cntC">0</span> / 3</span>
+          <span class="qp-limit">Max 3 (0 is best)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dynamic Attribute Tables (Auto-updates for L1-3 Science, L4 micro:bit, L5 Python/Orange Pi) -->
+    <div id="dynamicAttributeCards"></div>
+
+    <!-- ═══════════════════ 3-PART PERSONALISED FEEDBACK ═══════════════════ -->
+    <div class="sec-card">
+      <div class="sec-title">
+        <div class="sec-title-left">
+          <i class="fas fa-comment-dots"></i>
+          <span>Personalised Feedback (Catered to Selected A+ &amp; B Skills)</span>
+        </div>
+      </div>
+
+      <!-- PART 1: AREAS OF EXCELLENCE (WHY STUDENT GOT A+) -->
+      <div class="pillar-box excellence-box">
+        <div class="pillar-header">
+          <span><i class="fas fa-star"></i> 1. Areas of Excellence &amp; Standout Strengths (Why A+)</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--text-light);font-weight:700;margin-bottom:6px">
+          Skills graded <b>A+</b> (chips below automatically match these exact skills!):
+        </div>
+        <div class="auto-attr-badges" id="aplusBadges">
+          <span class="attr-badge empty">Select 1 to 5 A+ grades above to unlock tailored A+ chips...</span>
+        </div>
+
+        <div class="field" id="aplusReasonWrap">
+          <label>Why did the student earn A+ in these skills? (Min. 15 words — tap tailored chips below or type)</label>
+          <textarea id="fAplusReason" rows="3" oninput="checkMinWords('fAplusReason','barAplus','statusAplus','cntWordsAplus')" placeholder="Tap the tailored A+ chips below (matched to the exact A+ grades you picked above) or add your personal comment!"></textarea>
+          <div class="min-word-bar" id="barAplus">
+            <span id="statusAplus"><i class="fas fa-circle-exclamation"></i> Please write at least 15 words (or tap 2 tailored chips below)</span>
+            <span id="cntWordsAplus">0 / 15+ words</span>
+          </div>
+          <div class="err-text">Please write at least 15 words explaining why the student earned A+.</div>
+        </div>
+
+        <span class="chip-cat-label" id="aplusChipHeader"><i class="fas fa-bolt"></i> Tailored A+ Chips (Based on the A+ attributes you selected above):</span>
+        <div class="chip-wrap" id="aplusChipsContainer"></div>
+      </div>
+
+      <!-- PART 2: GROWTH & NEXT STEPS (WHY STUDENT GOT B) -->
+      <div class="pillar-box growth-box">
+        <div class="pillar-header">
+          <span><i class="fas fa-seedling"></i> 2. Focus Areas for Growth &amp; Next Steps (Why B — Min 1, Max 3)</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--text-light);font-weight:700;margin-bottom:6px">
+          Skills graded <b>B</b> (chips below automatically match these exact B skills!):
+        </div>
+        <div class="auto-attr-badges" id="bBadges">
+          <span class="attr-badge empty">Select 1 to 3 B grades above to unlock tailored B growth chips...</span>
+        </div>
+
+        <div class="field" id="bReasonWrap">
+          <label>Why did the student get a B here &amp; how can they level up? (Min. 15 words — tap tailored chips below or type)</label>
+          <textarea id="fBReason" rows="3" oninput="checkMinWords('fBReason','barB','statusB','cntWordsB')" placeholder="Tap the tailored B growth chips below (matched to the exact B grades you picked above) or add your constructive advice!"></textarea>
+          <div class="min-word-bar" id="barB">
+            <span id="statusB"><i class="fas fa-circle-exclamation"></i> Please write at least 15 words (or tap 2 tailored chips below)</span>
+            <span id="cntWordsB">0 / 15+ words</span>
+          </div>
+          <div class="err-text">Please write at least 15 words explaining the B growth area(s).</div>
+        </div>
+
+        <span class="chip-cat-label" id="bChipHeader"><i class="fas fa-arrow-trend-up"></i> Tailored B Growth Chips (Based on the B attributes you selected above):</span>
+        <div class="chip-wrap" id="bChipsContainer"></div>
+      </div>
+
+      <!-- PART 3: CLASS BEHAVIOUR (MULTI-SELECT UP TO 3, NO TYPING REQUIRED) -->
+      <div class="pillar-box behaviour-box">
+        <div class="pillar-header">
+          <span><i class="fas fa-users"></i> 3. Class Behaviour &amp; Attitude (Pick 1 to 3 — No Typing!)</span>
+          <span id="behaviourCountLabel" style="font-size:11px;color:var(--text-light)">2 / 3 selected</span>
+        </div>
+        <label style="font-size:11px;font-weight:800;color:var(--text-light);text-transform:uppercase;display:block;margin-bottom:8px">
+          Tap 1 to 3 standout classroom behaviours (we'll write the sentence automatically):
+        </label>
+        <div class="skill-pill-grid" id="behaviourPills"></div>
+      </div>
+    </div>
+
+    <!-- Auto-calculated summary -->
+    <div class="calc-summary" id="calcSummary">
+      <h4><i class="fas fa-calculator"></i> Auto-calculated Category Averages</h4>
+      <div class="calc-grid">
+        <div class="calc-item"><span class="calc-label">Overall Term Grade</span><span class="calc-val" id="calcAll">—</span></div>
+        <div class="calc-item"><span class="calc-label">Ranking</span><span class="calc-val" id="calcRank">—</span></div>
+        <div class="calc-item"><span class="calc-label" id="calcCat1Label">Scientific Thinking</span><span class="calc-val" id="calcSci">—</span></div>
+        <div class="calc-item"><span class="calc-label">Hands-on Eng.</span><span class="calc-val" id="calcHand">—</span></div>
+        <div class="calc-item"><span class="calc-label">Communication &amp; Prep</span><span class="calc-val" id="calcPres">—</span></div>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <button class="nav-btn secondary" onclick="goStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+      <button class="nav-btn primary" onclick="goStep(3)">Next: Generate Report Card <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ STEP 3: REVIEW & DOWNLOAD ═══════════════════ -->
+  <div class="wiz-page" id="page3">
+
+    <div class="sec-card ai-gen-area" id="aiGenArea">
+      <i class="fas fa-wand-magic-sparkles" style="font-size:36px;color:var(--orange);margin-bottom:8px"></i>
+      <p>We'll polish your notes into a warm <b>Overall Feedback</b>, <b>Areas of Excellence (A+)</b>, <b>Focus for Growth (B)</b>, and <b>Class Behaviour</b> report card.</p>
+      <button class="nav-btn primary" onclick="generateAI()" id="btnGenerate" style="max-width:340px;margin:0 auto">
+        <i class="fas fa-pen-fancy"></i> Generate Report Card &amp; PDF
+      </button>
+    </div>
+
+    <div class="ai-loading" id="aiLoading">
+      <div class="ai-spinner"></div>
+      <p id="aiLoadingText">Polishing personalised feedback &amp; building PDF...</p>
+    </div>
+
+    <div class="ai-err" id="aiErr"></div>
+
+    <div class="ai-results" id="aiResults">
+      <div class="sec-card">
+        <div class="sec-title">
+          <div class="sec-title-left"><i class="fas fa-pen-fancy"></i> Overall Teacher's Feedback <span style="font-size:11px;color:var(--text-light);font-weight:600">(Direct to student)</span></div>
+        </div>
+        <div class="field">
+          <textarea id="aiFeedback" rows="3" oninput="updateWordCount(this,'wcFeedback',55)"></textarea>
+          <div class="word-counter" id="wcFeedback">0 / 55 words</div>
+        </div>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-title">
+          <div class="sec-title-left"><i class="fas fa-id-badge"></i> Student Profile &amp; 3-Part Breakdown</div>
+        </div>
+        <div class="field">
+          <label>Profile Title (2–4 Words)</label>
+          <input type="text" id="aiProfileTitle">
+        </div>
+        <div class="field">
+          <label>1. Areas of Excellence (<span id="lblReviewAplus">A+ Strengths</span>)</label>
+          <textarea id="aiExTech" rows="2" oninput="updateWordCount(this,'wcExTech',40)"></textarea>
+          <div class="word-counter" id="wcExTech">0 / 40 words</div>
+        </div>
+        <div class="field">
+          <label>2. Focus for Growth &amp; Next Steps (<span id="lblReviewB">B Growth Areas</span>)</label>
+          <textarea id="aiExPres" rows="2" oninput="updateWordCount(this,'wcExPres',40)"></textarea>
+          <div class="word-counter" id="wcExPres">0 / 40 words</div>
+        </div>
+        <div class="field">
+          <label>3. Class Behaviour &amp; Attitude (<span id="lblReviewSoft">Selected Behaviours</span>)</label>
+          <textarea id="aiExSoft" rows="2" oninput="updateWordCount(this,'wcExSoft',35)"></textarea>
+          <div class="word-counter" id="wcExSoft">0 / 35 words</div>
+        </div>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-title">
+          <div class="sec-title-left"><i class="fas fa-trophy"></i> Award of the Year</div>
+        </div>
+        <div class="field">
+          <input type="text" id="aiAward" placeholder="Auto-generated based on A+ strengths">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+        <button class="nav-btn secondary" onclick="generateAI()" style="flex:1;min-width:140px">
+          <i class="fas fa-rotate"></i> <span>Regenerate</span>
+        </button>
+        <button class="nav-btn primary" onclick="validateAndBuild()" style="flex:1;min-width:140px" id="btnBuild">
+          <i class="fas fa-file-pdf"></i> Rebuild PDF
+        </button>
+      </div>
+
+      <!-- Download area -->
+      <div class="dl-area" id="dlArea" style="display:none">
+        <a class="dl-link show" id="dlLink" href="#" download="Report Card.pdf">
+          <i class="fas fa-download"></i> Download Report Card PDF
+        </a>
+        <div class="status-msg show" id="statusMsg">PDF ready! Tap the green button above to save it, then upload to Google Drive for Centre PIC check.</div>
+        <div class="err-msg-dl" id="errMsgDl"></div>
+        <button type="button" class="next-student-btn" onclick="startNextStudent()">
+          <i class="fas fa-user-plus"></i> Start Next Student (Keep Class &amp; Teacher Info)
+        </button>
+      </div>
+
+      <!-- Preview toggle -->
+      <button class="preview-toggle" id="previewToggle" onclick="togglePreview()" style="display:none">
+        <i class="fas fa-eye"></i> <span id="previewToggleText">Hide Preview</span>
+      </button>
+      <div class="preview-wrap open" id="previewWrap">
+        <div class="page-label">Page 1 — Term Report Card</div>
+        <div class="rc-page" id="rcPage1"></div>
+        <div class="page-label">Page 2 — Key Attributes Assessment</div>
+        <div class="rc-page" id="rcPage2"></div>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <button class="nav-btn secondary" onclick="goStep(2)"><i class="fas fa-arrow-left"></i> Back to Grades</button>
+    </div>
+  </div>
+
+</div><!-- end wizard-body -->
+
+<!-- Alert Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <h3><i class="fas fa-circle-exclamation"></i> Attention Needed</h3>
+    <p id="modalMsg"></p>
+    <div class="modal-actions">
+      <button class="modal-confirm" onclick="closeModal()">Got It</button>
+    </div>
+  </div>
+</div>
+
+<!-- SOP Flow Modal -->
+<div class="modal-overlay" id="sopModal">
+  <div class="modal-box">
+    <h3><i class="fas fa-clipboard-check"></i> Project Alpha Report Card SOP</h3>
+    <p style="font-size:13px;line-height:1.6">
+      <b>1. Balanced Grading Rules:</b><br>
+      • <b>A+ (Min 1, Max 5):</b> Celebrates the student's standout strengths.<br>
+      • <b>A (Unlimited):</b> Solid benchmark mastery.<br>
+      • <b>B (Min 1, Max 3):</b> Essential growth area so parents see clear next steps for continuing next term.<br><br>
+      <b>2. Approval Flow:</b><br>
+      <span style="color:var(--orange);font-weight:800">Teacher Generates PDF ➔ Centre PIC Double Checks ➔ Send to Ops &amp; Share with Parents</span>
+    </p>
+    <div class="modal-actions">
+      <button class="modal-confirm" onclick="closeSopModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-box">
+    <h3><i class="fas fa-robot"></i> AI Engine Settings</h3>
+    <p style="font-size:13px;color:var(--text-light)">
+      By default, this app uses a <b>Zero-Login Cloud AI</b> plus a <b>Built-in Tailored Synthesizer</b> so FT &amp; PT teachers never need an account. Optionally, paste a <b>Google Gemini API Key</b> below.
+    </p>
+    <div class="field">
+      <label>Optional Gemini API Key (Leave blank for Free Zero-Key AI)</label>
+      <input type="password" id="cfgGeminiKey" placeholder="AIzaSy...">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeSettingsModal()">Cancel</button>
+      <button class="modal-confirm" onclick="saveSettingsModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  LEVEL-SPECIFIC RUBRIC DEFINITIONS
+// ══════════════════════════════════════════
+var LEVEL_RUBRICS = {
+  science: {
+    cat1Title: 'Scientific Thinking',
+    cat1Icon: 'fa-flask',
+    cat1Attrs: [
+      { key: 'curiosity', name: 'Curiosity', desc: 'Asks questions and wants to explore' },
+      { key: 'criticalThinking', name: 'Critical Thinking', desc: "Compares results and checks what's fair" },
+      { key: 'reasoning', name: 'Reasoning Skills', desc: 'Uses evidence to explain conclusions' }
+    ],
+    cat2Title: 'Hands-on Engineering',
+    cat2Icon: 'fa-tools',
+    cat2Attrs: [
+      { key: 'creativity', name: 'Creativity', desc: 'Thinks of new designs and ideas' },
+      { key: 'handsOn', name: 'Hands-on', desc: 'Stays focused & builds confidently' },
+      { key: 'resilience', name: 'Resilience', desc: 'Keeps trying and improves after mistakes' }
+    ],
+    cat3Title: 'In-Class Communication & Showcase Prep',
+    cat3Icon: 'fa-microphone-alt',
+    cat3Attrs: [
+      { key: 'articulation', name: 'Articulation', desc: 'Speaks clearly and organizes ideas well' },
+      { key: 'bodyLanguage', name: 'Body Language', desc: 'Good eye contact, posture & gesture' },
+      { key: 'confidence', name: 'Confidence', desc: 'Willing to speak up and share in class' }
+    ]
+  },
+  level4: {
+    cat1Title: 'Computational & micro:bit Coding',
+    cat1Icon: 'fa-microchip',
+    cat1Attrs: [
+      { key: 'curiosity', name: 'Algorithmic Thinking', desc: 'Builds logical sequences, loops & conditions in MakeCode' },
+      { key: 'criticalThinking', name: 'Sensor & Input Logic', desc: 'Programs micro:bit buttons, sensors & LEDs accurately' },
+      { key: 'reasoning', name: 'Debugging Skills', desc: 'Tests block code and fixes logic errors independently' }
+    ],
+    cat2Title: 'Hands-on Engineering',
+    cat2Icon: 'fa-tools',
+    cat2Attrs: [
+      { key: 'creativity', name: 'Creativity', desc: 'Thinks of new designs and ideas' },
+      { key: 'handsOn', name: 'Hands-on', desc: 'Stays focused & builds confidently' },
+      { key: 'resilience', name: 'Resilience', desc: 'Keeps trying and improves after mistakes' }
+    ],
+    cat3Title: 'In-Class Communication & Showcase Prep',
+    cat3Icon: 'fa-microphone-alt',
+    cat3Attrs: [
+      { key: 'articulation', name: 'Technical Explanation', desc: 'Explains how their micro:bit code and hardware work' },
+      { key: 'bodyLanguage', name: 'Demo Readiness', desc: 'Demonstrates their prototype clearly with good posture' },
+      { key: 'confidence', name: 'Pitch Confidence', desc: 'Shares project ideas and answers questions confidently' }
+    ]
+  },
+  level5: {
+    cat1Title: 'Python Coding & Orange Pi Systems',
+    cat1Icon: 'fa-terminal',
+    cat1Attrs: [
+      { key: 'curiosity', name: 'Python Syntax & Logic', desc: 'Writes clean Python scripts, variables & control flow' },
+      { key: 'criticalThinking', name: 'Orange Pi Integration', desc: 'Interfaces software with Orange Pi hardware & peripherals' },
+      { key: 'reasoning', name: 'System Troubleshooting', desc: 'Diagnoses terminal errors and refines code logic' }
+    ],
+    cat2Title: 'Hands-on Engineering',
+    cat2Icon: 'fa-tools',
+    cat2Attrs: [
+      { key: 'creativity', name: 'Creativity', desc: 'Thinks of new designs and ideas' },
+      { key: 'handsOn', name: 'Hands-on', desc: 'Stays focused & builds confidently' },
+      { key: 'resilience', name: 'Resilience', desc: 'Keeps trying and improves after mistakes' }
+    ],
+    cat3Title: 'In-Class Communication & Showcase Prep',
+    cat3Icon: 'fa-microphone-alt',
+    cat3Attrs: [
+      { key: 'articulation', name: 'Code & System Walkthrough', desc: 'Clearly explains Python logic and system architecture' },
+      { key: 'bodyLanguage', name: 'Prototype Demonstration', desc: 'Presents live hardware & software demos with poise' },
+      { key: 'confidence', name: 'Technical Q&A Confidence', desc: 'Answers technical questions about their build with confidence' }
+    ]
+  }
+};
+
+// ══════════════════════════════════════════
+//  ATTRIBUTE-SPECIFIC TAILORED CHIPS
+// ══════════════════════════════════════════
+var ATTR_TAILORED_CHIPS = {
+  science: {
+    curiosity: {
+      aplus: 'showed infectious curiosity in class, always asking thoughtful "why" and "how" questions before every experiment',
+      b: 'is encouraged to ask more questions during the hypothesis stage to explore why scientific reactions happen'
+    },
+    criticalThinking: {
+      aplus: 'excelled at comparing experimental results carefully and spotting what made each scientific test fair',
+      b: 'can level up by comparing different test results more closely before jumping to a final conclusion'
+    },
+    reasoning: {
+      aplus: 'consistently used real observations and experimental evidence to explain scientific conclusions logically',
+      b: 'is working on connecting hands-on observations directly to scientific concepts when explaining why an experiment worked'
+    },
+    creativity: {
+      aplus: 'brought wonderful imagination to class, adding creative original touches and design ideas to every science model',
+      b: 'is encouraged to experiment with more original design variations beyond the standard teacher example'
+    },
+    handsOn: {
+      aplus: 'demonstrated fantastic hands-on precision, assembling experiment setups and models with steady focus',
+      b: 'will benefit from slowing down slightly during hands-on assembly to make sure every part is connected securely'
+    },
+    resilience: {
+      aplus: 'showed amazing resilience whenever an experiment needed adjusting, patiently re-testing until it succeeded',
+      b: 'is learning to stay calm and patient when an experiment does not work on the very first try'
+    },
+    articulation: {
+      aplus: 'explained scientific steps and findings using clear, well-organized sentences and accurate vocabulary',
+      b: 'is practicing organizing thoughts into complete sentences so classmates can follow the scientific explanation easily'
+    },
+    bodyLanguage: {
+      aplus: 'shared work with natural eye contact, upright posture, and expressive gestures when showing models',
+      b: 'can build stronger stage presence by standing tall and looking up at the audience instead of looking down at the table'
+    },
+    confidence: {
+      aplus: 'volunteered eagerly to share ideas and spoke up with wonderful volume and enthusiasm in class',
+      b: 'is encouraged to project the voice louder and trust their own scientific ideas when speaking in front of the group'
+    }
+  },
+  level4: {
+    curiosity: {
+      aplus: 'mastered MakeCode block sequences, loops, and conditional logic quickly to make the micro:bit perform complex actions',
+      b: 'is practicing how to structure nested loops and if-else conditions in MakeCode more independently'
+    },
+    criticalThinking: {
+      aplus: 'programmed micro:bit sensors, buttons, and LED outputs with impressive accuracy during hardware builds',
+      b: 'will benefit from double-checking sensor input thresholds and pin connections when testing the micro:bit'
+    },
+    reasoning: {
+      aplus: 'showed sharp debugging skills by tracing block logic step-by-step and fixing code issues independently',
+      b: 'is learning to test block code in smaller steps to spot and fix logic bugs before adding new features'
+    },
+    creativity: {
+      aplus: 'engineered creative custom features and original game/sensor ideas into the micro:bit prototype',
+      b: 'is encouraged to customize the micro:bit project with more original features beyond the base template'
+    },
+    handsOn: {
+      aplus: 'built and wired the physical micro:bit expansion components with confident, steady hands-on skill',
+      b: 'can improve prototype reliability by securing wiring and mechanical parts more carefully during assembly'
+    },
+    resilience: {
+      aplus: 'persisted patiently through tricky hardware and coding bugs, iterating on the prototype until it worked smoothly',
+      b: 'is building resilience to troubleshoot hardware or code hiccups calmly without getting frustrated'
+    },
+    articulation: {
+      aplus: 'walked through how the MakeCode blocks control the micro:bit hardware with impressive clarity',
+      b: 'is practicing how to explain the connection between the block code and the sensors clearly for the showcase'
+    },
+    bodyLanguage: {
+      aplus: 'demonstrated the live micro:bit prototype clearly while maintaining strong posture and audience eye contact',
+      b: 'is reminded to angle the micro:bit prototype toward the audience and maintain eye contact during live demos'
+    },
+    confidence: {
+      aplus: 'pitched project ideas with great energy and answered technical questions from peers confidently',
+      b: 'is working on speaking with greater vocal projection when pitching how the micro:bit invention works'
+    }
+  },
+  level5: {
+    curiosity: {
+      aplus: 'wrote clean, well-structured Python scripts using variables, loops, and functions with strong logical flow',
+      b: 'can improve coding fluency by paying closer attention to Python syntax, indentation, and variable naming'
+    },
+    criticalThinking: {
+      aplus: 'integrated Python software with the Orange Pi hardware peripherals and sensors smoothly and reliably',
+      b: 'is practicing how to configure and verify Orange Pi hardware interfaces and GPIO/USB connections step by step'
+    },
+    reasoning: {
+      aplus: 'diagnosed terminal error messages effectively and refactored Python logic to solve system bugs independently',
+      b: 'is encouraged to read terminal traceback messages carefully to pinpoint line errors before asking for hints'
+    },
+    creativity: {
+      aplus: 'architected innovative custom features and UI/hardware enhancements that elevated the Orange Pi project',
+      b: 'is encouraged to explore adding custom features or UI improvements to make the Python project uniquely their own'
+    },
+    handsOn: {
+      aplus: 'handled Orange Pi hardware setup, wiring, and peripheral assembly with focused engineering precision',
+      b: 'will benefit from keeping hardware wiring and peripheral connections neat and organized during testing'
+    },
+    resilience: {
+      aplus: 'demonstrated grit when tackling complex Python and Linux hardware integration challenges, iterating until it ran cleanly',
+      b: 'is developing patience when debugging multi-step Python and hardware integration issues'
+    },
+    articulation: {
+      aplus: 'delivered a clear, logical walkthrough of the Python code architecture and how the Orange Pi system operates',
+      b: 'is working on summarizing complex Python logic in clear, accessible language for parents and audiences'
+    },
+    bodyLanguage: {
+      aplus: 'conducted live Orange Pi software and hardware demonstrations with poised posture and natural audience engagement',
+      b: 'is encouraged to look up from the monitor/terminal screen more often to connect with the audience during live demos'
+    },
+    confidence: {
+      aplus: 'fielded technical Q&A about the Python script and hardware setup with impressive poise and authority',
+      b: 'is building confidence to explain technical design choices louder and more decisively during Q&A'
+    }
+  }
+};
+
+// 10 Varied Classroom Behaviours with natural grammatical phrases
+var BEHAVIOUR_OPTIONS = [
+  { id: 'Teamwork & Peer Support', icon: 'fa-people-group', label: 'Teamwork & Peer Support', phrase: 'supporting classmates through generous teamwork' },
+  { id: 'Always Asks Curious Questions', icon: 'fa-circle-question', label: 'Always Asks Questions', phrase: 'proactively asking curious questions' },
+  { id: 'Completes Tasks Independently', icon: 'fa-user-check', label: 'Completes Tasks Independently', phrase: 'completing multi-step tasks independently' },
+  { id: 'Laser Focus & Self-Discipline', icon: 'fa-bullseye', label: 'Laser Focus & Attention', phrase: 'maintaining laser-sharp focus and self-discipline' },
+  { id: 'Persistent Problem Solver', icon: 'fa-puzzle-piece', label: 'Persistent Problem Solver', phrase: 'persisting patiently when solving tough challenges' },
+  { id: 'Active & Respectful Listener', icon: 'fa-ear-listen', label: 'Active & Respectful Listener', phrase: 'listening actively and respectfully to teachers and peers' },
+  { id: 'Creative Risk-Taker', icon: 'fa-lightbulb', label: 'Creative Risk-Taker', phrase: 'taking creative risks when testing new ideas' },
+  { id: 'Organised Lab / Desk Habits', icon: 'fa-boxes-stacked', label: 'Organised Workspace Habits', phrase: 'keeping tools and workspace neatly organised' },
+  { id: 'Enthusiastic Class Contributor', icon: 'fa-hand-sparkles', label: 'Enthusiastic Contributor', phrase: 'contributing enthusiastically to class discussions' },
+  { id: 'Patient & Detail-Oriented', icon: 'fa-magnifying-glass', label: 'Patient & Detail-Oriented', phrase: 'working with patience and close attention to detail' }
+];
+
+var MIN_TEACHER_WORDS = 15;
+var chipCountAplus = 0;
+var chipCountB = 0;
+
+// ══════════════════════════════════════════
+//  DARK MODE & MODALS
+// ══════════════════════════════════════════
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.documentElement.classList.add('dark');
+}
+function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+function openSopModal() { document.getElementById('sopModal').classList.add('open'); }
+function closeSopModal() { document.getElementById('sopModal').classList.remove('open'); }
+function openSettingsModal() {
+  document.getElementById('cfgGeminiKey').value = localStorage.getItem('bba_gemini_key') || '';
+  document.getElementById('settingsModal').classList.add('open');
+}
+function closeSettingsModal() { document.getElementById('settingsModal').classList.remove('open'); }
+function saveSettingsModal() {
+  var k = document.getElementById('cfgGeminiKey').value.trim();
+  if (k) localStorage.setItem('bba_gemini_key', k);
+  else localStorage.removeItem('bba_gemini_key');
+  closeSettingsModal();
+}
+
+// ══════════════════════════════════════════
+//  CONSTANTS & LOGOS
+// ══════════════════════════════════════════
+var LOGO_BBA = 'https://pfst.cf2.poecdn.net/base/image/2dfb7698eb697132cf7c53538f11868834efcd735323a30715db1b04a0b0dc5d?w=1924&h=485';
+var LOGO_PA = 'https://pfst.cf2.poecdn.net/base/image/90c1395e063a98680467133308c2818f207bd606f17276b3c67cafdbe0c3d3ac?w=1080&h=301';
+
+var CENTRE_NAMES = {
+  WC: 'Wan Chai',
+  TST: 'Tsim Sha Tsui',
+  ST: 'Sha Tin',
+  TKO: 'Tseung Kwan O',
+  TW: 'Tsuen Wan',
+  SZ: 'Shenzhen'
+};
+
+var ALL_ATTR_KEYS = ['curiosity','criticalThinking','reasoning','creativity','handsOn','resilience','articulation','bodyLanguage','confidence'];
+var GRADE_VAL = { 'A+': 4, 'A': 3, 'B': 2, 'C': 1 };
+
+function numToGrade(n) {
+  if (n >= 3.5) return 'A+';
+  if (n >= 2.5) return 'A';
+  if (n >= 1.5) return 'B';
+  return 'C';
+}
+function displayGrade(g) { return g === 'C' ? 'B' : g; }
+function numToRank(n) {
+  if (n >= 3.5) return 'Distinction';
+  if (n >= 2.5) return 'Merit';
+  if (n >= 1.5) return 'Pass';
+  return 'Developing';
+}
+function avgGrades(keys) {
+  var sum = 0, cnt = 0;
+  keys.forEach(function(k) {
+    if (grades[k]) { sum += GRADE_VAL[grades[k]]; cnt++; }
+  });
+  return cnt > 0 ? sum / cnt : 0;
+}
+
+var TERM_DATES = {
+  'Fall': { months: 'Sep {y} - Dec {y}' },
+  'Winter': { months: 'Jan {y} - Mar {y}' },
+  'Spring': { months: 'Apr {y} - Jun {y}' }
+};
+function buildTermStr(term, year) {
+  if (!term || !year) return '';
+  var yShort = year.slice(2);
+  var info = TERM_DATES[term];
+  return info ? term + ' Term (' + info.months.replace(/\{y\}/g, yShort) + ')' : term + ' Term';
+}
+
+// ══════════════════════════════════════════
+//  STATE & DYNAMIC RUBRIC RENDERING
+// ══════════════════════════════════════════
+var currentStep = 1;
+var selectedPronoun = 'he';
+var selectedBehaviours = ['Teamwork & Peer Support', 'Always Asks Curious Questions'];
+var grades = {};
+var S = {};
+var sessionHistory = [];
+
+function getRubricKeyForLevel(lvl) {
+  if (lvl === 'Level 4') return 'level4';
+  if (lvl === 'Level 5') return 'level5';
+  return 'science';
+}
+function getCurrentRubric() {
+  var lvl = document.getElementById('fLevel').value;
+  return LEVEL_RUBRICS[getRubricKeyForLevel(lvl)];
+}
+function getAttrNameByKey(key) {
+  var rub = getCurrentRubric();
+  var all = rub.cat1Attrs.concat(rub.cat2Attrs, rub.cat3Attrs);
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].key === key) return all[i].name;
+  }
+  return key;
+}
+
+function setPronoun(pro) {
+  selectedPronoun = (pro === 'she') ? 'she' : 'he';
+  document.querySelectorAll('[data-pro]').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.pro === selectedPronoun);
+  });
+}
+
+function onLevelChange() {
+  saveClassPrefs();
+  renderAttributeCards();
+  updateCalcSummary();
+}
+
+function renderAttributeCards() {
+  var rub = getCurrentRubric();
+  var container = document.getElementById('dynamicAttributeCards');
+  document.getElementById('calcCat1Label').textContent = rub.cat1Title;
+
+  function buildCardHtml(title, icon, attrs) {
+    var html = '<div class="sec-card"><div class="sec-title"><div class="sec-title-left"><i class="fas ' + icon + '"></i> ' + esc(title) + ' Attributes</div></div>';
+    attrs.forEach(function(a) {
+      var curG = grades[a.key] || '';
+      html += '<div class="grade-row" data-field="' + a.key + '">';
+      html += '  <div class="grade-info"><div class="grade-name">' + esc(a.name) + '</div><div class="grade-desc">' + esc(a.desc) + '</div></div>';
+      html += '  <div class="grade-btns">';
+      ['A+','A','B','C'].forEach(function(g) {
+        var selCls = '';
+        if (curG === g) {
+          selCls = g === 'A+' ? ' sel-aplus' : g === 'A' ? ' sel-a' : g === 'B' ? ' sel-b' : ' sel-c';
+        }
+        html += '<button type="button" class="grade-btn' + selCls + '" data-val="' + g + '">' + g + '</button>';
+      });
+      html += '  </div></div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  container.innerHTML =
+    buildCardHtml(rub.cat1Title, rub.cat1Icon, rub.cat1Attrs) +
+    buildCardHtml(rub.cat2Title, rub.cat2Icon, rub.cat2Attrs) +
+    buildCardHtml(rub.cat3Title, rub.cat3Icon, rub.cat3Attrs);
+
+  refreshQuotaAndBadges();
+}
+
+function renderTailoredAttributeChips() {
+  var rk = getRubricKeyForLevel(document.getElementById('fLevel').value);
+  var bank = ATTR_TAILORED_CHIPS[rk] || ATTR_TAILORED_CHIPS.science;
+  var aplusBox = document.getElementById('aplusChipsContainer');
+  var bBox = document.getElementById('bChipsContainer');
+  aplusBox.innerHTML = '';
+  bBox.innerHTML = '';
+
+  var aplusKeys = [], bKeys = [];
+  ALL_ATTR_KEYS.forEach(function(k) {
+    if (grades[k] === 'A+') aplusKeys.push(k);
+    if (grades[k] === 'B' || grades[k] === 'C') bKeys.push(k);
+  });
+
+  var activeAplusKeys = aplusKeys.length > 0 ? aplusKeys : ['curiosity', 'creativity', 'handsOn', 'articulation'];
+  activeAplusKeys.forEach(function(k) {
+    var attrName = getAttrNameByKey(k);
+    var chipText = bank[k] ? bank[k].aplus : '';
+    if (!chipText) return;
+    var s = document.createElement('span');
+    s.className = 'obs-chip aplus-chip';
+    s.innerHTML = '<i class="fas fa-plus"></i> <b>' + esc(attrName) + ':</b> ' + esc(chipText.slice(0, 42)) + '...';
+    s.title = chipText;
+    s.onclick = function() { appendChipTo('fAplusReason', chipText, 'aplus'); };
+    aplusBox.appendChild(s);
+  });
+
+  var activeBKeys = bKeys.length > 0 ? bKeys : ['reasoning', 'articulation', 'bodyLanguage'];
+  activeBKeys.forEach(function(k) {
+    var attrName = getAttrNameByKey(k);
+    var chipText = bank[k] ? bank[k].b : '';
+    if (!chipText) return;
+    var s = document.createElement('span');
+    s.className = 'obs-chip b-chip';
+    s.innerHTML = '<i class="fas fa-plus"></i> <b>' + esc(attrName) + ':</b> ' + esc(chipText.slice(0, 42)) + '...';
+    s.title = chipText;
+    s.onclick = function() { appendChipTo('fBReason', chipText, 'b'); };
+    bBox.appendChild(s);
+  });
+}
+
+function renderBehaviourPills() {
+  var box = document.getElementById('behaviourPills');
+  box.innerHTML = '';
+  BEHAVIOUR_OPTIONS.forEach(function(opt) {
+    var isSel = selectedBehaviours.indexOf(opt.id) !== -1;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'skill-pill-btn' + (isSel ? ' active' : '');
+    btn.innerHTML = '<i class="fas ' + opt.icon + '"></i> <span>' + esc(opt.label) + '</span>';
+    btn.onclick = function() { toggleBehaviourPill(opt.id); };
+    box.appendChild(btn);
+  });
+  document.getElementById('behaviourCountLabel').textContent = selectedBehaviours.length + ' / 3 selected';
+}
+
+function toggleBehaviourPill(id) {
+  var idx = selectedBehaviours.indexOf(id);
+  if (idx !== -1) {
+    if (selectedBehaviours.length <= 1) {
+      showModal('Please keep at least 1 Class Behaviour selected.');
+      return;
+    }
+    selectedBehaviours.splice(idx, 1);
+  } else {
+    if (selectedBehaviours.length >= 3) {
+      showModal('Maximum 3 Class Behaviours allowed! Unselect one first if you want to switch.');
+      return;
+    }
+    selectedBehaviours.push(id);
+  }
+  renderBehaviourPills();
+}
+
+// ══════════════════════════════════════════
+//  GRADE QUOTA ENFORCEMENT & AUTO-BADGES
+// ══════════════════════════════════════════
+function getGradeCounts() {
+  var c = { 'A+': 0, 'A': 0, 'B': 0, 'C': 0, total: 0 };
+  ALL_ATTR_KEYS.forEach(function(k) {
+    var g = grades[k];
+    if (g && c[g] !== undefined) {
+      c[g]++;
+      c.total++;
+    }
+  });
+  return c;
+}
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.grade-btn');
+  if (!btn) return;
+  var row = btn.closest('.grade-row');
+  var field = row.dataset.field;
+  var newVal = btn.dataset.val;
+  var curVal = grades[field];
+
+  if (curVal === newVal) return;
+
+  var counts = getGradeCounts();
+  if (newVal === 'A+' && counts['A+'] >= 5) {
+    showModal('Maximum 5 A+ grades allowed! Parents value a balanced report card — please use A for solid mastery or switch another A+ first.');
+    return;
+  }
+  if (newVal === 'B' && counts['B'] >= 3) {
+    showModal('Maximum 3 B grades allowed! Please use A for the remaining attributes so the report stays encouraging.');
+    return;
+  }
+  if (newVal === 'C' && counts['C'] >= 3) {
+    showModal('Maximum 3 C grades allowed.');
+    return;
+  }
+
+  setGradeBtn(field, newVal);
+  updateCalcSummary();
+  refreshQuotaAndBadges();
+});
+
+function setGradeBtn(field, grade) {
+  if (!grade) return;
+  grades[field] = grade;
+  var row = document.querySelector('[data-field="' + field + '"]');
+  if (!row) return;
+  row.querySelectorAll('.grade-btn').forEach(function(btn) {
+    btn.className = 'grade-btn';
+    if (btn.dataset.val === grade) {
+      var cls = grade === 'A+' ? 'sel-aplus' : grade === 'A' ? 'sel-a' : grade === 'B' ? 'sel-b' : 'sel-c';
+      btn.classList.add(cls);
+    }
+  });
+  row.classList.remove('missing');
+}
+
+function refreshQuotaAndBadges() {
+  var c = getGradeCounts();
+  document.getElementById('cntAplus').textContent = c['A+'];
+  document.getElementById('cntA').textContent = c['A'];
+  document.getElementById('cntB').textContent = c['B'];
+  document.getElementById('cntC').textContent = c['C'];
+
+  var qpAplus = document.getElementById('qpAplus');
+  var qpB = document.getElementById('qpB');
+  qpAplus.className = 'quota-pill ' + (c['A+'] >= 1 && c['A+'] <= 5 ? 'ok' : 'warn');
+  qpB.className = 'quota-pill ' + (c['B'] >= 1 && c['B'] <= 3 ? 'ok' : 'warn');
+
+  var statusEl = document.getElementById('quotaStatusText');
+  if (c.total < 9) {
+    statusEl.textContent = (9 - c.total) + ' grade(s) left to pick';
+    statusEl.style.color = 'var(--text-light)';
+  } else if (c['B'] < 1) {
+    statusEl.textContent = 'Need at least 1 B grade!';
+    statusEl.style.color = 'var(--red)';
+  } else if (c['A+'] < 1) {
+    statusEl.textContent = 'Need at least 1 A+ grade!';
+    statusEl.style.color = 'var(--red)';
+  } else {
+    statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Balanced &amp; Ready!';
+    statusEl.style.color = 'var(--green)';
+  }
+
+  document.querySelectorAll('.grade-btn').forEach(function(btn) {
+    var v = btn.dataset.val;
+    var isSelected = btn.classList.contains('sel-aplus') || btn.classList.contains('sel-a') || btn.classList.contains('sel-b') || btn.classList.contains('sel-c');
+    btn.classList.remove('cap-locked');
+    if (!isSelected) {
+      if ((v === 'A+' && c['A+'] >= 5) || (v === 'B' && c['B'] >= 3) || (v === 'C' && c['C'] >= 3)) {
+        btn.classList.add('cap-locked');
+      }
+    }
+  });
+
+  var aplusList = [], bList = [];
+  ALL_ATTR_KEYS.forEach(function(k) {
+    if (grades[k] === 'A+') aplusList.push(getAttrNameByKey(k));
+    if (grades[k] === 'B' || grades[k] === 'C') bList.push(getAttrNameByKey(k));
+  });
+
+  var aplusContainer = document.getElementById('aplusBadges');
+  if (aplusList.length === 0) {
+    aplusContainer.innerHTML = '<span class="attr-badge empty">Select 1 to 5 A+ grades above to unlock tailored A+ chips...</span>';
+  } else {
+    aplusContainer.innerHTML = aplusList.map(function(n) {
+      return '<span class="attr-badge aplus"><i class="fas fa-star"></i> ' + esc(n) + ' (A+)</span>';
+    }).join('');
+  }
+
+  var bContainer = document.getElementById('bBadges');
+  if (bList.length === 0) {
+    bContainer.innerHTML = '<span class="attr-badge empty">Select 1 to 3 B grades above to unlock tailored B growth chips...</span>';
+  } else {
+    bContainer.innerHTML = bList.map(function(n) {
+      return '<span class="attr-badge bgrade"><i class="fas fa-seedling"></i> ' + esc(n) + ' (B)</span>';
+    }).join('');
+  }
+
+  renderTailoredAttributeChips();
+}
+
+// ══════════════════════════════════════════
+//  1-CLICK REFERENCE SAMPLES (L2, L4, L5)
+// ══════════════════════════════════════════
+function loadPerfectSample(type) {
+  if (type === 'L2') {
+    document.getElementById('fName').value = 'Marco Leung';
+    setPronoun('he');
+    document.getElementById('fLevel').value = 'Level 2';
+    document.getElementById('fTerm').value = 'Fall';
+    document.getElementById('fYear').value = '2026';
+    document.getElementById('fCentre').value = 'WC';
+    document.getElementById('fTeacher').value = 'Grace';
+    grades = {
+      curiosity: 'A+', criticalThinking: 'A', reasoning: 'B',
+      creativity: 'A+', handsOn: 'A+', resilience: 'A',
+      articulation: 'A', bodyLanguage: 'B', confidence: 'A+'
+    };
+    onLevelChange();
+    document.getElementById('fAplusReason').value = 'He showed infectious curiosity in class, assembling hands-on experiment models with steady focus and volunteering eagerly to share his creative ideas.';
+    document.getElementById('fBReason').value = 'He is working on connecting his hands-on observations directly to scientific concepts when explaining conclusions and standing tall with steady posture during show-and-tell.';
+    selectedBehaviours = ['Always Asks Curious Questions', 'Teamwork & Peer Support', 'Enthusiastic Class Contributor'];
+    renderBehaviourPills();
+  } else if (type === 'L4') {
+    document.getElementById('fName').value = 'Ian Cheng';
+    setPronoun('he');
+    document.getElementById('fLevel').value = 'Level 4';
+    document.getElementById('fTerm').value = 'Fall';
+    document.getElementById('fYear').value = '2026';
+    document.getElementById('fCentre').value = 'TST';
+    document.getElementById('fTeacher').value = 'Chris';
+    grades = {
+      curiosity: 'A+', criticalThinking: 'A+', reasoning: 'A',
+      creativity: 'A+', handsOn: 'A+', resilience: 'A',
+      articulation: 'B', bodyLanguage: 'A', confidence: 'A'
+    };
+    onLevelChange();
+    document.getElementById('fAplusReason').value = 'He mastered MakeCode block sequences and programmed micro:bit sensors accurately while engineering creative custom features into his physical prototype.';
+    document.getElementById('fBReason').value = 'He is practicing how to explain the connection between his MakeCode block logic and the micro:bit sensors step-by-step so audiences can follow his showcase pitch easily.';
+    selectedBehaviours = ['Completes Tasks Independently', 'Persistent Problem Solver', 'Creative Risk-Taker'];
+    renderBehaviourPills();
+  } else {
+    document.getElementById('fName').value = 'Gurung Grace';
+    setPronoun('he');
+    document.getElementById('fLevel').value = 'Level 5';
+    document.getElementById('fTerm').value = 'Fall';
+    document.getElementById('fYear').value = '2026';
+    document.getElementById('fCentre').value = 'WC';
+    document.getElementById('fTeacher').value = 'Grace';
+    grades = {
+      curiosity: 'A+', criticalThinking: 'A+', reasoning: 'A',
+      creativity: 'A+', handsOn: 'A+', resilience: 'A+',
+      articulation: 'A', bodyLanguage: 'B', confidence: 'A'
+    };
+    onLevelChange();
+    document.getElementById('fAplusReason').value = 'He wrote clean, well-structured Python scripts and integrated them with the Orange Pi hardware peripherals smoothly, showing remarkable grit and creativity.';
+    document.getElementById('fBReason').value = 'He is encouraged to look up from the Orange Pi terminal monitor more often to connect with the audience and maintain open posture during live prototype demos.';
+    selectedBehaviours = ['Completes Tasks Independently', 'Laser Focus & Self-Discipline', 'Patient & Detail-Oriented'];
+    renderBehaviourPills();
+  }
+  checkMinWords('fAplusReason','barAplus','statusAplus','cntWordsAplus');
+  checkMinWords('fBReason','barB','statusB','cntWordsB');
+  goStep(3, true);
+  generateAI();
+}
+
+// ══════════════════════════════════════════
+//  WORD COUNTERS & CHIP HELPERS
+// ══════════════════════════════════════════
+function countWords(text) {
+  var t = (text || '').trim();
+  if (!t) return 0;
+  return t.split(/\s+/).length;
+}
+
+function checkMinWords(textareaId, barId, statusId, countId) {
+  var ta = document.getElementById(textareaId);
+  var count = countWords(ta.value);
+  var bar = document.getElementById(barId);
+  var statusEl = document.getElementById(statusId);
+  var countEl = document.getElementById(countId);
+
+  countEl.textContent = count + ' / ' + MIN_TEACHER_WORDS + '+ words';
+  if (count >= MIN_TEACHER_WORDS) {
+    bar.classList.add('met');
+    statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Great detail! Minimum 15 words met.';
+    ta.closest('.field').classList.remove('error');
+  } else {
+    var rem = MIN_TEACHER_WORDS - count;
+    bar.classList.remove('met');
+    statusEl.innerHTML = '<i class="fas fa-circle-exclamation"></i> Add ' + rem + ' more word' + (rem === 1 ? '' : 's') + ' (or tap a tailored chip below)';
+  }
+}
+
+function appendChipTo(textareaId, text, type) {
+  var ta = document.getElementById(textareaId);
+  var cur = ta.value.trim();
+  var proSub = selectedPronoun === 'she' ? 'she' : 'he';
+  var ProSub = selectedPronoun === 'she' ? 'She' : 'He';
+
+  if (!cur) {
+    ta.value = ProSub + ' ' + text + '.';
+  } else {
+    var idx = type === 'aplus' ? (++chipCountAplus) : (++chipCountB);
+    var connectors = [' In addition, ' + proSub + ' ', ' Furthermore, ' + proSub + ' ', ' During lessons, ' + proSub + ' also '];
+    var conn = connectors[idx % connectors.length];
+    var base = cur.match(/[.!?]$/) ? cur : cur + '.';
+    ta.value = base + conn + text + '.';
+  }
+  if (type === 'aplus') checkMinWords('fAplusReason','barAplus','statusAplus','cntWordsAplus');
+  else checkMinWords('fBReason','barB','statusB','cntWordsB');
+}
+
+function saveClassPrefs() {
+  try {
+    var prefs = {
+      level: document.getElementById('fLevel').value,
+      year: document.getElementById('fYear').value,
+      term: document.getElementById('fTerm').value,
+      centre: document.getElementById('fCentre').value,
+      teacher: document.getElementById('fTeacher').value
+    };
+    localStorage.setItem('bba_class_prefs', JSON.stringify(prefs));
+  } catch (e) {}
+}
+
+function loadClassPrefs() {
+  try {
+    var raw = localStorage.getItem('bba_class_prefs');
+    if (raw) {
+      var prefs = JSON.parse(raw);
+      if (prefs.level) document.getElementById('fLevel').value = prefs.level;
+      if (prefs.year) document.getElementById('fYear').value = prefs.year;
+      if (prefs.term) document.getElementById('fTerm').value = prefs.term;
+      if (prefs.centre) document.getElementById('fCentre').value = prefs.centre;
+      if (prefs.teacher) document.getElementById('fTeacher').value = prefs.teacher;
+    }
+  } catch (e) {}
+  renderAttributeCards();
+  renderBehaviourPills();
+}
+loadClassPrefs();
+
+function startNextStudent() {
+  document.getElementById('fName').value = '';
+  document.getElementById('fAplusReason').value = '';
+  document.getElementById('fBReason').value = '';
+  chipCountAplus = 0;
+  chipCountB = 0;
+  checkMinWords('fAplusReason','barAplus','statusAplus','cntWordsAplus');
+  checkMinWords('fBReason','barB','statusB','cntWordsB');
+  grades = {};
+  renderAttributeCards();
+  updateCalcSummary();
+  document.getElementById('aiGenArea').style.display = '';
+  document.getElementById('aiResults').classList.remove('active');
+  document.getElementById('dlArea').style.display = 'none';
+  goStep(1, true);
+  document.getElementById('fName').focus();
+}
+
+function saveToSessionHistory() {
+  var snap = JSON.parse(JSON.stringify(S));
+  snap.rawGrades = JSON.parse(JSON.stringify(grades));
+  snap.pronoun = selectedPronoun;
+  snap.behaviours = selectedBehaviours.slice();
+  var existingIdx = sessionHistory.findIndex(function(item) { return item.name.toLowerCase() === snap.name.toLowerCase(); });
+  if (existingIdx >= 0) sessionHistory[existingIdx] = snap;
+  else sessionHistory.push(snap);
+  renderSessionHistory();
+}
+
+function renderSessionHistory() {
+  var card = document.getElementById('historyCard');
+  var list = document.getElementById('historyList');
+  document.getElementById('historyCount').textContent = sessionHistory.length;
+  if (sessionHistory.length === 0) {
+    card.classList.remove('active');
+    return;
+  }
+  card.classList.add('active');
+  list.innerHTML = '';
+  sessionHistory.forEach(function(item, idx) {
+    var pill = document.createElement('div');
+    pill.className = 'history-pill';
+    pill.innerHTML = '<i class="fas fa-file-pdf" style="color:var(--orange)"></i> ' + esc(item.name) + ' (' + esc(item.gAll) + ')';
+    pill.onclick = function() { loadHistoryItem(idx); };
+    list.appendChild(pill);
+  });
+}
+
+function loadHistoryItem(idx) {
+  var item = sessionHistory[idx];
+  if (!item) return;
+  document.getElementById('fName').value = item.name;
+  document.getElementById('fLevel').value = item.level;
+  document.getElementById('fYear').value = item.year;
+  document.getElementById('fTerm').value = item.termRaw || 'Fall';
+  document.getElementById('fCentre').value = item.centre;
+  document.getElementById('fTeacher').value = item.teacher;
+  setPronoun(item.pronoun || 'he');
+  grades = JSON.parse(JSON.stringify(item.rawGrades || {}));
+  selectedBehaviours = (item.behaviours || ['Teamwork & Peer Support']).slice();
+  onLevelChange();
+  renderBehaviourPills();
+
+  document.getElementById('fAplusReason').value = item.aplusReason || '';
+  document.getElementById('fBReason').value = item.bReason || '';
+  checkMinWords('fAplusReason','barAplus','statusAplus','cntWordsAplus');
+  checkMinWords('fBReason','barB','statusB','cntWordsB');
+
+  document.getElementById('aiFeedback').value = item.feedback || '';
+  document.getElementById('aiProfileTitle').value = item.profileTitle || '';
+  document.getElementById('aiExTech').value = item.exTech || '';
+  document.getElementById('aiExPres').value = item.exPres || '';
+  document.getElementById('aiExSoft').value = item.exSoft || '';
+  document.getElementById('aiAward').value = item.award || '';
+  trimAndRefreshAll();
+  goStep(3, true);
+  document.getElementById('aiGenArea').style.display = 'none';
+  document.getElementById('aiResults').classList.add('active');
+  validateAndBuild();
+}
+
+// ══════════════════════════════════════════
+//  MODAL & STEP VALIDATION
+// ══════════════════════════════════════════
+function showModal(msg) {
+  document.getElementById('modalMsg').textContent = msg;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function goStep(n, skipValidation) {
+  if (!skipValidation && n > currentStep) {
+    if (currentStep === 1 && !validateStep1()) return;
+    if (currentStep === 2 && !validateStep2()) return;
+  }
+  if (n === 2) {
+    renderAttributeCards();
+    renderBehaviourPills();
+  }
+  currentStep = n;
+  document.querySelectorAll('.wiz-page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page' + n).classList.add('active');
+  for (var i = 1; i <= 3; i++) {
+    var dot = document.getElementById('dot' + i);
+    var lbl = document.getElementById('lbl' + i);
+    dot.className = 'step-dot';
+    lbl.className = '';
+    if (i < n) { dot.classList.add('done'); dot.innerHTML = '<i class="fas fa-check" style="font-size:14px"></i>'; }
+    else { dot.textContent = i; }
+    if (i === n) { dot.classList.add('active'); lbl.classList.add('active'); }
+  }
+  document.getElementById('line1').className = 'step-line' + (n > 1 ? ' done' : '');
+  document.getElementById('line2').className = 'step-line' + (n > 2 ? ' done' : '');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep1() {
+  var valid = true;
+  var fields = ['fName', 'fLevel', 'fYear', 'fTerm', 'fCentre', 'fTeacher'];
+  fields.forEach(function(id) {
+    var el = document.getElementById(id);
+    var wrap = el.closest('.field');
+    if (!el.value.trim()) { wrap.classList.add('error'); valid = false; }
+    else { wrap.classList.remove('error'); }
+  });
+  if (!valid) showModal('Please fill in all student and class details before continuing.');
+  return valid;
+}
+
+function validateStep2() {
+  var missing = [];
+  ALL_ATTR_KEYS.forEach(function(f) {
+    var row = document.querySelector('[data-field="' + f + '"]');
+    if (!grades[f]) { if (row) row.classList.add('missing'); missing.push(f); }
+    else { if (row) row.classList.remove('missing'); }
+  });
+  if (missing.length > 0) {
+    showModal('Please select a grade for all 9 attributes (' + missing.length + ' remaining).');
+    return false;
+  }
+
+  var counts = getGradeCounts();
+  if (counts['A+'] < 1 || counts['A+'] > 5) {
+    showModal('Balanced Grading Rule: Please give between 1 and 5 A+ grades (you currently have ' + counts['A+'] + ').');
+    return false;
+  }
+  if (counts['B'] < 1 || counts['B'] > 3) {
+    showModal('Balanced Grading Rule: Every student must have between 1 and 3 B grades for their growth area (you currently have ' + counts['B'] + ').');
+    return false;
+  }
+  if (counts['C'] > 3) {
+    showModal('Balanced Grading Rule: Maximum 3 C grades allowed.');
+    return false;
+  }
+
+  var aplusEl = document.getElementById('fAplusReason');
+  if (countWords(aplusEl.value) < MIN_TEACHER_WORDS) {
+    document.getElementById('aplusReasonWrap').classList.add('error');
+    showModal('Section 1 (Why A+) is too short (' + countWords(aplusEl.value) + ' words). Please write at least 15 words or tap 2 tailored A+ chips below it!');
+    aplusEl.focus();
+    return false;
+  }
+
+  var bEl = document.getElementById('fBReason');
+  if (countWords(bEl.value) < MIN_TEACHER_WORDS) {
+    document.getElementById('bReasonWrap').classList.add('error');
+    showModal('Section 2 (Why B / Growth Area) is too short (' + countWords(bEl.value) + ' words). Please write at least 15 words or tap 2 tailored B growth chips below it!');
+    bEl.focus();
+    return false;
+  }
+
+  if (selectedBehaviours.length < 1 || selectedBehaviours.length > 3) {
+    showModal('Please select between 1 and 3 Class Behaviours in Section 3.');
+    return false;
+  }
+
+  return true;
+}
+
+function trimToMaxWords(text, maxWords) {
+  var t = (text || '').trim();
+  if (!t) return '';
+  var words = t.split(/\s+/);
+  if (words.length <= maxWords) return t;
+  var result = words.slice(0, maxWords).join(' ');
+  var bestEnd = Math.max(result.lastIndexOf('.'), result.lastIndexOf('!'), result.lastIndexOf('?'));
+  if (bestEnd > result.length * 0.6) result = result.substring(0, bestEnd + 1);
+  return result;
+}
+function updateWordCount(textarea, counterId, maxWords) {
+  var count = countWords(textarea.value);
+  var el = document.getElementById(counterId);
+  if (!el) return;
+  el.textContent = count + ' / ' + maxWords + ' words';
+  el.className = 'word-counter';
+  if (count > maxWords) { el.classList.add('over'); textarea.classList.add('over-limit'); }
+  else if (count > maxWords * 0.85) { el.classList.add('warn'); textarea.classList.remove('over-limit'); }
+  else { textarea.classList.remove('over-limit'); }
+}
+function trimAndRefreshAll() {
+  [
+    ['aiFeedback', 'wcFeedback', 55],
+    ['aiExTech', 'wcExTech', 40],
+    ['aiExPres', 'wcExPres', 40],
+    ['aiExSoft', 'wcExSoft', 35]
+  ].forEach(function(p) {
+    var ta = document.getElementById(p[0]);
+    if (!ta) return;
+    if (countWords(ta.value) > p[2]) ta.value = trimToMaxWords(ta.value, p[2]);
+    updateWordCount(ta, p[1], p[2]);
+  });
+}
+
+function updateCalcSummary() {
+  var sciAvg = avgGrades(['curiosity', 'criticalThinking', 'reasoning']);
+  var handAvg = avgGrades(['creativity', 'handsOn', 'resilience']);
+  var presAvg = avgGrades(['articulation', 'bodyLanguage', 'confidence']);
+  var allAttrAvg = avgGrades(ALL_ATTR_KEYS);
+
+  document.getElementById('calcSci').textContent = sciAvg > 0 ? numToGrade(sciAvg) : '—';
+  document.getElementById('calcHand').textContent = handAvg > 0 ? numToGrade(handAvg) : '—';
+  document.getElementById('calcPres').textContent = presAvg > 0 ? numToGrade(presAvg) : '—';
+  document.getElementById('calcAll').textContent = allAttrAvg > 0 ? numToGrade(allAttrAvg) : '—';
+  document.getElementById('calcRank').textContent = allAttrAvg > 0 ? numToRank(allAttrAvg) : '—';
+
+  ['calcSci','calcHand','calcPres','calcAll'].forEach(function(id) {
+    var el = document.getElementById(id);
+    var g = el.textContent;
+    el.style.color = g === 'A+' ? '#1a8a4a' : g === 'A' ? '#27ae60' : g === 'B' ? '#f39c12' : g === 'C' ? '#e74c3c' : '';
+  });
+  var rankEl = document.getElementById('calcRank');
+  rankEl.style.color = rankEl.textContent === 'Distinction' ? '#27ae60' :
+    rankEl.textContent === 'Merit' ? '#f39c12' : rankEl.textContent === '—' ? '' : '#e74c3c';
+}
+
+// ══════════════════════════════════════════
+//  ASSEMBLE STUDENT DATA (CLEAN TERM & YEAR)
+// ══════════════════════════════════════════
+function assembleData() {
+  var term = document.getElementById('fTerm').value;
+  var year = document.getElementById('fYear').value;
+  var centreCode = document.getElementById('fCentre').value;
+  var lvl = document.getElementById('fLevel').value;
+  var rub = getCurrentRubric();
+
+  var aplusNames = [], bNames = [];
+  ALL_ATTR_KEYS.forEach(function(k) {
+    if (grades[k] === 'A+') aplusNames.push(getAttrNameByKey(k));
+    if (grades[k] === 'B' || grades[k] === 'C') bNames.push(getAttrNameByKey(k));
+  });
+
+  var aplusStr = aplusNames.join(', ') || 'Core STEM Skills';
+  var bStr = bNames.join(', ') || 'Next-Stage Refinement';
+  var behStr = selectedBehaviours.join(', ');
+
+  document.getElementById('lblReviewAplus').textContent = aplusStr;
+  document.getElementById('lblReviewB').textContent = bStr;
+  document.getElementById('lblReviewSoft').textContent = behStr;
+
+  S = {
+    name: document.getElementById('fName').value.trim(),
+    pronoun: selectedPronoun,
+    level: lvl,
+    rubricKey: getRubricKeyForLevel(lvl),
+    rubric: rub,
+    year: year,
+    termRaw: term,
+    centre: centreCode,
+    centreName: CENTRE_NAMES[centreCode] || centreCode,
+    teacher: document.getElementById('fTeacher').value.trim(),
+    term: buildTermStr(term, year),
+    termShort: term ? (term + ' Term') : 'Term',
+    aplusNames: aplusNames,
+    bNames: bNames,
+    aplusStr: aplusStr,
+    bStr: bStr,
+    behStr: behStr,
+    aplusReason: document.getElementById('fAplusReason').value.trim(),
+    bReason: document.getElementById('fBReason').value.trim(),
+    curiosity: displayGrade(grades.curiosity || ''),
+    criticalThinking: displayGrade(grades.criticalThinking || ''),
+    reasoning: displayGrade(grades.reasoning || ''),
+    creativity: displayGrade(grades.creativity || ''),
+    handsOn: displayGrade(grades.handsOn || ''),
+    resilience: displayGrade(grades.resilience || ''),
+    articulation: displayGrade(grades.articulation || ''),
+    bodyLanguage: displayGrade(grades.bodyLanguage || ''),
+    confidence: displayGrade(grades.confidence || ''),
+    ovSci: displayGrade(numToGrade(avgGrades(['curiosity','criticalThinking','reasoning']))),
+    ovHand: displayGrade(numToGrade(avgGrades(['creativity','handsOn','resilience']))),
+    ovPres: displayGrade(numToGrade(avgGrades(['articulation','bodyLanguage','confidence']))),
+    gSci: displayGrade(numToGrade(avgGrades(['curiosity','criticalThinking','reasoning']))),
+    gHand: displayGrade(numToGrade(avgGrades(['creativity','handsOn','resilience']))),
+    gPres: displayGrade(numToGrade(avgGrades(['articulation','bodyLanguage','confidence']))),
+    gAll: displayGrade(numToGrade(avgGrades(ALL_ATTR_KEYS))),
+    ranking: numToRank(avgGrades(ALL_ATTR_KEYS)),
+    feedback: '', profileTitle: '', exTech: '', exPres: '', exSoft: '', award: ''
+  };
+}
+
+// ══════════════════════════════════════════
+//  PROMPT & VARIED DYNAMIC SYNTHESIZER
+// ══════════════════════════════════════════
+function buildPrompt() {
+  var proStr = S.pronoun === 'she' ? 'she/her/hers' : 'he/him/his';
+  var levelFocus = S.rubricKey === 'level5'
+    ? 'Level 5 (Python Coding & Orange Pi single-board computer hardware integration)'
+    : S.rubricKey === 'level4'
+    ? 'Level 4 (BBC micro:bit MakeCode block coding & sensor prototyping)'
+    : S.level + ' (Hands-on Science exploration & experiments)';
+
+  return 'You are a caring STEM educator at Big Bang Academy\'s Project Alpha program writing a personalised report card.\n\n' +
+    'Student: ' + S.name + ' (' + proStr + ') | Curriculum: ' + levelFocus + ' | Term: ' + S.termShort + ' ' + S.year + '\n' +
+    'Overall Grade: ' + S.gAll + ' (' + S.ranking + ')\n\n' +
+    '1. AREAS OF EXCELLENCE (Graded A+ in: ' + S.aplusStr + '):\nTeacher Note: "' + S.aplusReason + '"\n\n' +
+    '2. FOCUS FOR GROWTH / NEXT STEPS (Graded B in: ' + S.bStr + '):\nTeacher Note: "' + S.bReason + '"\n\n' +
+    '3. STANDOUT CLASS BEHAVIOURS (Selected by Teacher): ' + S.behStr + '\n\n' +
+    'Generate a JSON object with these EXACT 6 keys (warm, varied educator tone — DO NOT repeat the list of attribute names inside exTech, exPres, or exSoft because the card header already lists them!):\n' +
+    '- "feedback": (30-42 words, 2ND PERSON addressing "' + S.name + ', ...") Warm summary celebrating their A+ strengths and encouraging their next steps.\n' +
+    '- "profileTitle": (2-4 words) Unique title tailored to their specific A+ attributes.\n' +
+    '- "exTech": (20-32 words, 3RD PERSON using ' + proStr + ') Concrete synthesis of how ' + S.name + ' excelled in class based on the teacher\'s A+ note (do not list the attribute names again).\n' +
+    '- "exPres": (20-32 words, 3RD PERSON using ' + proStr + ') Constructive, encouraging synthesis of how ' + S.name + ' can level up based on the teacher\'s B note (do not list the attribute names again).\n' +
+    '- "exSoft": (16-26 words, 3RD PERSON using ' + proStr + ') Natural sentence describing how ' + S.name + ' demonstrates ' + S.behStr + ' in class.\n' +
+    '- "award": (4-7 words) Specific Award celebrating their top A+ strength.\n' +
+    'Return ONLY valid JSON, no markdown fences.';
+}
+
+function formatGrammarList(arr) {
+  if (!arr || arr.length === 0) return '';
+  if (arr.length === 1) return arr[0];
+  if (arr.length === 2) return arr[0] + ' and ' + arr[1];
+  return arr.slice(0, -1).join(', ') + ', and ' + arr[arr.length - 1];
+}
+
+function generateSmartLocalNarrative() {
+  var pro = S.pronoun === 'she'
+    ? { sub: 'she', Sub: 'She', obj: 'her', pos: 'her', refl: 'herself' }
+    : { sub: 'he', Sub: 'He', obj: 'him', pos: 'his', refl: 'himself' };
+
+  var domainTag = S.rubricKey === 'level5' ? 'Python & Orange Pi engineering sessions' :
+                  S.rubricKey === 'level4' ? 'micro:bit block coding & prototyping lessons' : 'hands-on science lessons';
+
+  var topAplus = S.aplusNames[0] || 'STEM Innovation';
+  var secondAplus = S.aplusNames[1] || '';
+  var topB = S.bNames[0] || 'Skill Refinement';
+
+  var titleMap = {
+    'Curiosity': 'Curious Science Inquirer',
+    'Critical Thinking': 'Sharp Analytical Thinker',
+    'Reasoning Skills': 'Evidence-Driven Scientist',
+    'Algorithmic Thinking': 'Master MakeCode Architect',
+    'Sensor & Input Logic': 'Smart Sensor Innovator',
+    'Debugging Skills': 'Resilient Code Debugger',
+    'Python Syntax & Logic': 'Python Logic Architect',
+    'Orange Pi Integration': 'Embedded Systems Innovator',
+    'System Troubleshooting': 'Master Systems Debugger',
+    'Creativity': 'Creative STEM Visionary',
+    'Hands-on': 'Master Hands-On Builder',
+    'Resilience': 'Resilient Engineering Star',
+    'Articulation': 'Eloquent STEM Communicator',
+    'Technical Explanation': 'Clear Tech Communicator',
+    'Code & System Walkthrough': 'Systems Pitch Leader',
+    'Body Language': 'Poised Stage Presenter',
+    'Demo Readiness': 'Confident Prototype Demonstrator',
+    'Prototype Demonstration': 'Dynamic Tech Demonstrator',
+    'Confidence': 'Bold Classroom Leader',
+    'Pitch Confidence': 'Charismatic Tech Pitcher',
+    'Technical Q&A Confidence': 'Sharp Technical Speaker'
+  };
+  var profileTitle = titleMap[topAplus] || 'Innovative STEM Explorer';
+
+  var award = secondAplus
+    ? 'Excellence in ' + topAplus + ' & ' + secondAplus
+    : 'Outstanding ' + topAplus + ' Award';
+  if (countWords(award) > 8) award = 'Excellence in ' + topAplus + ' Award';
+
+  var cleanAplus = S.aplusReason.replace(/^(he|she)\s+/i, pro.Sub + ' ');
+  if (!cleanAplus.match(/[.!?]$/)) cleanAplus += '.';
+  var exTech = cleanAplus;
+
+  var cleanB = S.bReason.replace(/^(he|she)\s+/i, pro.Sub + ' ');
+  if (!cleanB.match(/[.!?]$/)) cleanB += '.';
+  var exPres = cleanB;
+
+  var behPhrases = selectedBehaviours.map(function(id) {
+    for (var i = 0; i < BEHAVIOUR_OPTIONS.length; i++) {
+      if (BEHAVIOUR_OPTIONS[i].id === id) return BEHAVIOUR_OPTIONS[i].phrase;
+    }
+    return id.toLowerCase();
+  });
+  var exSoft = 'Throughout class, ' + S.name + ' consistently stands out for ' + formatGrammarList(behPhrases) + ', bringing wonderful energy to every lesson.';
+
+  var aplusGrammar = formatGrammarList(S.aplusNames.map(function(n) { return n.toLowerCase(); }));
+  var feedback = S.name + ', you have achieved fantastic progress this term in our ' + domainTag + '! ' +
+    'Your A+ excellence in ' + aplusGrammar + ' and positive classroom attitude have been a joy to see. ' +
+    'Continuing to build on ' + topB.toLowerCase() + ' will help you shine even brighter!';
+
+  return {
+    feedback: trimToMaxWords(feedback, 52),
+    profileTitle: profileTitle,
+    exTech: trimToMaxWords(exTech, 36),
+    exPres: trimToMaxWords(exPres, 36),
+    exSoft: trimToMaxWords(exSoft, 32),
+    award: award
+  };
+}
+
+// ══════════════════════════════════════════
+//  MULTI-TIER AI GENERATION
+// ══════════════════════════════════════════
+async function generateAI() {
+  assembleData();
+  var genArea = document.getElementById('aiGenArea');
+  var loading = document.getElementById('aiLoading');
+  var results = document.getElementById('aiResults');
+  var errDiv = document.getElementById('aiErr');
+
+  genArea.style.display = 'none';
+  results.classList.remove('active');
+  errDiv.classList.remove('active');
+  loading.classList.add('active');
+
+  var prompt = buildPrompt();
+  var aiData = null;
+
+  var geminiKey = localStorage.getItem('bba_gemini_key');
+  if (geminiKey) {
+    try {
+      var gemResp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(geminiKey), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json', temperature: 0.7 }
+        })
+      });
+      if (gemResp.ok) {
+        var gemJson = await gemResp.json();
+        var rawText = gemJson.candidates[0].content.parts[0].text.trim();
+        rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
+        aiData = JSON.parse(rawText);
+      }
+    } catch (e) { console.warn('Gemini fallback:', e); }
+  }
+
+  if (!aiData) {
+    try {
+      var controller = new AbortController();
+      var timeoutId = setTimeout(function() { controller.abort(); }, 9500);
+      var polyResp = await fetch('https://text.pollinations.ai/openai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: 'openai',
+          messages: [
+            { role: 'system', content: 'You are a warm STEM educator at Big Bang Academy. Respond ONLY with valid JSON.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.7,
+          response_format: { type: 'json_object' }
+        })
+      });
+      clearTimeout(timeoutId);
+      if (polyResp.ok) {
+        var polyJson = await polyResp.json();
+        var content = polyJson.choices[0].message.content.trim();
+        content = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
+        aiData = JSON.parse(content);
+      }
+    } catch (e) { console.warn('Cloud AI fallback to local synthesizer:', e); }
+  }
+
+  var fallback = generateSmartLocalNarrative();
+  if (!aiData || !aiData.feedback) {
+    aiData = fallback;
+  } else {
+    aiData.exTech = aiData.exTech || fallback.exTech;
+    aiData.exPres = aiData.exPres || fallback.exPres;
+    aiData.exSoft = aiData.exSoft || fallback.exSoft;
+    aiData.profileTitle = aiData.profileTitle || fallback.profileTitle;
+    aiData.award = aiData.award || fallback.award;
+  }
+
+  loading.classList.remove('active');
+  fillAIFields(aiData);
+  results.classList.add('active');
+  validateAndBuild();
+}
+
+function fillAIFields(data) {
+  document.getElementById('aiFeedback').value = data.feedback || '';
+  document.getElementById('aiProfileTitle').value = data.profileTitle || '';
+  document.getElementById('aiExTech').value = data.exTech || '';
+  document.getElementById('aiExPres').value = data.exPres || '';
+  document.getElementById('aiExSoft').value = data.exSoft || '';
+  document.getElementById('aiAward').value = (data.award || '').trim() || 'Outstanding STEM Innovation Award';
+  trimAndRefreshAll();
+}
+
+// ══════════════════════════════════════════
+//  PREVIEW & HTML RENDERER
+// ══════════════════════════════════════════
+var previewOpen = true;
+function togglePreview() {
+  previewOpen = !previewOpen;
+  document.getElementById('previewWrap').classList.toggle('open', previewOpen);
+  document.getElementById('previewToggleText').textContent = previewOpen ? 'Hide Preview' : 'Show Report Card Preview';
+}
+
+function esc(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(s));
+  return d.innerHTML;
+}
+function gradeClass(g) {
+  if (!g) return '';
+  var dg = displayGrade(g);
+  if (dg === 'A+') return 'grade-aplus';
+  if (dg === 'A') return 'grade-a';
+  return 'grade-b';
+}
+
+function validateAndBuild() {
+  var feedback = document.getElementById('aiFeedback').value.trim();
+  if (!feedback) {
+    showModal('Please enter teacher feedback before building the report.');
+    return;
+  }
+  buildPreview();
+  buildPdf();
+  saveToSessionHistory();
+}
+
+function buildPreview() {
+  assembleData();
+  S.feedback = document.getElementById('aiFeedback').value.trim();
+  S.profileTitle = document.getElementById('aiProfileTitle').value.trim();
+  S.exTech = document.getElementById('aiExTech').value.trim();
+  S.exPres = document.getElementById('aiExPres').value.trim();
+  S.exSoft = document.getElementById('aiExSoft').value.trim();
+  S.award = document.getElementById('aiAward').value.trim();
+
+  var rub = S.rubric;
+
+  // ── PAGE 1 ──
+  var p1 = '';
+  p1 += '<div class="rc-header">';
+  p1 += '  <div class="rc-logos">';
+  p1 += '    <img class="logo-bba" src="' + LOGO_BBA + '" alt="Big Bang Academy">';
+  p1 += '    <img class="logo-pa" src="' + LOGO_PA + '" alt="Project Alpha">';
+  p1 += '  </div>';
+  p1 += '  <div class="rc-header-title">';
+  p1 += '    <h2>' + esc(S.termShort) + ' Report Card</h2>';
+  p1 += '    <p>' + esc(S.term) + '</p>';
+  p1 += '  </div>';
+  p1 += '</div>';
+  p1 += '<div class="rc-student-box">';
+  p1 += '  <h3>' + esc(S.name) + '</h3>';
+  p1 += '  <div class="rc-info-grid">';
+  p1 += '    <div class="rc-info-item"><span class="lbl">Level</span><span class="val">' + esc(S.level) + '</span></div>';
+  p1 += '    <div class="rc-info-item"><span class="lbl">Centre</span><span class="val">' + esc(S.centreName) + '</span></div>';
+  p1 += '    <div class="rc-info-item"><span class="lbl">School Year</span><span class="val">' + esc(S.year) + '</span></div>';
+  p1 += '    <div class="rc-info-item"><span class="lbl">Teacher</span><span class="val">' + esc(S.teacher) + '</span></div>';
+  p1 += '  </div>';
+  p1 += '</div>';
+  p1 += '<div class="rc-ranking-bar">';
+  p1 += '  <div class="rc-rank-item"><div class="lbl">Overall Ranking</div><div class="val">' + esc(S.ranking) + '</div></div>';
+  p1 += '</div>';
+  p1 += '<div class="rc-section-title">Term Grades</div>';
+  p1 += '<table class="rc-grades-tbl"><thead><tr><th>' + esc(rub.cat1Title) + '</th><th>' + esc(rub.cat2Title) + '</th><th>Communication &amp; Prep</th><th>Overall</th></tr></thead>';
+  p1 += '<tbody><tr>';
+  p1 += '<td class="' + gradeClass(S.gSci) + '">' + esc(S.gSci) + '</td>';
+  p1 += '<td class="' + gradeClass(S.gHand) + '">' + esc(S.gHand) + '</td>';
+  p1 += '<td class="' + gradeClass(S.gPres) + '">' + esc(S.gPres) + '</td>';
+  p1 += '<td class="' + gradeClass(S.gAll) + '">' + esc(S.gAll) + '</td>';
+  p1 += '</tr></tbody></table>';
+  p1 += '<div class="rc-feedback"><div class="rc-section-title">Overall Teacher\'s Feedback</div>';
+  p1 += '<div class="rc-feedback-box"><p>' + esc(S.feedback) + '</p></div></div>';
+
+  p1 += '<div class="rc-profile">';
+  p1 += '  <div class="rc-profile-top"><h4>Student Profile &amp; Personalised Breakdown</h4><span class="rc-topic-pill">\u2B50 ' + esc(S.termShort) + ' ' + esc(S.year) + '</span></div>';
+  p1 += '  <div class="prof-title">' + esc(S.profileTitle) + '</div>';
+  p1 += '  <div class="rc-skill-cards">';
+  p1 += '    <div class="rc-skill-card"><span class="sc-hdr">1. Areas of Excellence (A+ in ' + esc(S.aplusStr) + ')</span>' + esc(S.exTech) + '</div>';
+  p1 += '    <div class="rc-skill-card"><span class="sc-hdr">2. Focus for Growth (B in ' + esc(S.bStr) + ')</span>' + esc(S.exPres) + '</div>';
+  p1 += '    <div class="rc-skill-card"><span class="sc-hdr">3. Class Behaviour (' + esc(S.behStr) + ')</span>' + esc(S.exSoft) + '</div>';
+  p1 += '  </div>';
+  p1 += '</div>';
+
+  p1 += '<div class="rc-award-row"><div class="rc-award-left">';
+  p1 += '<div class="rc-award-trophy">\uD83C\uDFC6</div>';
+  p1 += '<div class="rc-award-text"><h4>Award of the Year</h4>';
+  p1 += '<div class="award-val">' + esc(S.award) + '</div></div></div>';
+  p1 += '<div class="rc-award-teacher"><div class="teacher-name">Teacher ' + esc(S.teacher) + '</div></div></div>';
+  document.getElementById('rcPage1').innerHTML = p1;
+
+  // ── PAGE 2 ──
+  var p2 = '';
+  p2 += '<div class="rc-header"><div class="rc-logos">';
+  p2 += '<img class="logo-bba" src="' + LOGO_BBA + '" alt="Big Bang Academy">';
+  p2 += '<img class="logo-pa" src="' + LOGO_PA + '" alt="Project Alpha">';
+  p2 += '</div><div class="rc-header-title"><h2>Key Attributes Assessment</h2></div></div>';
+
+  function attrTbl(title, attrs, overall) {
+    var t = '<div class="rc-attr-section"><h4>' + esc(title) + '</h4>';
+    t += '<table class="rc-attr-tbl"><thead><tr><th>Attribute</th><th>Description</th><th class="gc">Grade</th></tr></thead><tbody>';
+    attrs.forEach(function(r) {
+      var g = S[r.key];
+      t += '<tr><td><strong>' + esc(r.name) + '</strong></td><td>' + esc(r.desc) + '</td>';
+      t += '<td class="gc ' + gradeClass(g) + '">' + esc(g) + '</td></tr>';
+    });
+    t += '<tr class="overall-row"><td colspan="2"><strong>Overall</strong></td>';
+    t += '<td class="gc ' + gradeClass(overall) + '">' + esc(overall) + '</td></tr></tbody></table></div>';
+    return t;
+  }
+  p2 += attrTbl(rub.cat1Title, rub.cat1Attrs, S.ovSci);
+  p2 += attrTbl(rub.cat2Title, rub.cat2Attrs, S.ovHand);
+  p2 += attrTbl(rub.cat3Title, rub.cat3Attrs, S.ovPres);
+
+  p2 += '<div class="rc-year-section"><div class="rc-section-title">Full Year Assessment</div>';
+  p2 += '<div class="rc-year-summary">';
+  p2 += '<div class="rc-year-item"><div class="lbl">' + esc(rub.cat1Title) + '</div><div class="val ' + gradeClass(S.ovSci) + '">' + esc(S.ovSci) + '</div></div>';
+  p2 += '<div class="rc-year-item"><div class="lbl">' + esc(rub.cat2Title) + '</div><div class="val ' + gradeClass(S.ovHand) + '">' + esc(S.ovHand) + '</div></div>';
+  p2 += '<div class="rc-year-item"><div class="lbl">Communication &amp; Prep</div><div class="val ' + gradeClass(S.ovPres) + '">' + esc(S.ovPres) + '</div></div>';
+  p2 += '</div></div>';
+  document.getElementById('rcPage2').innerHTML = p2;
+
+  document.getElementById('previewToggle').style.display = '';
+}
+
+// ══════════════════════════════════════════
+//  PDF GENERATION (jsPDF — Fixed Wrapping & Dynamic Scaling)
+// ══════════════════════════════════════════
+var jsPDFReady = false, jsPDFClass = null, imgCache = {};
+
+function loadJsPDF(callback) {
+  if (jsPDFReady && jsPDFClass) { callback(null); return; }
+  if (window.jspdf && window.jspdf.jsPDF) { jsPDFClass = window.jspdf.jsPDF; jsPDFReady = true; callback(null); return; }
+  var cdns = [
+    'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js',
+    'https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js'
+  ];
+  var idx = 0;
+  function tryNext() {
+    if (idx >= cdns.length) { callback('Could not load PDF library.'); return; }
+    var s = document.createElement('script');
+    s.src = cdns[idx];
+    s.onload = function() {
+      if (window.jspdf && window.jspdf.jsPDF) { jsPDFClass = window.jspdf.jsPDF; jsPDFReady = true; callback(null); }
+      else { idx++; tryNext(); }
+    };
+    s.onerror = function() { idx++; tryNext(); };
+    document.head.appendChild(s);
+  }
+  tryNext();
+}
+
+function loadImageB64(url, callback) {
+  if (imgCache[url]) { callback(imgCache[url]); return; }
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function() {
+    var c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    c.getContext('2d').drawImage(img, 0, 0);
+    try { var d = c.toDataURL('image/png'); imgCache[url] = d; callback(d); }
+    catch (e) { callback(null); }
+  };
+  img.onerror = function() { callback(null); };
+  img.src = url;
+}
+function getTrophyB64(callback) {
+  if (imgCache._trophy) { callback(imgCache._trophy); return; }
+  var c = document.createElement('canvas'); c.width = 128; c.height = 128;
+  var ctx = c.getContext('2d');
+  ctx.font = '100px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('\uD83C\uDFC6', 64, 68);
+  imgCache._trophy = c.toDataURL('image/png');
+  callback(imgCache._trophy);
+}
+function preloadImages(callback) {
+  var results = { bba: null, pa: null, trophy: null };
+  var done = 0;
+  function check() { done++; if (done >= 3) callback(results); }
+  loadImageB64(LOGO_BBA, function(d) { results.bba = d; check(); });
+  loadImageB64(LOGO_PA, function(d) { results.pa = d; check(); });
+  getTrophyB64(function(d) { results.trophy = d; check(); });
+}
+
+function gradeColor(g) {
+  if (!g) return [51,51,51];
+  var dg = displayGrade(g);
+  if (dg === 'A+') return [26,138,74];
+  if (dg === 'A') return [39,174,96];
+  return [243,156,18];
+}
+
+function buildPdf() {
+  assembleData();
+  S.feedback = document.getElementById('aiFeedback').value.trim();
+  S.profileTitle = document.getElementById('aiProfileTitle').value.trim();
+  S.exTech = document.getElementById('aiExTech').value.trim();
+  S.exPres = document.getElementById('aiExPres').value.trim();
+  S.exSoft = document.getElementById('aiExSoft').value.trim();
+  S.award = document.getElementById('aiAward').value.trim();
+
+  var rub = S.rubric;
+  var btnBuild = document.getElementById('btnBuild');
+  var dlArea = document.getElementById('dlArea');
+  var dlLink = document.getElementById('dlLink');
+  var statusMsg = document.getElementById('statusMsg');
+  var errMsg = document.getElementById('errMsgDl');
+  btnBuild.disabled = true;
+  btnBuild.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Building PDF...';
+  errMsg.classList.remove('show');
+
+  loadJsPDF(function(loadErr) {
+    if (loadErr) {
+      btnBuild.disabled = false;
+      btnBuild.innerHTML = '<i class="fas fa-file-pdf"></i> Rebuild PDF';
+      errMsg.textContent = loadErr;
+      errMsg.classList.add('show');
+      dlArea.style.display = 'block';
+      return;
+    }
+    preloadImages(function(imgs) {
+      try {
+        var doc = new jsPDFClass({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+        var W = 210, LM = 15, RM = 15, cw = W - LM - RM;
+        var y = 0;
+        var orange = [255,107,53], grayBg = [248,249,250], grayBorder = [221,221,221];
+        var white = [255,255,255], black = [51,51,51], greyTxt = [102,102,102];
+
+        function gc(g) { return gradeColor(g); }
+        function setC(c) { doc.setTextColor(c[0],c[1],c[2]); }
+        function setF(c) { doc.setFillColor(c[0],c[1],c[2]); }
+        function setD(c) { doc.setDrawColor(c[0],c[1],c[2]); }
+
+        function wrapTextWithFont(text, maxW, fontStyle, fontSize) {
+          if (!text) return [''];
+          doc.setFont('helvetica', fontStyle || 'normal');
+          doc.setFontSize(fontSize || 10);
+          var words = text.split(/\s+/), lines = [], line = '';
+          words.forEach(function(w) {
+            while (doc.getTextWidth(w) > maxW) {
+              var fit = w.length;
+              for (var k = 1; k <= w.length; k++) {
+                if (doc.getTextWidth(w.substring(0, k)) > maxW) { fit = Math.max(1, k - 1); break; }
+              }
+              var chunk = w.substring(0, fit);
+              if (line) { lines.push(line); line = ''; }
+              lines.push(chunk);
+              w = w.substring(fit);
+            }
+            if (!w) return;
+            var test = line ? line + ' ' + w : w;
+            if (doc.getTextWidth(test) > maxW && line) { lines.push(line); line = w; }
+            else { line = test; }
+          });
+          if (line) lines.push(line);
+          return lines.length ? lines : [''];
+        }
+
+        function drawHeader(titleText, subtitleText) {
+          if (imgs.bba) doc.addImage(imgs.bba, 'PNG', LM, y, 32, 8);
+          if (imgs.pa) doc.addImage(imgs.pa, 'PNG', LM + 34, y + 1, 22, 6);
+          setD(orange); doc.setLineWidth(0.7);
+          doc.line(LM, y + 12, W - RM, y + 12);
+
+          if (subtitleText) {
+            doc.setFontSize(14.5); doc.setFont('helvetica','bold'); setC(orange);
+            doc.text(titleText, W - RM, y + 4.8, { align: 'right' });
+            doc.setFontSize(10); doc.setFont('helvetica','normal'); setC(greyTxt);
+            doc.text(subtitleText, W - RM, y + 9.8, { align: 'right' });
+          } else {
+            doc.setFontSize(14.5); doc.setFont('helvetica','bold'); setC(orange);
+            doc.text(titleText, W - RM, y + 6.8, { align: 'right' });
+          }
+        }
+
+        // ═══════════ PAGE 1 ═══════════
+        y = 10;
+        drawHeader(S.termShort + ' Report Card', S.term);
+        y = 25.5;
+
+        // Student Info Box (Always shows School Year)
+        setF(orange); doc.roundedRect(LM, y, cw, 25, 2, 2, 'F');
+        doc.setFontSize(15); doc.setFont('helvetica','bold'); setC(white);
+        doc.text(S.name, LM + 5, y + 8, {maxWidth: cw - 10});
+        var col = cw / 4;
+        doc.setFontSize(9.2); doc.setFont('helvetica','normal'); setC([255,220,200]);
+        doc.text('Level', LM+5, y+14.5); doc.setFont('helvetica','bold'); setC(white); doc.text(S.level, LM+5, y+20, {maxWidth: col - 6});
+        doc.setFont('helvetica','normal'); setC([255,220,200]);
+        doc.text('Centre', LM+5+col, y+14.5); doc.setFont('helvetica','bold'); setC(white); doc.text(S.centreName, LM+5+col, y+20, {maxWidth: col - 6});
+        doc.setFont('helvetica','normal'); setC([255,220,200]);
+        doc.text('School Year', LM+5+col*2, y+14.5); doc.setFont('helvetica','bold'); setC(white); doc.text(S.year, LM+5+col*2, y+20, {maxWidth: col - 6});
+        doc.setFont('helvetica','normal'); setC([255,220,200]);
+        doc.text('Teacher', LM+5+col*3, y+14.5); doc.setFont('helvetica','bold'); setC(white); doc.text(S.teacher, LM+5+col*3, y+20, {maxWidth: col - 6});
+        y += 29.5;
+
+        // Ranking Bar
+        setF(grayBg); doc.roundedRect(LM, y, cw, 15, 2, 2, 'F');
+        doc.setFontSize(10); doc.setFont('helvetica','normal'); setC(greyTxt);
+        doc.text('Overall Ranking', LM+6, y+5.5);
+        doc.setFontSize(13); doc.setFont('helvetica','bold'); setC(orange);
+        doc.text(S.ranking, LM+6, y+11.8);
+        y += 19.5;
+
+        // Term Grades
+        doc.setFontSize(11.5); doc.setFont('helvetica','bold'); setC(black);
+        doc.text('Term Grades', LM, y); y += 4;
+        var cat1Short = S.rubricKey === 'level5' ? 'Python & Orange Pi' : S.rubricKey === 'level4' ? 'micro:bit Coding' : 'Scientific Thinking';
+        var tcols = [cat1Short, 'Hands-on Eng.', 'Communication & Prep', 'Overall'];
+        var vals = [S.gSci, S.gHand, S.gPres, S.gAll];
+        var colW = cw / 4;
+        setF(orange); doc.rect(LM, y, cw, 8, 'F');
+        doc.setFontSize(9.2); doc.setFont('helvetica','bold'); setC(white);
+        tcols.forEach(function(c,i) { doc.text(c, LM+colW*i+colW/2, y+5.5, {align:'center',maxWidth:colW-4}); });
+        y += 8;
+        setD(grayBorder); doc.setLineWidth(0.3); doc.rect(LM, y, cw, 10.5);
+        doc.setFontSize(12); doc.setFont('helvetica','bold');
+        vals.forEach(function(v,i) {
+          setC(gc(v));
+          doc.text(v, LM+colW*i+colW/2, y+7.2, {align:'center'});
+          if (i > 0) { setD(grayBorder); doc.line(LM+colW*i, y, LM+colW*i, y+10.5); }
+        });
+        y += 15.5;
+
+        // Overall Teacher's Feedback
+        doc.setFontSize(11.5); doc.setFont('helvetica','bold'); setC(black);
+        doc.text("Overall Teacher's Feedback", LM, y); y += 4;
+        var fbLines = wrapTextWithFont(S.feedback, cw - 14, 'normal', 9.8);
+        var fbLH = 4.4;
+        var fbH = fbLines.length * fbLH + 6.5;
+        setF(grayBg); doc.roundedRect(LM, y, cw, fbH, 1.5, 1.5, 'F');
+        setF(orange); doc.rect(LM, y, 1.5, fbH, 'F');
+        var fbY = y + 4.8;
+        doc.setFontSize(9.8); doc.setFont('helvetica','normal'); setC(black);
+        fbLines.forEach(function(line) { doc.text(line, LM+6, fbY); fbY += fbLH; });
+        y += fbH + 5;
+
+        // ════════════════════════════════════════════════════════════════
+        //  STUDENT PROFILE + 3-PART BREAKDOWN (SEPARATE BOLD HEADER + BODY)
+        // ════════════════════════════════════════════════════════════════
+        var innerMaxW = cw - 15;
+        var hFontSize = 9.2, bFontSize = 9.2, cardLH = 4.1;
+
+        var h1Lines = wrapTextWithFont('1. Areas of Excellence (A+ in ' + S.aplusStr + '):', innerMaxW, 'bold', hFontSize);
+        var b1Lines = wrapTextWithFont(S.exTech, innerMaxW, 'normal', bFontSize);
+
+        var h2Lines = wrapTextWithFont('2. Focus for Growth (B in ' + S.bStr + '):', innerMaxW, 'bold', hFontSize);
+        var b2Lines = wrapTextWithFont(S.exPres, innerMaxW, 'normal', bFontSize);
+
+        var h3Lines = wrapTextWithFont('3. Class Behaviour (' + S.behStr + '):', innerMaxW, 'bold', hFontSize);
+        var b3Lines = wrapTextWithFont(S.exSoft, innerMaxW, 'normal', bFontSize);
+
+        var box1H = (h1Lines.length + b1Lines.length) * cardLH + 4.5;
+        var box2H = (h2Lines.length + b2Lines.length) * cardLH + 4.5;
+        var box3H = (h3Lines.length + b3Lines.length) * cardLH + 4.5;
+        var profBoxH = 15.5 + box1H + box2H + box3H + 8;
+
+        if (y + profBoxH + 18 > 284) {
+          cardLH = 3.75;
+          hFontSize = 8.8;
+          bFontSize = 8.8;
+          box1H = (h1Lines.length + b1Lines.length) * cardLH + 3.8;
+          box2H = (h2Lines.length + b2Lines.length) * cardLH + 3.8;
+          box3H = (h3Lines.length + b3Lines.length) * cardLH + 3.8;
+          profBoxH = 14.5 + box1H + box2H + box3H + 6.5;
+        }
+
+        setF(orange); doc.roundedRect(LM, y, cw, profBoxH, 2, 2, 'F');
+        doc.setFontSize(9.8); doc.setFont('helvetica','bold'); setC(white);
+        doc.text('STUDENT PROFILE & PERSONALISED BREAKDOWN', LM+5, y+5.8);
+
+        doc.setFontSize(8.8); doc.setFont('helvetica','bold'); doc.setTextColor(255,235,120);
+        doc.text(S.termShort + ' ' + S.year, W - RM - 5, y + 5.8, { align: 'right' });
+
+        doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(255,215,0);
+        doc.text(S.profileTitle, LM+5, y+11.8);
+
+        var curY = y + 15;
+        function drawSkillSubCard(hdrLines, bodyLines, boxH) {
+          doc.setFillColor(255,145,85);
+          doc.roundedRect(LM+3.5, curY, cw-7, boxH, 1.5, 1.5, 'F');
+          var ty = curY + 3.8;
+          doc.setFontSize(hFontSize); doc.setFont('helvetica','bold'); doc.setTextColor(255,245,150);
+          hdrLines.forEach(function(l) {
+            doc.text(l, LM+6.5, ty);
+            ty += cardLH;
+          });
+          doc.setFontSize(bFontSize); doc.setFont('helvetica','normal'); setC([255,252,245]);
+          bodyLines.forEach(function(l) {
+            doc.text(l, LM+6.5, ty);
+            ty += cardLH;
+          });
+          curY += boxH + 2;
+        }
+        drawSkillSubCard(h1Lines, b1Lines, box1H);
+        drawSkillSubCard(h2Lines, b2Lines, box2H);
+        drawSkillSubCard(h3Lines, b3Lines, box3H);
+
+        y += profBoxH + 4.5;
+
+        // Award + Teacher
+        setD([238,238,238]); doc.setLineWidth(0.3); doc.line(LM, y, W-RM, y);
+        y += 3.5;
+        if (imgs.trophy) doc.addImage(imgs.trophy, 'PNG', LM+2, y-0.5, 10.5, 10.5);
+        var awardX = LM + 15;
+        doc.setFontSize(11); doc.setFont('helvetica','bolditalic'); setC(orange);
+        doc.text('Award of the Year', awardX, y+3);
+        var awardLines = wrapTextWithFont(S.award, cw * 0.58, 'bold', 9.8);
+        var awardLH = 4.3;
+        doc.setFontSize(9.8); doc.setFont('helvetica','bold'); setC(black);
+        awardLines.forEach(function(line,i) { doc.text(line, awardX, y+7.8+i*awardLH); });
+        var awardBottom = y + 7.8 + (awardLines.length - 1) * awardLH;
+        var teacherY = Math.max(y + 5.5, awardBottom);
+        doc.setFontSize(10.2); doc.setFont('helvetica','bold'); setC(black);
+        doc.text('Teacher ' + S.teacher, W-RM, teacherY, {align:'right'});
+
+        // ═══════════ PAGE 2 (DYNAMIC LEVEL RUBRIC) ═══════════
+        doc.addPage();
+        y = 12;
+        drawHeader('Key Attributes Assessment', S.level + ' • ' + S.year);
+        y = 34;
+
+        var rH = 9, tableGap = 11;
+        function drawAttrTable(title, attrs, overall) {
+          doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
+          doc.text(title, LM, y);
+          y += 2.2;
+          setD(orange); doc.setLineWidth(0.45); doc.line(LM, y, W-RM, y);
+          y += 3.5;
+
+          var c1 = 52, c3 = 20, c2 = cw - c1 - c3;
+          setF(grayBg); doc.rect(LM, y, cw, rH, 'F');
+          setD(grayBorder); doc.setLineWidth(0.25); doc.rect(LM, y, cw, rH);
+          doc.setFontSize(10); doc.setFont('helvetica','bold'); setC([85,85,85]);
+          doc.text('Attribute', LM+3, y+6);
+          doc.text('Description', LM+c1+3, y+6);
+          doc.text('Grade', LM+c1+c2+c3/2, y+6, {align:'center'});
+          y += rH;
+          attrs.forEach(function(a) {
+            var gVal = S[a.key];
+            setD(grayBorder); doc.rect(LM, y, cw, rH);
+            doc.setFontSize(9.8); doc.setFont('helvetica','bold'); setC(black);
+            doc.text(a.name, LM+3, y+6, {maxWidth:c1-4});
+            doc.setFontSize(9.2); doc.setFont('helvetica','normal'); setC(greyTxt);
+            doc.text(a.desc, LM+c1+3, y+6, {maxWidth:c2-4});
+            doc.setFontSize(11); doc.setFont('helvetica','bold'); setC(gc(gVal));
+            doc.text(gVal, LM+c1+c2+c3/2, y+6, {align:'center'});
+            doc.line(LM+c1, y, LM+c1, y+rH);
+            doc.line(LM+c1+c2, y, LM+c1+c2, y+rH);
+            y += rH;
+          });
+          setF([255,243,205]); setD(grayBorder); doc.rect(LM, y, cw, rH, 'FD');
+          doc.setFontSize(10); doc.setFont('helvetica','bold'); setC(black);
+          doc.text('Overall', LM+3, y+6);
+          doc.setFontSize(11); setC(gc(overall)); doc.text(overall, LM+c1+c2+c3/2, y+6, {align:'center'});
+          doc.line(LM+c1+c2, y, LM+c1+c2, y+rH);
+          y += rH + tableGap;
+        }
+
+        drawAttrTable(rub.cat1Title, rub.cat1Attrs, S.ovSci);
+        drawAttrTable(rub.cat2Title, rub.cat2Attrs, S.ovHand);
+        drawAttrTable(rub.cat3Title, rub.cat3Attrs, S.ovPres);
+
+        doc.setFontSize(12.5); doc.setFont('helvetica','bold'); setC(black);
+        doc.text('Full Year Assessment', LM, y); y += 5;
+        setF(grayBg); doc.roundedRect(LM, y, cw, 20, 2, 2, 'F');
+        var yw = cw / 3;
+        var cats = [rub.cat1Title, rub.cat2Title, 'Communication & Prep'];
+        var catVals = [S.ovSci, S.ovHand, S.ovPres];
+        cats.forEach(function(cat,i) {
+          doc.setFontSize(9.5); doc.setFont('helvetica','normal'); setC(greyTxt);
+          doc.text(cat, LM+yw*i+yw/2, y+7, {align:'center', maxWidth: yw - 4});
+          doc.setFontSize(13); doc.setFont('helvetica','bold'); setC(gc(catVals[i]));
+          doc.text(catVals[i], LM+yw*i+yw/2, y+15, {align:'center'});
+        });
+
+        var blob = doc.output('blob');
+        var filename = S.termShort + ' - ' + (S.level || 'Level') + ' (' + (S.centre || '') + ') - ' + (S.name || 'Student') + ' - Report Card.pdf';
+        var url = URL.createObjectURL(blob);
+        dlLink.href = url;
+        dlLink.download = filename;
+        dlLink.innerHTML = '<i class="fas fa-download"></i> Download "' + esc(filename) + '"';
+        dlArea.style.display = 'block';
+        statusMsg.classList.add('show');
+        btnBuild.disabled = false;
+        btnBuild.innerHTML = '<i class="fas fa-file-pdf"></i> Rebuild PDF';
+      } catch (err) {
+        btnBuild.disabled = false;
+        btnBuild.innerHTML = '<i class="fas fa-file-pdf"></i> Rebuild PDF';
+        errMsg.textContent = 'PDF generation failed: ' + String(err.message || err);
+        errMsg.classList.add('show');
+        dlArea.style.display = 'block';
+      }
+    });
+  });
+}
+
+document.querySelectorAll('.field input, .field select, .field textarea').forEach(function(el) {
+  el.addEventListener('input', function() { this.closest('.field').classList.remove('error'); });
+});
+</script>
+</body>
+</html>
